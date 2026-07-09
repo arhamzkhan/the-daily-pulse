@@ -1,0 +1,62 @@
+/* ── Google Fonts (must precede all other rules per CSS spec) ── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
+
+@import "tailwindcss";
+
+/* ── Custom Properties ──────────────────────────── */
+:root {
+  --color-bg:        #0a0f1e;
+  --color-surface:   rgba(255, 255, 255, 0.03);
+  --color-border:    rgba(255, 255, 255, 0.06);
+  --color-accent:    #4ade80;
+  --color-accent-hi: #22c55e;
+}
+
+/* ── Base Reset ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-bg);
+  color: #f8fafc;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Urdu (RTL) typography override ─────────────── */
+[dir="rtl"] {
+  font-family: "Noto Nastaliq Urdu", serif;
+  line-height: 2.2;
+  letter-spacing: 0;
+}
+
+/* ── Focus visible global ───────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 222, 128, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(74, 222, 128, 0.4); }
+
+/* ── Button micro-animation ─────────────────────── */
+button {
+  transition:
+    transform 120ms ease,
+    box-shadow 180ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}

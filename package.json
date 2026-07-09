@@ -1,0 +1,31 @@
+{
+  "name": "the-daily-pulse",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:seed": "ts-node --project tsconfig.scripts.json lib/seed.ts",
+    "report": "ts-node --project tsconfig.scripts.json scripts/weekly-report.ts",
+    "report:all": "ts-node --project tsconfig.scripts.json scripts/weekly-report.ts --all"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.2",
+    "next": "16.2.10",
+    "pg": "^8.13.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/pg": "^8.11.11",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^16.5.0",
+    "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}

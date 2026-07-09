@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": ".ts-node-out",
+    "esModuleInterop": true,
+    "target": "ES2020"
+  },
+  "exclude": ["node_modules", ".next", "app"]
+}
