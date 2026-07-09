@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import QRCodeGenerator from './components/QRCodeGenerator';
 
 export default function AdminDashboard() {
   const [business, setBusiness] = useState<any>(null);
@@ -198,6 +199,12 @@ export default function AdminDashboard() {
           </div>
 
         </div>
+
+        {business?.id ? (
+          <div style={{ marginTop: '32px' }}>
+            <QRCodeGenerator businessSlug={business.id} businessName={business.name} />
+          </div>
+        ) : null}
 
       </div>
     </div>

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { getBusinessById } from "@/lib/supabase";
+import { getBusinessById, supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-type Props = {
+type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const business = await getBusinessById(id);
 
@@ -30,17 +30,11 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function StatusCard({
-  title,
-  message,
-}: {
-  title: string;
-  message: string;
-}) {
+function StatusCard({ title, message }: { title: string; message: string }) {
   return (
     <Shell>
       <div className="rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-10 text-center shadow-2xl shadow-black/40">
-        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-2xl">
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-2xl text-zinc-500">
           ◌
         </div>
         <h1 className="text-xl font-semibold tracking-tight text-white">{title}</h1>
@@ -50,8 +44,16 @@ function StatusCard({
   );
 }
 
-export default async function ReviewPage({ params }: Props) {
+export default async function ReviewPage({ params }: PageProps) {
   const { id } = await params;
+
+  const { error: scanError } = await supabase.rpc("increment_scans", {
+    business_id: id,
+  });
+  if (scanError) {
+    console.error("[Tracking] increment_scans failed:", scanError.message);
+  }
+
   const business = await getBusinessById(id);
 
   if (!business) {
@@ -72,7 +74,9 @@ export default async function ReviewPage({ params }: Props) {
     );
   }
 
-  const whatsappUrl = `https://wa.me/${business.manager_whatsapp}`;
+  const googleClickUrl = `/api/click?id=${encodeURIComponent(id)}&type=google&url=${encodeURIComponent(business.google_review_url)}`;
+  const whatsappTarget = `https://wa.me/${business.manager_whatsapp}`;
+  const whatsappClickUrl = `/api/click?id=${encodeURIComponent(id)}&type=whatsapp&url=${encodeURIComponent(whatsappTarget)}`;
 
   return (
     <Shell>
@@ -89,7 +93,7 @@ export default async function ReviewPage({ params }: Props) {
 
         <div className="flex flex-col gap-3 px-5 py-6">
           <a
-            href={business.google_review_url}
+            href={googleClickUrl}
             className="flex min-h-[58px] items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 text-[15px] font-semibold text-[#09090b] shadow-lg shadow-white/10 transition active:scale-[0.98]"
           >
             <GoogleIcon />
@@ -97,7 +101,7 @@ export default async function ReviewPage({ params }: Props) {
           </a>
 
           <a
-            href={whatsappUrl}
+            href={whatsappClickUrl}
             className="flex min-h-[58px] items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[#111115] px-5 py-4 text-[15px] font-semibold text-white transition active:scale-[0.98]"
           >
             <WhatsAppIcon />

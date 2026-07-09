@@ -5,6 +5,7 @@
 
 CREATE TABLE IF NOT EXISTS businesses (
     id                   VARCHAR(50)  PRIMARY KEY,
+    user_id              UUID         REFERENCES auth.users(id) ON DELETE SET NULL,
     name                 VARCHAR(100) NOT NULL,
     branch_name          VARCHAR(100) NOT NULL,
     google_review_url    TEXT         NOT NULL,
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS scan_logs (
 );
 
 -- Performance indexes
+CREATE INDEX IF NOT EXISTS idx_businesses_user ON businesses(user_id);
 CREATE INDEX IF NOT EXISTS idx_scanlogs_business ON scan_logs(business_id);
 CREATE INDEX IF NOT EXISTS idx_scanlogs_action   ON scan_logs(action_type);
 -- Composite index used by the 5-second duplicate-suppression window query

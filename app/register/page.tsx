@@ -1,19 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 
 type RegisterResponse = {
   success: boolean;
   business_id: string;
+  user_id: string;
   public_link: string;
+  email_confirmation_required?: boolean;
 };
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
-    name: "",
-    branch_name: "",
-    google_review_url: "",
-    manager_whatsapp: "",
+    email: "",
+    password: "",
+    business_name: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,8 +31,8 @@ export default function RegisterPage() {
     event.preventDefault();
     setError("");
 
-    if (!/^92\d{10}$/.test(form.manager_whatsapp.trim())) {
-      setError("WhatsApp number must start with 92 and be followed by 10 digits.");
+    if (form.password.length < 8) {
+      setError("Password must be at least 8 characters.");
       return;
     }
 
@@ -81,241 +83,128 @@ export default function RegisterPage() {
 
   if (result) {
     return (
-      <main
-        style={{
-          minHeight: "100vh",
-          backgroundColor: "#09090b",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px",
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        }}
-      >
-        <section
-          style={{
-            width: "100%",
-            maxWidth: "540px",
-            backgroundColor: "#111115",
-            border: "1px solid #27272a",
-            borderRadius: "20px",
-            padding: "30px",
-            color: "#f4f4f5",
-            textAlign: "center",
-          }}
-        >
-          <p style={{ color: "#10b981", margin: "0 0 8px 0", fontWeight: 600 }}>
-            Account created successfully
+      <main className="min-h-[100dvh] bg-[#09090b] flex items-center justify-center px-4 py-8">
+        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
+        <section className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.03] p-8 text-center shadow-2xl shadow-black/40">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-emerald-400">
+            Account created
           </p>
-          <h1 style={{ margin: "0 0 16px 0", fontSize: "30px", letterSpacing: "-0.03em" }}>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">
             Your public page is ready
           </h1>
-          <p style={{ margin: "0 0 20px 0", color: "#a1a1aa" }}>
-            Share this link or print the QR code for your counter.
+          <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+            {result.email_confirmation_required
+              ? "Check your inbox to confirm your email, then share your link below."
+              : "Share this link or print the QR code for your counter."}
           </p>
 
           <a
             href={result.public_link}
             target="_blank"
             rel="noreferrer"
-            style={{
-              display: "inline-block",
-              backgroundColor: "#18181b",
-              border: "1px solid #27272a",
-              borderRadius: "10px",
-              padding: "10px 14px",
-              color: "#d4d4d8",
-              textDecoration: "none",
-              marginBottom: "22px",
-              wordBreak: "break-all",
-            }}
+            className="mt-5 inline-block break-all rounded-xl border border-white/10 bg-[#111115] px-4 py-3 text-sm text-zinc-300 transition hover:bg-white/[0.06]"
           >
             {result.public_link}
           </a>
 
           {qrUrl ? (
-            <div style={{ display: "grid", placeItems: "center", gap: "14px" }}>
+            <div className="mt-6 grid place-items-center gap-4">
               <img
                 src={qrUrl}
                 alt="QR code for business public page"
                 width={260}
                 height={260}
-                style={{
-                  borderRadius: "14px",
-                  border: "1px solid #27272a",
-                  backgroundColor: "#fff",
-                  padding: "8px",
-                }}
+                className="rounded-2xl border border-white/10 bg-white p-2"
               />
-
               <button
                 type="button"
                 onClick={downloadQr}
                 disabled={downloading}
-                style={{
-                  width: "100%",
-                  maxWidth: "260px",
-                  border: "none",
-                  borderRadius: "10px",
-                  backgroundColor: "#ffffff",
-                  color: "#09090b",
-                  padding: "12px",
-                  fontWeight: 700,
-                  cursor: downloading ? "not-allowed" : "pointer",
-                  opacity: downloading ? 0.8 : 1,
-                }}
+                className="w-full max-w-[260px] rounded-xl bg-white py-3 text-sm font-semibold text-[#09090b] transition active:scale-[0.98] disabled:opacity-70"
               >
                 {downloading ? "Downloading..." : "Download QR Code"}
               </button>
             </div>
           ) : null}
+
+          <Link
+            href="/admin"
+            className="mt-6 inline-block text-sm font-medium text-emerald-400 hover:text-emerald-300"
+          >
+            Go to dashboard →
+          </Link>
         </section>
       </main>
     );
   }
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#09090b",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      }}
-    >
-      <section
-        style={{
-          width: "100%",
-          maxWidth: "540px",
-          backgroundColor: "#111115",
-          border: "1px solid #27272a",
-          borderRadius: "20px",
-          padding: "30px",
-          color: "#f4f4f5",
-        }}
-      >
-        <p
-          style={{
-            margin: "0 0 8px 0",
-            color: "#10b981",
-            fontSize: "13px",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-            fontWeight: 700,
-          }}
-        >
-          The Daily Pulse
-        </p>
-        <h1 style={{ margin: "0 0 10px 0", fontSize: "30px", letterSpacing: "-0.03em" }}>
-          Business registration
-        </h1>
-        <p style={{ margin: "0 0 24px 0", color: "#a1a1aa" }}>
-          Create your account and instantly get your shareable public feedback link.
-        </p>
+    <main className="min-h-[100dvh] bg-[#09090b] flex items-center justify-center px-4 py-8">
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
 
-        <form onSubmit={onSubmit} style={{ display: "grid", gap: "14px" }}>
-          <label style={{ display: "grid", gap: "7px", fontSize: "14px" }}>
+      <section className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-black/40">
+        <div className="mb-8">
+          <Link href="/" className="text-sm font-medium text-zinc-500 transition hover:text-zinc-300">
+            ← Back to home
+          </Link>
+          <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-400">
+            The Daily Pulse
+          </p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">Create your account</h1>
+          <p className="mt-2 text-sm text-zinc-400">
+            Sign up with your email and get your unique customer feedback link instantly.
+          </p>
+        </div>
+
+        <form onSubmit={onSubmit} className="grid gap-4">
+          <label className="grid gap-2 text-sm text-zinc-300">
+            Email
+            <input
+              required
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+              placeholder="you@business.com"
+              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm text-zinc-300">
+            Password
+            <input
+              required
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              value={form.password}
+              onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
+              placeholder="At least 8 characters"
+              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm text-zinc-300">
             Business Name
             <input
               required
-              value={form.name}
-              onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+              value={form.business_name}
+              onChange={(event) =>
+                setForm((prev) => ({ ...prev, business_name: event.target.value }))
+              }
               placeholder="e.g., Slotly Salon"
-              style={{
-                border: "1px solid #27272a",
-                backgroundColor: "#09090b",
-                color: "#f4f4f5",
-                borderRadius: "10px",
-                padding: "12px",
-                outline: "none",
-              }}
+              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
             />
           </label>
 
-          <label style={{ display: "grid", gap: "7px", fontSize: "14px" }}>
-            Branch Location
-            <input
-              required
-              value={form.branch_name}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, branch_name: event.target.value }))
-              }
-              placeholder="e.g., Gulberg, DHA"
-              style={{
-                border: "1px solid #27272a",
-                backgroundColor: "#09090b",
-                color: "#f4f4f5",
-                borderRadius: "10px",
-                padding: "12px",
-                outline: "none",
-              }}
-            />
-          </label>
-
-          <label style={{ display: "grid", gap: "7px", fontSize: "14px" }}>
-            Google Review Profile URL
-            <input
-              required
-              type="url"
-              value={form.google_review_url}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, google_review_url: event.target.value }))
-              }
-              placeholder="https://www.google.com/maps/..."
-              style={{
-                border: "1px solid #27272a",
-                backgroundColor: "#09090b",
-                color: "#f4f4f5",
-                borderRadius: "10px",
-                padding: "12px",
-                outline: "none",
-              }}
-            />
-          </label>
-
-          <label style={{ display: "grid", gap: "7px", fontSize: "14px" }}>
-            Manager WhatsApp Number
-            <input
-              required
-              value={form.manager_whatsapp}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, manager_whatsapp: event.target.value }))
-              }
-              placeholder="923001234567"
-              style={{
-                border: "1px solid #27272a",
-                backgroundColor: "#09090b",
-                color: "#f4f4f5",
-                borderRadius: "10px",
-                padding: "12px",
-                outline: "none",
-              }}
-            />
-          </label>
-
-          {error ? (
-            <p style={{ margin: "0", color: "#f87171", fontSize: "14px" }}>{error}</p>
-          ) : null}
+          {error ? <p className="text-sm text-red-400">{error}</p> : null}
 
           <button
             type="submit"
             disabled={loading}
-            style={{
-              marginTop: "4px",
-              border: "none",
-              borderRadius: "10px",
-              backgroundColor: "#ffffff",
-              color: "#09090b",
-              padding: "12px",
-              fontWeight: 700,
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.8 : 1,
-            }}
+            className="mt-2 rounded-xl bg-white py-3.5 text-sm font-semibold text-[#09090b] transition active:scale-[0.98] disabled:opacity-70"
           >
-            {loading ? "Creating..." : "Create Account"}
+            {loading ? "Creating account..." : "Create Account"}
           </button>
         </form>
       </section>
