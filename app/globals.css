@@ -5,11 +5,13 @@
 
 /* ── Custom Properties ──────────────────────────── */
 :root {
-  --color-bg:        #0a0f1e;
-  --color-surface:   rgba(255, 255, 255, 0.03);
-  --color-border:    rgba(255, 255, 255, 0.06);
-  --color-accent:    #4ade80;
-  --color-accent-hi: #22c55e;
+  --color-bg: #fdfbf7;
+  --color-surface: rgba(255, 255, 255, 0.75);
+  --color-border: rgba(30, 30, 36, 0.1);
+  --color-text: #1e1e24;
+  --color-muted: rgba(30, 30, 36, 0.6);
+  --color-accent: #1a5c4d;
+  --color-accent-hi: #164d41;
 }
 
 /* ── Base Reset ─────────────────────────────────── */
@@ -19,7 +21,7 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--color-bg);
-  color: #f8fafc;
+  color: var(--color-text);
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -42,10 +44,10 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(74, 222, 128, 0.2);
+  background: rgba(26, 92, 77, 0.2);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(74, 222, 128, 0.4); }
+::-webkit-scrollbar-thumb:hover { background: rgba(26, 92, 77, 0.35); }
 
 /* ── Button micro-animation ─────────────────────── */
 button {

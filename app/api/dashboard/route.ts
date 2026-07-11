@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { isAuthError, requireUser } from "@/lib/auth";
+import { isIndustryType } from "@/lib/themes";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeBusinessMetrics } from "@/lib/supabase";
 
 export async function GET() {
   const userResult = await requireUser();
@@ -21,7 +23,7 @@ export async function GET() {
     return NextResponse.json({ error: "Business profile not found." }, { status: 404 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json(normalizeBusinessMetrics(data));
 }
 
 export async function POST(request: Request) {
@@ -32,7 +34,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { id, google_review_url, manager_whatsapp, is_active } = body;
+    const { id, google_review_url, manager_whatsapp, is_active, industry_type } = body;
 
     if (!id) {
       return NextResponse.json({ error: "Missing business identifier." }, { status: 400 });
@@ -43,6 +45,10 @@ export async function POST(request: Request) {
         { error: "Invalid WhatsApp format. Must begin with 92 followed by 10 digits." },
         { status: 400 }
       );
+    }
+
+    if (industry_type !== undefined && !isIndustryType(industry_type)) {
+      return NextResponse.json({ error: "Invalid industry type." }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -62,6 +68,7 @@ export async function POST(request: Request) {
     if (google_review_url !== undefined) updateData.google_review_url = google_review_url;
     if (manager_whatsapp !== undefined) updateData.manager_whatsapp = manager_whatsapp;
     if (is_active !== undefined) updateData.is_active = is_active;
+    if (industry_type !== undefined) updateData.industry_type = industry_type;
 
     const { error } = await supabase
       .from("businesses")

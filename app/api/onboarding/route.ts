@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAuthError, requireUser } from "@/lib/auth";
 import { isIndustryType } from "@/lib/themes";
+import { getReviewUrl } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 import { getServiceSupabase } from "@/lib/supabase";
 
@@ -141,18 +142,19 @@ export async function POST(request: Request) {
       manager_whatsapp: managerWhatsapp,
       language_preference: "english",
       is_active: true,
+      total_scans: 0,
+      google_clicks: 0,
+      whatsapp_clicks: 0,
     });
 
     if (insertError) {
       return NextResponse.json({ error: insertError.message }, { status: 400 });
     }
 
-    const origin = new URL(request.url).origin;
-
     return NextResponse.json({
       success: true,
       business_id: businessId,
-      public_link: `${origin}/review/${businessId}`,
+      public_link: getReviewUrl(businessId),
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to save business profile.";

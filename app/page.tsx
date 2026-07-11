@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MarketingShell, { MarketingCard } from "@/components/MarketingShell";
 
 const industries = [
   {
@@ -38,111 +39,85 @@ const steps = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 antialiased">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_-10%,#1c1917_0%,#09090b_55%)]" />
-
-      <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between border-b border-white/8 px-6 py-5">
-        <span className="text-lg font-bold tracking-tight text-white">The Daily Pulse</span>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin"
-            className="hidden rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 transition hover:text-white sm:inline-block"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/register"
-            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
-          >
-            Get Started
-          </Link>
-        </div>
-      </nav>
-
-      <header className="relative z-10 mx-auto max-w-4xl px-6 pb-20 pt-16 text-center sm:pt-24">
-        <p className="mb-5 inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-400">
+    <MarketingShell showNav maxWidth="full">
+      <header className="mx-auto max-w-4xl pb-20 pt-10 text-center sm:pt-16">
+        <p className="mb-5 inline-flex items-center rounded-full border border-[#1a5c4d]/15 bg-[#1a5c4d]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#1a5c4d]">
           QR Feedback for Physical Businesses
         </p>
-        <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl">
+        <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-[#1e1e24] sm:text-6xl">
           Protect your reputation.
           <br />
-          <span className="text-zinc-400">Amplify your 5-star reviews.</span>
+          <span className="text-[#1e1e24]/55">Amplify your 5-star reviews.</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#1e1e24]/60 sm:text-lg">
           The Daily Pulse routes happy customers straight to Google and gives frustrated guests a
           private line to your branch manager on WhatsApp — before a bad review goes public.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/register"
-            className="w-full rounded-2xl bg-white px-8 py-4 text-center text-[15px] font-semibold text-[#09090b] shadow-lg shadow-white/10 transition active:scale-[0.98] sm:w-auto"
+            className="w-full rounded-2xl bg-[#1a5c4d] px-8 py-4 text-center text-[15px] font-semibold text-white shadow-lg shadow-[#1a5c4d]/20 transition hover:bg-[#164d41] active:scale-[0.98] sm:w-auto"
           >
             Create Your Branch Account
           </Link>
           <Link
             href="#how-it-works"
-            className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-8 py-4 text-center text-[15px] font-medium text-zinc-300 transition hover:bg-white/[0.06] sm:w-auto"
+            className="w-full rounded-2xl border border-[#1e1e24]/10 bg-white/70 px-8 py-4 text-center text-[15px] font-medium text-[#1e1e24]/75 backdrop-blur-sm transition hover:bg-white sm:w-auto"
           >
             See how it works
           </Link>
         </div>
       </header>
 
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-20">
+      <section className="mx-auto max-w-6xl pb-20">
         <div className="grid gap-4 sm:grid-cols-3">
           {industries.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm"
-            >
-              <h2 className="text-lg font-semibold text-white">{item.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">{item.description}</p>
-            </article>
+            <MarketingCard key={item.title} className="p-6">
+              <h2 className="text-lg font-semibold text-[#1e1e24]">{item.title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-[#1e1e24]/60">{item.description}</p>
+            </MarketingCard>
           ))}
         </div>
       </section>
 
-      <section id="how-it-works" className="relative z-10 border-t border-white/8 bg-white/[0.02] py-20">
-        <div className="mx-auto max-w-6xl px-6">
+      <section id="how-it-works" className="border-t border-[#1e1e24]/8 py-20">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white">Live in three steps</h2>
-            <p className="mt-3 text-zinc-400">Built for salons, restaurants, and multi-location brands.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-[#1e1e24]">Live in three steps</h2>
+            <p className="mt-3 text-[#1e1e24]/60">Built for salons, restaurants, and multi-location brands.</p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {steps.map((item) => (
-              <article
-                key={item.step}
-                className="rounded-2xl border border-white/8 bg-[#111115] p-7"
-              >
-                <p className="text-xs font-bold tracking-[0.2em] text-emerald-400">{item.step}</p>
-                <h3 className="mt-4 text-xl font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">{item.body}</p>
-              </article>
+              <MarketingCard key={item.step} className="p-7">
+                <p className="text-xs font-bold tracking-[0.2em] text-[#1a5c4d]">{item.step}</p>
+                <h3 className="mt-4 text-xl font-semibold text-[#1e1e24]">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#1e1e24]/60">{item.body}</p>
+              </MarketingCard>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto max-w-4xl px-6 py-20 text-center">
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent px-6 py-12 sm:px-10">
-          <h2 className="text-3xl font-bold tracking-tight text-white">
+      <section className="mx-auto max-w-4xl py-20 text-center">
+        <MarketingCard className="px-6 py-12 sm:px-10">
+          <h2 className="text-3xl font-bold tracking-tight text-[#1e1e24]">
             Ready to put a QR on your counter?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-zinc-400">
+          <p className="mx-auto mt-4 max-w-xl text-[#1e1e24]/60">
             Set up your branch, get your public link, and download a print-ready QR code in minutes.
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-2xl bg-emerald-500 px-8 py-4 text-[15px] font-semibold text-[#052e16] transition hover:bg-emerald-400 active:scale-[0.98]"
+            className="mt-8 inline-block rounded-2xl bg-[#1a5c4d] px-8 py-4 text-[15px] font-semibold text-white transition hover:bg-[#164d41] active:scale-[0.98]"
           >
             Start Free Registration
           </Link>
-        </div>
+        </MarketingCard>
       </section>
 
-      <footer className="relative z-10 border-t border-white/8 py-8 text-center text-xs text-zinc-600">
+      <footer className="border-t border-[#1e1e24]/8 py-8 text-center text-xs text-[#1e1e24]/45">
         &copy; {new Date().getFullYear()} The Daily Pulse. Feedback intelligence for modern branches.
       </footer>
-    </div>
+    </MarketingShell>
   );
 }

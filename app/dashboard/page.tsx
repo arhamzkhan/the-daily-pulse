@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeBusinessMetrics } from "@/lib/supabase";
 import DashboardClient from "./DashboardClient";
 
 export default async function DashboardPage() {
@@ -24,5 +25,5 @@ export default async function DashboardPage() {
     redirect("/onboarding");
   }
 
-  return <DashboardClient business={business} />;
+  return <DashboardClient business={normalizeBusinessMetrics(business)} />;
 }

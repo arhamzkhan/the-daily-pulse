@@ -35,13 +35,22 @@ export type Business = {
   language_preference: string;
   industry_type: IndustryType;
   is_active: boolean;
-  total_scans?: number;
-  google_clicks?: number;
-  whatsapp_clicks?: number;
+  total_scans: number;
+  google_clicks: number;
+  whatsapp_clicks: number;
 };
 
 const businessFields =
   "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks";
+
+export function normalizeBusinessMetrics<T extends Partial<Business>>(business: T): T & Business {
+  return {
+    ...business,
+    total_scans: Number(business.total_scans ?? 0),
+    google_clicks: Number(business.google_clicks ?? 0),
+    whatsapp_clicks: Number(business.whatsapp_clicks ?? 0),
+  } as T & Business;
+}
 
 export async function getBusinessById(id: string): Promise<Business | null> {
   const { data, error } = await supabase
@@ -54,7 +63,7 @@ export async function getBusinessById(id: string): Promise<Business | null> {
     return null;
   }
 
-  return data as Business;
+  return normalizeBusinessMetrics(data as Business);
 }
 
 export async function getBusinessByUserId(userId: string): Promise<Business | null> {
@@ -68,5 +77,5 @@ export async function getBusinessByUserId(userId: string): Promise<Business | nu
     return null;
   }
 
-  return data as Business;
+  return normalizeBusinessMetrics(data as Business);
 }

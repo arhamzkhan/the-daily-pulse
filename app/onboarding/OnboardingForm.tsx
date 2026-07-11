@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { INDUSTRY_OPTIONS, type IndustryType } from "@/lib/themes";
+import MarketingShell, {
+  MarketingCard,
+  marketingButtonClass,
+  marketingInputClass,
+  marketingLinkClass,
+} from "@/components/MarketingShell";
 
 type OnboardingFormProps = {
   existingBusinessId: string | null;
@@ -17,7 +23,7 @@ export default function OnboardingForm({ existingBusinessId }: OnboardingFormPro
     business_name: "",
     branch_name: "Main Branch",
     industry_type: "retail" as IndustryType,
-    google_review_url: "https://www.google.com/maps",
+    google_review_url: "",
     manager_whatsapp: "",
   });
 
@@ -51,116 +57,112 @@ export default function OnboardingForm({ existingBusinessId }: OnboardingFormPro
   }
 
   return (
-    <main className="flex min-h-[100dvh] items-center justify-center bg-[#09090b] px-4 py-8">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
+    <MarketingShell maxWidth="lg">
+      <div className="flex min-h-[80dvh] items-center justify-center">
+        <MarketingCard className="w-full">
+          <div className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+              Business setup
+            </p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">
+              Tell us about your business
+            </h1>
+            <p className="mt-2 text-sm text-[#1e1e24]/60">
+              We will tailor your dashboard and public review page to your industry.
+            </p>
+          </div>
 
-      <section className="relative z-10 w-full max-w-xl rounded-3xl border border-white/10 bg-[#111115] p-8 shadow-2xl shadow-black/40">
-        <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-400">
-            Business setup
+          <form onSubmit={onSubmit} className="grid gap-4">
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Business name
+              <input
+                required
+                value={form.business_name}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, business_name: event.target.value }))
+                }
+                placeholder="e.g., Slotly Salon"
+                className={marketingInputClass}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Branch / location
+              <input
+                required
+                value={form.branch_name}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, branch_name: event.target.value }))
+                }
+                placeholder="e.g., Gulberg, Lahore"
+                className={marketingInputClass}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              What type of business do you run?
+              <select
+                required
+                value={form.industry_type}
+                onChange={(event) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    industry_type: event.target.value as IndustryType,
+                  }))
+                }
+                className={marketingInputClass}
+              >
+                {INDUSTRY_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Google review URL
+              <input
+                required
+                type="url"
+                value={form.google_review_url}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, google_review_url: event.target.value }))
+                }
+                placeholder="https://g.page/your-business/review"
+                className={marketingInputClass}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Manager WhatsApp (92XXXXXXXXXX)
+              <input
+                required
+                pattern="92\d{10}"
+                value={form.manager_whatsapp}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, manager_whatsapp: event.target.value }))
+                }
+                placeholder="923001234567"
+                className={marketingInputClass}
+              />
+            </label>
+
+            {error ? <p className="text-sm text-red-600">{error}</p> : null}
+
+            <button type="submit" disabled={loading} className={`mt-2 ${marketingButtonClass}`}>
+              {loading ? "Saving..." : "Launch my dashboard"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-[#1e1e24]/50">
+            Already set up?{" "}
+            <Link href="/dashboard" className={marketingLinkClass}>
+              Go to dashboard
+            </Link>
           </p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">
-            Tell us about your business
-          </h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            We will tailor your dashboard and public review page to your industry.
-          </p>
-        </div>
-
-        <form onSubmit={onSubmit} className="grid gap-4">
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Business name
-            <input
-              required
-              value={form.business_name}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, business_name: event.target.value }))
-              }
-              placeholder="e.g., Slotly Salon"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Branch / location
-            <input
-              required
-              value={form.branch_name}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, branch_name: event.target.value }))
-              }
-              placeholder="e.g., Gulberg, Lahore"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            What type of business do you run?
-            <select
-              required
-              value={form.industry_type}
-              onChange={(event) =>
-                setForm((prev) => ({
-                  ...prev,
-                  industry_type: event.target.value as IndustryType,
-                }))
-              }
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            >
-              {INDUSTRY_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Google review URL
-            <input
-              required
-              type="url"
-              value={form.google_review_url}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, google_review_url: event.target.value }))
-              }
-              placeholder="https://g.page/your-business/review"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Manager WhatsApp (92XXXXXXXXXX)
-            <input
-              required
-              pattern="92\d{10}"
-              value={form.manager_whatsapp}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, manager_whatsapp: event.target.value }))
-              }
-              placeholder="923001234567"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-2 rounded-xl bg-white py-3.5 text-sm font-semibold text-[#09090b] transition active:scale-[0.98] disabled:opacity-70"
-          >
-            {loading ? "Saving..." : "Launch my dashboard"}
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-zinc-500">
-          Already set up?{" "}
-          <Link href="/dashboard" className="font-medium text-emerald-400 hover:text-emerald-300">
-            Go to dashboard
-          </Link>
-        </p>
-      </section>
-    </main>
+        </MarketingCard>
+      </div>
+    </MarketingShell>
   );
 }

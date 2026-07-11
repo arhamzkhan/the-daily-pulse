@@ -2,6 +2,13 @@
 
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
+import MarketingShell, {
+  MarketingCard,
+  marketingButtonClass,
+  marketingInputClass,
+  marketingLinkClass,
+} from "@/components/MarketingShell";
+import { getReviewUrl } from "@/lib/site";
 
 type RegisterResponse = {
   success: boolean;
@@ -22,10 +29,15 @@ export default function RegisterPage() {
   const [result, setResult] = useState<RegisterResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
 
+  const reviewUrl = useMemo(() => {
+    if (!result?.business_id) return "";
+    return result.public_link || getReviewUrl(result.business_id);
+  }, [result]);
+
   const qrUrl = useMemo(() => {
-    if (!result?.public_link) return "";
-    return `https://api.qrserver.com/v1/create-qr-code/?size=340x340&format=png&data=${encodeURIComponent(result.public_link)}`;
-  }, [result?.public_link]);
+    if (!reviewUrl) return "";
+    return `https://api.qrserver.com/v1/create-qr-code/?size=340x340&format=png&data=${encodeURIComponent(reviewUrl)}`;
+  }, [reviewUrl]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,8 +62,8 @@ export default function RegisterPage() {
       }
 
       setResult(data);
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -74,140 +86,161 @@ export default function RegisterPage() {
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(objectUrl);
-    } catch (err: any) {
-      setError(err?.message || "Unable to download QR code.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unable to download QR code.");
     } finally {
       setDownloading(false);
     }
   }
 
   if (result) {
+    const needsVerification = Boolean(result.email_confirmation_required);
+
     return (
-      <main className="min-h-[100dvh] bg-[#09090b] flex items-center justify-center px-4 py-8">
-        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
-        <section className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.03] p-8 text-center shadow-2xl shadow-black/40">
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-emerald-400">
-            Account created
-          </p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">
-            Your public page is ready
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-            {result.email_confirmation_required
-              ? "Check your inbox to confirm your email, then share your link below."
-              : "Share this link or print the QR code for your counter."}
-          </p>
+      <MarketingShell maxWidth="md">
+        <div className="flex min-h-[80dvh] items-center justify-center">
+          <MarketingCard className="w-full text-center">
+            {needsVerification ? (
+              <div className="mb-6 rounded-2xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8 px-5 py-4 text-left">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+                  Verify your email
+                </p>
+                <h2 className="mt-2 text-lg font-semibold text-[#1e1e24]">Check your inbox</h2>
+                <p className="mt-2 text-sm leading-relaxed text-[#1e1e24]/65">
+                  We sent a verification link to <strong>{form.email}</strong>. Confirm your email
+                  before signing in to your dashboard.
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#1a5c4d]">
+                Account created
+              </p>
+            )}
 
-          <a
-            href={result.public_link}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-block break-all rounded-xl border border-white/10 bg-[#111115] px-4 py-3 text-sm text-zinc-300 transition hover:bg-white/[0.06]"
-          >
-            {result.public_link}
-          </a>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">
+              {needsVerification ? "Almost there" : "Your public page is ready"}
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-[#1e1e24]/60">
+              {needsVerification
+                ? "Your review link is reserved. After verification, complete onboarding to launch your dashboard."
+                : "Share this link or print the QR code for your counter."}
+            </p>
 
-          {qrUrl ? (
-            <div className="mt-6 grid place-items-center gap-4">
-              <img
-                src={qrUrl}
-                alt="QR code for business public page"
-                width={260}
-                height={260}
-                className="rounded-2xl border border-white/10 bg-white p-2"
-              />
-              <button
-                type="button"
-                onClick={downloadQr}
-                disabled={downloading}
-                className="w-full max-w-[260px] rounded-xl bg-white py-3 text-sm font-semibold text-[#09090b] transition active:scale-[0.98] disabled:opacity-70"
-              >
-                {downloading ? "Downloading..." : "Download QR Code"}
-              </button>
+            <div className="mt-5 rounded-xl border border-[#1e1e24]/10 bg-white/80 px-4 py-3 text-sm text-[#1e1e24]/75">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1e1e24]/45">
+                Your review URL
+              </p>
+              <p className="mt-1 break-all font-medium">{reviewUrl}</p>
             </div>
-          ) : null}
 
-          <Link
-            href="/admin"
-            className="mt-6 inline-block text-sm font-medium text-emerald-400 hover:text-emerald-300"
-          >
-            Go to dashboard →
-          </Link>
-        </section>
-      </main>
+            {qrUrl ? (
+              <div className="mt-6 grid place-items-center gap-4">
+                <img
+                  src={qrUrl}
+                  alt="QR code for business public page"
+                  width={260}
+                  height={260}
+                  className="rounded-2xl border border-[#1e1e24]/10 bg-white p-2"
+                />
+                <button
+                  type="button"
+                  onClick={downloadQr}
+                  disabled={downloading}
+                  className={`w-full max-w-[260px] ${marketingButtonClass}`}
+                >
+                  {downloading ? "Downloading..." : "Download QR Code"}
+                </button>
+              </div>
+            ) : null}
+
+            {needsVerification ? (
+              <Link href="/login" className={`mt-6 inline-block text-sm ${marketingLinkClass}`}>
+                Go to sign in →
+              </Link>
+            ) : (
+              <Link href="/onboarding" className={`mt-6 inline-block text-sm ${marketingLinkClass}`}>
+                Complete business setup →
+              </Link>
+            )}
+          </MarketingCard>
+        </div>
+      </MarketingShell>
     );
   }
 
   return (
-    <main className="min-h-[100dvh] bg-[#09090b] flex items-center justify-center px-4 py-8">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
+    <MarketingShell maxWidth="md">
+      <div className="flex min-h-[80dvh] items-center justify-center">
+        <MarketingCard className="w-full">
+          <div className="mb-8">
+            <Link href="/" className="text-sm font-medium text-[#1e1e24]/50 transition hover:text-[#1e1e24]">
+              ← Back to home
+            </Link>
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+              The Daily Pulse
+            </p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">Create your account</h1>
+            <p className="mt-2 text-sm text-[#1e1e24]/60">
+              Sign up with your email and get your unique customer feedback link instantly.
+            </p>
+          </div>
 
-      <section className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-black/40">
-        <div className="mb-8">
-          <Link href="/" className="text-sm font-medium text-zinc-500 transition hover:text-zinc-300">
-            ← Back to home
-          </Link>
-          <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-400">
-            The Daily Pulse
+          <form onSubmit={onSubmit} className="grid gap-4">
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Email
+              <input
+                required
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+                placeholder="you@business.com"
+                className={marketingInputClass}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Password
+              <input
+                required
+                type="password"
+                autoComplete="new-password"
+                minLength={8}
+                value={form.password}
+                onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
+                placeholder="At least 8 characters"
+                className={marketingInputClass}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Business Name
+              <input
+                required
+                value={form.business_name}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, business_name: event.target.value }))
+                }
+                placeholder="e.g., Slotly Salon"
+                className={marketingInputClass}
+              />
+            </label>
+
+            {error ? <p className="text-sm text-red-600">{error}</p> : null}
+
+            <button type="submit" disabled={loading} className={`mt-2 ${marketingButtonClass}`}>
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-[#1e1e24]/50">
+            Already have an account?{" "}
+            <Link href="/login" className={marketingLinkClass}>
+              Sign in
+            </Link>
           </p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">Create your account</h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            Sign up with your email and get your unique customer feedback link instantly.
-          </p>
-        </div>
-
-        <form onSubmit={onSubmit} className="grid gap-4">
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Email
-            <input
-              required
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-              placeholder="you@business.com"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Password
-            <input
-              required
-              type="password"
-              autoComplete="new-password"
-              minLength={8}
-              value={form.password}
-              onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
-              placeholder="At least 8 characters"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Business Name
-            <input
-              required
-              value={form.business_name}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, business_name: event.target.value }))
-              }
-              placeholder="e.g., Slotly Salon"
-              className="rounded-xl border border-white/10 bg-[#09090b] px-4 py-3 text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
-            />
-          </label>
-
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-2 rounded-xl bg-white py-3.5 text-sm font-semibold text-[#09090b] transition active:scale-[0.98] disabled:opacity-70"
-          >
-            {loading ? "Creating account..." : "Create Account"}
-          </button>
-        </form>
-      </section>
-    </main>
+        </MarketingCard>
+      </div>
+    </MarketingShell>
   );
 }

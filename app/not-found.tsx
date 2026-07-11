@@ -1,26 +1,27 @@
-/**
- * app/not-found.tsx
- * Custom 404 page — consistent with the premium dark theme.
- */
 import Link from "next/link";
+import MarketingShell, { MarketingCard } from "@/components/MarketingShell";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#0a0f1e] flex flex-col items-center justify-center px-4 text-center">
-      <div className="mb-6 flex items-center justify-center w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-        <span className="text-4xl font-bold text-emerald-400">?</span>
+    <MarketingShell maxWidth="md">
+      <div className="flex min-h-[80dvh] items-center justify-center text-center">
+        <MarketingCard>
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8">
+            <span className="text-4xl font-bold text-[#1a5c4d]">?</span>
+          </div>
+          <h1 className="text-3xl font-bold text-[#1e1e24]">Page Not Found</h1>
+          <p className="mx-auto mt-3 max-w-sm leading-relaxed text-[#1e1e24]/60">
+            This QR code does not point to an active business profile. Please contact the venue for
+            an updated code.
+          </p>
+          <Link
+            href="/"
+            className="mt-8 inline-block rounded-xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8 px-6 py-3 text-sm font-medium text-[#1a5c4d] transition hover:bg-[#1a5c4d]/12"
+          >
+            Go Home
+          </Link>
+        </MarketingCard>
       </div>
-      <h1 className="text-3xl font-bold text-white mb-3">Page Not Found</h1>
-      <p className="text-slate-400 max-w-sm leading-relaxed">
-        This QR code does not point to an active business profile. Please
-        contact the venue for an updated code.
-      </p>
-      <Link
-        href="/"
-        className="mt-8 px-6 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium hover:bg-emerald-500/20 transition-colors"
-      >
-        Go Home
-      </Link>
-    </div>
+    </MarketingShell>
   );
 }

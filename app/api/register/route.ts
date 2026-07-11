@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceSupabase } from "@/lib/supabase";
+import { getReviewUrl } from "@/lib/site";
 
 type RegisterPayload = {
   email?: string;
@@ -70,12 +71,14 @@ export async function POST(request: Request) {
     }
 
     const client = getServiceSupabase();
+    const origin = new URL(request.url).origin;
 
     const { data: authData, error: signUpError } = await client.auth.signUp({
       email,
       password,
       options: {
         data: { business_name: businessName },
+        emailRedirectTo: `${origin}/login?verified=1`,
       },
     });
 
@@ -101,6 +104,9 @@ export async function POST(request: Request) {
       manager_whatsapp: "920000000000",
       language_preference: "english",
       is_active: true,
+      total_scans: 0,
+      google_clicks: 0,
+      whatsapp_clicks: 0,
     });
 
     if (insertError) {
@@ -114,20 +120,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const origin = new URL(request.url).origin;
-    const publicLink = `${origin}/review/${businessId}`;
-
     return NextResponse.json({
       success: true,
       business_id: businessId,
       user_id: authData.user.id,
-      public_link: publicLink,
+      public_link: getReviewUrl(businessId),
       email_confirmation_required: !authData.session,
     });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error?.message || "Failed to create account." },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to create account.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
