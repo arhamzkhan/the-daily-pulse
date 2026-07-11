@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getBusinessById, supabase } from "@/lib/supabase";
+import { getTheme, type IndustryTheme } from "@/lib/themes";
 
 export const dynamic = "force-dynamic";
 
@@ -21,24 +22,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({ children, theme }: { children: React.ReactNode; theme: IndustryTheme }) {
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-[#09090b] px-4 py-8 sm:px-6">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,#18181b_0%,#09090b_70%)]" />
+    <div className={`flex min-h-[100dvh] items-center justify-center ${theme.pageBg} px-4 py-8 sm:px-6`}>
+      <div className={`pointer-events-none fixed inset-0 ${theme.pageGradient}`} />
       <div className="relative z-10 w-full max-w-[420px]">{children}</div>
     </div>
   );
 }
 
-function StatusCard({ title, message }: { title: string; message: string }) {
+function StatusCard({
+  title,
+  message,
+  theme,
+}: {
+  title: string;
+  message: string;
+  theme: IndustryTheme;
+}) {
   return (
-    <Shell>
-      <div className="rounded-3xl border border-white/10 bg-[#111115] px-6 py-10 text-center shadow-2xl shadow-black/40">
-        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-2xl text-zinc-500">
+    <Shell theme={theme}>
+      <div className={`rounded-3xl border ${theme.cardBorder} ${theme.cardBg} px-6 py-10 text-center ${theme.shadow}`}>
+        <div
+          className={`mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border text-2xl ${theme.statusIcon}`}
+        >
           ◌
         </div>
-        <h1 className="text-xl font-semibold tracking-tight text-white">{title}</h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-zinc-400">{message}</p>
+        <h1 className={`text-xl font-semibold tracking-tight ${theme.headingFont} ${theme.title}`}>{title}</h1>
+        <p className={`mt-3 text-[15px] leading-relaxed ${theme.subtitle}`}>{message}</p>
       </div>
     </Shell>
   );
@@ -46,6 +57,7 @@ function StatusCard({ title, message }: { title: string; message: string }) {
 
 export default async function ReviewPage({ params }: PageProps) {
   const { id } = await params;
+  const fallbackTheme = getTheme(null);
 
   const { error: scanError } = await supabase.rpc("increment_scans", {
     business_id: id,
@@ -59,8 +71,21 @@ export default async function ReviewPage({ params }: PageProps) {
   if (!business) {
     return (
       <StatusCard
+        theme={fallbackTheme}
         title="Check-in point not found"
         message="This link may be incorrect or no longer active. Please ask staff for the correct QR code."
+      />
+    );
+  }
+
+  const theme = getTheme(business.industry_type);
+
+  if (!business.user_id) {
+    return (
+      <StatusCard
+        theme={theme}
+        title="This check-in point is currently unavailable"
+        message="This business has not been fully set up yet. Please speak with a team member for assistance."
       />
     );
   }
@@ -68,6 +93,7 @@ export default async function ReviewPage({ params }: PageProps) {
   if (!business.is_active) {
     return (
       <StatusCard
+        theme={theme}
         title="This check-in point is currently unavailable"
         message="Please speak with a team member at the venue for assistance."
       />
@@ -79,22 +105,20 @@ export default async function ReviewPage({ params }: PageProps) {
   const whatsappClickUrl = `/api/click?id=${encodeURIComponent(id)}&type=whatsapp&url=${encodeURIComponent(whatsappTarget)}`;
 
   return (
-    <Shell>
-      <article className="overflow-hidden rounded-3xl border border-white/10 bg-[#111115] shadow-2xl shadow-black/40">
-        <header className="border-b border-white/8 px-6 pb-6 pt-8 text-center">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
-            Your feedback matters
-          </p>
-          <h1 className="text-[1.75rem] font-bold leading-tight tracking-tight text-white">
+    <Shell theme={theme}>
+      <article className={`overflow-hidden rounded-3xl border ${theme.cardBorder} ${theme.cardBg} ${theme.shadow}`}>
+        <header className={`border-b ${theme.cardBorder} px-6 pb-6 pt-8 text-center`}>
+          <p className={`mb-3 text-[11px] font-semibold uppercase ${theme.eyebrow}`}>{theme.reviewEyebrow}</p>
+          <h1 className={`text-[1.75rem] font-bold leading-tight tracking-tight ${theme.headingFont} ${theme.title}`}>
             {business.name}
           </h1>
-          <p className="mt-2 text-sm font-medium text-zinc-400">{business.branch_name}</p>
+          <p className={`mt-2 text-sm font-medium ${theme.subtitle}`}>{business.branch_name}</p>
         </header>
 
         <div className="flex flex-col gap-3 px-5 py-6 sm:flex-row">
           <a
             href={googleClickUrl}
-            className="flex min-h-[58px] flex-1 items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 text-[15px] font-semibold text-[#09090b] shadow-lg shadow-white/10 transition active:scale-[0.98]"
+            className={`flex min-h-[58px] flex-1 items-center justify-center gap-3 rounded-2xl px-5 py-4 text-[15px] font-semibold transition active:scale-[0.98] ${theme.googleButton}`}
           >
             <GoogleIcon />
             Leave a Google Review
@@ -102,14 +126,14 @@ export default async function ReviewPage({ params }: PageProps) {
 
           <a
             href={whatsappClickUrl}
-            className="flex min-h-[58px] flex-1 items-center justify-center gap-3 rounded-2xl bg-[#25D366] px-5 py-4 text-[15px] font-semibold text-white shadow-lg shadow-[#25D366]/20 transition active:scale-[0.98]"
+            className={`flex min-h-[58px] flex-1 items-center justify-center gap-3 rounded-2xl px-5 py-4 text-[15px] font-semibold transition active:scale-[0.98] ${theme.whatsappButton}`}
           >
             <WhatsAppIcon />
             Contact Management
           </a>
         </div>
 
-        <footer className="border-t border-white/8 px-6 py-4 text-center text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-600">
+        <footer className={`border-t ${theme.cardBorder} px-6 py-4 text-center text-[11px] font-medium uppercase tracking-[0.12em] ${theme.footer}`}>
           The Daily Pulse
         </footer>
       </article>
@@ -142,7 +166,7 @@ function GoogleIcon() {
 
 function WhatsAppIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="text-white">
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="text-current">
       <path
         fill="currentColor"
         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.456 5.705 1.457h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"

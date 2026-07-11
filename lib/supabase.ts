@@ -1,3 +1,4 @@
+import type { IndustryType } from "@/lib/themes";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -32,16 +33,35 @@ export type Business = {
   google_review_url: string;
   manager_whatsapp: string;
   language_preference: string;
+  industry_type: IndustryType;
   is_active: boolean;
+  total_scans?: number;
+  google_clicks?: number;
+  whatsapp_clicks?: number;
 };
+
+const businessFields =
+  "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks";
 
 export async function getBusinessById(id: string): Promise<Business | null> {
   const { data, error } = await supabase
     .from("businesses")
-    .select(
-      "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, is_active"
-    )
+    .select(businessFields)
     .eq("id", id)
+    .maybeSingle();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data as Business;
+}
+
+export async function getBusinessByUserId(userId: string): Promise<Business | null> {
+  const { data, error } = await supabase
+    .from("businesses")
+    .select(businessFields)
+    .eq("user_id", userId)
     .maybeSingle();
 
   if (error || !data) {
