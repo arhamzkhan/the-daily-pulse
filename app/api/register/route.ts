@@ -6,6 +6,7 @@ type RegisterPayload = {
   email?: string;
   password?: string;
   business_name?: string;
+  industry_type?: string;
 };
 
 function toSlugPart(value: string) {
@@ -51,10 +52,19 @@ export async function POST(request: Request) {
     const email = body.email?.trim().toLowerCase() || "";
     const password = body.password || "";
     const businessName = body.business_name?.trim() || "";
+    const industryType = body.industry_type?.trim() || "salon";
 
     if (!email || !password || !businessName) {
       return NextResponse.json(
         { error: "Email, password, and business name are required." },
+        { status: 400 }
+      );
+    }
+
+    const validIndustries = ["salon", "gym", "dining", "cafe"];
+    if (!validIndustries.includes(industryType)) {
+      return NextResponse.json(
+        { error: "Please select a valid industry type." },
         { status: 400 }
       );
     }
@@ -77,7 +87,7 @@ export async function POST(request: Request) {
       email,
       password,
       options: {
-        data: { business_name: businessName },
+        data: { business_name: businessName, industry_type: industryType },
         emailRedirectTo: `${origin}/login?verified=1`,
       },
     });
@@ -103,6 +113,7 @@ export async function POST(request: Request) {
       google_review_url: "https://www.google.com/maps",
       manager_whatsapp: "920000000000",
       language_preference: "english",
+      industry_type: industryType,
       is_active: true,
       total_scans: 0,
       google_clicks: 0,

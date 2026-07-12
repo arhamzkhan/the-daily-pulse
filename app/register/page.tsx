@@ -23,6 +23,7 @@ export default function RegisterPage() {
     email: "",
     password: "",
     business_name: "",
+    industry_type: "salon",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -224,6 +225,23 @@ export default function RegisterPage() {
                 placeholder="e.g., Slotly Salon"
                 className={marketingInputClass}
               />
+            </label>
+
+            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              Industry Type
+              <select
+                required
+                value={form.industry_type}
+                onChange={(event) =>
+                  setForm((prev) => ({ ...prev, industry_type: event.target.value }))
+                }
+                className={marketingInputClass}
+              >
+                <option value="salon">Salon & Spa</option>
+                <option value="gym">Gym & Fitness</option>
+                <option value="dining">Fine Dining</option>
+                <option value="cafe">Cafe & Casual</option>
+              </select>
             </label>
 
             {error ? <p className="text-sm text-red-600">{error}</p> : null}
