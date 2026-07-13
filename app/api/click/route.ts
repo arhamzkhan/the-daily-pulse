@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,11 +14,18 @@ export async function GET(request: Request) {
   }
 
   try {
+    const supabase = await createClient();
     // Increment the specific click counter based on target type
     if (type === 'google') {
-      await supabase.rpc('increment_google_clicks', { row_id: id });
+      const { error } = await supabase.rpc('increment_google_clicks', { row_id: id });
+      if (error) {
+        console.error('[Tracking] increment_google_clicks failed:', error.message);
+      }
     } else if (type === 'whatsapp') {
-      await supabase.rpc('increment_whatsapp_clicks', { row_id: id });
+      const { error } = await supabase.rpc('increment_whatsapp_clicks', { row_id: id });
+      if (error) {
+        console.error('[Tracking] increment_whatsapp_clicks failed:', error.message);
+      }
     }
   } catch (error) {
     console.error('Analytics tracking error:', error);
@@ -26,4 +33,4 @@ export async function GET(request: Request) {
 
   // Instant native browser redirect to the external app
   return NextResponse.redirect(targetUrl);
-}
+}
