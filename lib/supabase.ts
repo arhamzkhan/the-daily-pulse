@@ -60,7 +60,7 @@ export async function getBusinessById(id: string): Promise<Business | null> {
   const { data, error } = await supabase
     .from("businesses")
     .select(businessFields)
-    .ilike("id", cleanId)
+    .eq("id", cleanId)
     .maybeSingle();
 
   if (error || !data) {
