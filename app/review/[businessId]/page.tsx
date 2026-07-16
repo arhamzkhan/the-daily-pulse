@@ -3,6 +3,8 @@ import { getBusinessById, supabase } from "@/lib/supabase";
 import ReviewClient from "./ReviewClient";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 type PageProps = {
   params: Promise<{ businessId: string }>;
@@ -48,10 +50,20 @@ export default async function ReviewPage({ params }: PageProps) {
   console.log("[ReviewPage] businessId captured from params:", businessId);
   console.log("Supabase URL used in Vercel:", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
-  // Fetch business metadata
-  const decodedId = decodeURIComponent(businessId);
-  console.log("[ReviewPage] decodedId lookup string:", decodedId);
-  const business = await getBusinessById(decodedId);
+  const cleanId = decodeURIComponent(businessId).trim().toLowerCase();
+  console.log("[ReviewPage] cleanId for query:", cleanId);
+
+  // Direct inline query — bypasses any wrapper caching
+  const { data: business, error: fetchError } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("id", cleanId)
+    .single();
+
+  console.log("[DirectQuery] Business fetched:", !!business);
+  if (fetchError) {
+    console.error("[DirectQuery] Error:", fetchError.message, fetchError.code);
+  }
 
   if (!business) {
     return (
@@ -74,7 +86,7 @@ export default async function ReviewPage({ params }: PageProps) {
 
   // Increment scans asynchronously
   const { error: scanError } = await supabase.rpc("increment_scans", {
-    business_id: businessId,
+    business_id: cleanId,
   });
 
   if (scanError) {
