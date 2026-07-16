@@ -10,7 +10,8 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { businessId } = await params;
-  const business = await getBusinessById(businessId);
+  const decodedId = decodeURIComponent(businessId);
+  const business = await getBusinessById(decodedId);
 
   if (!business) {
     return { title: "Check-in Not Found" };
@@ -46,7 +47,8 @@ export default async function ReviewPage({ params }: PageProps) {
   const { businessId } = await params;
 
   // Fetch business metadata
-  const business = await getBusinessById(businessId);
+  const decodedId = decodeURIComponent(businessId);
+  const business = await getBusinessById(decodedId);
 
   if (!business) {
     return (

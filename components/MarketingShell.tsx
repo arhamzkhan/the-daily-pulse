@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 type MarketingShellProps = {
   children: React.ReactNode;
@@ -34,6 +38,23 @@ export default function MarketingShell({
   showNav = false,
   maxWidth = "xl",
 }: MarketingShellProps) {
+  const [hasSession, setHasSession] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setHasSession(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setHasSession(!!session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <div className="relative min-h-[100dvh] bg-[#fdfbf7] text-[#1e1e24]">
       <div className="pointer-events-none fixed inset-0 bg-[linear-gradient(to_right,#1e1e2406_1px,transparent_1px),linear-gradient(to_bottom,#1e1e2406_1px,transparent_1px)] bg-[size:44px_44px]" />
@@ -45,18 +66,29 @@ export default function MarketingShell({
             The Daily Pulse
           </Link>
           <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="hidden rounded-lg px-4 py-2 text-sm font-medium text-[#1e1e24]/60 transition hover:text-[#1e1e24] sm:inline-block"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-xl border border-[#1e1e24]/10 bg-white/80 px-4 py-2 text-sm font-semibold text-[#1e1e24] shadow-sm transition hover:bg-white"
-            >
-              Get Started
-            </Link>
+            {hasSession ? (
+              <Link
+                href="/dashboard"
+                className="rounded-xl border border-[#1e1e24]/10 bg-white/80 px-4 py-2 text-sm font-semibold text-[#1e1e24] shadow-sm transition hover:bg-white"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="hidden rounded-lg px-4 py-2 text-sm font-medium text-[#1e1e24]/60 transition hover:text-[#1e1e24] sm:inline-block"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-xl border border-[#1e1e24]/10 bg-white/80 px-4 py-2 text-sm font-semibold text-[#1e1e24] shadow-sm transition hover:bg-white"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       ) : null}

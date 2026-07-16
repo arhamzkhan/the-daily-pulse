@@ -195,7 +195,7 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
               </h2>
               <p className={`mt-2 text-sm leading-relaxed ${theme.subtitle}`}>
                 Premium countertop acrylic with your QR code pre-applied. We encode your unique{" "}
-                <strong>slotly.pk</strong> review link and ship ready to place at reception.
+                <strong>The Daily Pulse</strong> review link and ship ready to place at reception.
               </p>
 
               {standeeOrdered ? (
