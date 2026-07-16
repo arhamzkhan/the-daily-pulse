@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { getTheme, INDUSTRY_OPTIONS, type IndustryType } from "@/lib/themes";
-import { STANDEE_PRICE_PKR } from "@/lib/site";
 import type { Business } from "@/lib/supabase";
 import QRCodeGenerator from "@/app/admin/components/QRCodeGenerator";
 
@@ -83,14 +82,19 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
     window.location.href = "/login";
   }
 
-  function handleStandeeOrder(event: React.FormEvent<HTMLFormElement>) {
+  async function handleStandeeOrder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!standeeForm.address.trim() || !/^92\d{10}$/.test(standeeForm.phone)) {
       setMessage("Enter a delivery address and valid phone (92XXXXXXXXXX).");
       return;
     }
-    setStandeeOrdered(true);
-    setMessage("Standee order received. Our team will contact you within 24 hours.");
+    try {
+      await syncDatabase({ order_requested: true });
+      setStandeeOrdered(true);
+      setMessage("Standee order received. Our team will contact you within 24 hours.");
+    } catch (err: unknown) {
+      setMessage(err instanceof Error ? err.message : "Failed to request standee.");
+    }
   }
 
   const scans = business.total_scans;
@@ -194,13 +198,6 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
                 <strong>slotly.pk</strong> review link and ship ready to place at reception.
               </p>
 
-              <div className={`mt-4 rounded-xl border p-4 ${theme.cardBorder} ${theme.pageBg}`}>
-                <p className={`text-xs uppercase tracking-[0.12em] ${theme.subtitle}`}>Price</p>
-                <p className={`mt-1 text-3xl ${theme.headingFont} ${theme.title}`}>
-                  {STANDEE_PRICE_PKR} PKR
-                </p>
-              </div>
-
               {standeeOrdered ? (
                 <div className={`mt-6 rounded-xl border p-4 ${theme.cardBorder} ${theme.pageBg}`}>
                   <p className={`font-semibold ${theme.title}`}>Order submitted</p>
@@ -237,7 +234,7 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
                     type="submit"
                     className={`rounded-xl px-4 py-3 text-sm font-semibold transition active:scale-[0.98] ${theme.googleButton}`}
                   >
-                    Order Acrylic Standee ({STANDEE_PRICE_PKR} PKR)
+                    Request Standees
                   </button>
                 </form>
               )}
