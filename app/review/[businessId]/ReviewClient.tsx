@@ -70,8 +70,27 @@ export default function ReviewClient({ business }: ReviewClientProps) {
     setRating(selectedRating);
   };
 
+  const getDynamicHeading = () => {
+    if (rating === null) return "";
+    if (rating >= 4) {
+      return "Thank you for your support! Please help us grow by sharing your review on Google.";
+    }
+    return "We're sorry to hear that. Would you like to resolve this instantly with the manager?";
+  };
+
   return (
-    <article className="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 p-6 text-center shadow-2xl">
+    <article className="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 p-6 text-center shadow-2xl relative">
+      {rating !== null && (
+        <button
+          type="button"
+          onClick={() => setRating(null)}
+          className="absolute top-4 left-4 p-2 text-neutral-400 hover:text-neutral-200 transition text-lg"
+          aria-label="Back to rating"
+        >
+          ←
+        </button>
+      )}
+
       <header className="pb-4">
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
           {business.industry_type || "Feedback"}
@@ -129,8 +148,8 @@ export default function ReviewClient({ business }: ReviewClientProps) {
       {/* STATE 2: Rating selected — show dual-option UI */}
       {rating !== null && (
         <section className="py-4 flex flex-col items-center gap-3">
-          <p className="text-base font-semibold text-white">
-            {texts.lowRatingHeading}
+          <p className="text-base font-semibold text-white px-6">
+            {getDynamicHeading()}
           </p>
           <p className="text-xs text-neutral-400 max-w-[280px]">
             {texts.lowRatingSubtext}
