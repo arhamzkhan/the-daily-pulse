@@ -39,11 +39,10 @@ export type Business = {
   google_clicks: number;
   whatsapp_clicks: number;
   order_requested?: boolean;
-  slug?: string;
 };
 
 const businessFields =
-  "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks, order_requested, slug";
+  "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks, order_requested";
 
 export function normalizeBusinessMetrics<T extends Partial<Business>>(business: T): T & Business {
   return {
@@ -55,27 +54,13 @@ export function normalizeBusinessMetrics<T extends Partial<Business>>(business: 
 }
 
 export async function getBusinessById(id: string): Promise<Business | null> {
-  // Try matching by id first
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("businesses")
     .select(businessFields)
     .eq("id", id)
     .maybeSingle();
 
-  // If not found or error, attempt matching by 'slug' if the column exists
   if (error || !data) {
-    const { data: slugData, error: slugError } = await supabase
-      .from("businesses")
-      .select(businessFields)
-      .eq("slug", id)
-      .maybeSingle();
-
-    if (!slugError && slugData) {
-      data = slugData;
-    }
-  }
-
-  if (!data) {
     return null;
   }
 
