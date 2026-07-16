@@ -46,6 +46,7 @@ function StatusCard({
 export default async function ReviewPage({ params }: PageProps) {
   const { businessId } = await params;
   console.log("[ReviewPage] businessId captured from params:", businessId);
+  console.log("Supabase URL used in Vercel:", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
   // Fetch business metadata
   const decodedId = decodeURIComponent(businessId);
