@@ -54,10 +54,13 @@ export function normalizeBusinessMetrics<T extends Partial<Business>>(business: 
 }
 
 export async function getBusinessById(id: string): Promise<Business | null> {
+  const cleanId = id.trim().toLowerCase();
+  
+  // Since id in PostgreSQL is case-sensitive, match lower(id) to ensure case-insensitive check
   const { data, error } = await supabase
     .from("businesses")
     .select(businessFields)
-    .eq("id", id)
+    .ilike("id", cleanId)
     .maybeSingle();
 
   if (error || !data) {
