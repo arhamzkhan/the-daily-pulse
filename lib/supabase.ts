@@ -38,10 +38,11 @@ export type Business = {
   total_scans: number;
   google_clicks: number;
   whatsapp_clicks: number;
+  order_requested?: boolean;
 };
 
 const businessFields =
-  "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks";
+  "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks, order_requested";
 
 export function normalizeBusinessMetrics<T extends Partial<Business>>(business: T): T & Business {
   return {
