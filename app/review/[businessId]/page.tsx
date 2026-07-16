@@ -45,9 +45,11 @@ function StatusCard({
 
 export default async function ReviewPage({ params }: PageProps) {
   const { businessId } = await params;
+  console.log("[ReviewPage] businessId captured from params:", businessId);
 
   // Fetch business metadata
   const decodedId = decodeURIComponent(businessId);
+  console.log("[ReviewPage] decodedId lookup string:", decodedId);
   const business = await getBusinessById(decodedId);
 
   if (!business) {
