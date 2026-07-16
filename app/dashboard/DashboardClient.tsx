@@ -30,19 +30,23 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
   const theme = useMemo(() => getTheme(business.industry_type), [business.industry_type]);
 
   async function syncDatabase(updatedFields: Partial<Business>) {
-    const updatedState = { ...business, ...updatedFields };
-    setBusiness(updatedState);
+    const payload = {
+      id: business.id,
+      ...updatedFields,
+    };
 
     const response = await fetch("/api/dashboard", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedState),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const data = await response.json();
       throw new Error(data?.error || "Failed to save changes.");
     }
+
+    setBusiness((prev) => ({ ...prev, ...updatedFields }));
   }
 
   async function handleSettingsSubmit(event: React.FormEvent<HTMLFormElement>) {

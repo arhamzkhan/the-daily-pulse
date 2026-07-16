@@ -4,8 +4,12 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 export async function loginAction(username: string, password: string) {
-  const adminUser = process.env.PORTAL_ADMIN_USER || "admin";
-  const adminPass = process.env.PORTAL_ADMIN_PASSWORD || "admin123";
+  const adminUser = process.env.PORTAL_ADMIN_USER;
+  const adminPass = process.env.PORTAL_ADMIN_PASSWORD;
+
+  if (adminUser === undefined || adminPass === undefined) {
+    throw new Error("Portal admin credentials are not configured in environment variables.");
+  }
 
   if (username === adminUser && password === adminPass) {
     const cookieStore = await cookies();

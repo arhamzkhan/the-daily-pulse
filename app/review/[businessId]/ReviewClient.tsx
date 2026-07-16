@@ -66,18 +66,8 @@ export default function ReviewClient({ business }: ReviewClientProps) {
 
   // Rating handler — compliant gating logic
   const handleRatingSelect = (selectedRating: number) => {
-    if (rating !== null || redirecting) return;
+    if (rating !== null) return;
     setRating(selectedRating);
-
-    // 4 or 5 stars: immediate redirect to Google
-    if (selectedRating >= 4) {
-      setRedirecting(true);
-      sendBeacon(business.id, "review_click");
-      setTimeout(() => {
-        window.location.href = googleClickUrl;
-      }, 600);
-    }
-    // 1-3 stars: show interstitial with both options (no auto-redirect)
   };
 
   return (
@@ -136,25 +126,8 @@ export default function ReviewClient({ business }: ReviewClientProps) {
         </section>
       )}
 
-      {/* STATE 2: High rating (4-5) — spinner + instant redirect to Google */}
-      {rating !== null && rating >= 4 && (
-        <section className="py-4 flex flex-col items-center">
-          <svg
-            className="animate-spin h-8 w-8 text-emerald-400 mb-4"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
-          <p className="text-sm font-medium text-neutral-300">
-            {texts.redirectingGoogle}
-          </p>
-        </section>
-      )}
-
-      {/* STATE 3: Low rating (1-3) — show WhatsApp CTA + Google review link */}
-      {rating !== null && rating < 4 && (
+      {/* STATE 2: Rating selected — show dual-option UI */}
+      {rating !== null && (
         <section className="py-4 flex flex-col items-center gap-3">
           <p className="text-base font-semibold text-white">
             {texts.lowRatingHeading}
@@ -175,7 +148,7 @@ export default function ReviewClient({ business }: ReviewClientProps) {
             {texts.whatsappCta}
           </a>
 
-          {/* Secondary link — Google Reviews (always visible, never blocked) */}
+          {/* Secondary link — Google Reviews */}
           <a
             href={googleClickUrl}
             onClick={() => sendBeacon(business.id, "review_click")}
