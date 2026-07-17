@@ -9,100 +9,124 @@ export const metadata: Metadata = {
 export default function TermsOfServicePage() {
   return (
     <MarketingShell maxWidth="lg">
-      <article className="prose prose-neutral mx-auto py-12 px-2 text-[#1e1e24]">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1e1e24]">Terms of Service</h1>
-        <p className="mt-1 text-sm text-[#1e1e24]/50">Last updated: July 2025</p>
+      <article className="mx-auto max-w-2xl px-4 py-12 text-[#1e1e24]">
+        <h1 className="text-3xl font-bold tracking-tight">Terms of Service</h1>
+        <p className="mt-2 text-sm text-[#1e1e24]/50 font-medium">Last Updated: July 17, 2026</p>
 
-        <Section title="1. Acceptance of Terms">
-          By registering for or using The Daily Pulse platform, you agree to be bound by these
-          Terms of Service. If you do not agree, you must not use the service.
+        <p className="mt-6 text-sm leading-7 text-[#1e1e24]/70">
+          Welcome to The Daily Pulse. By activating a business account, deploying our physical
+          QR/NFC standees, or accessing our dashboard interface, you agree to be bound by the
+          following Terms of Service.
+        </p>
+
+        <Section title="1. Scope of Service">
+          <p>
+            The Daily Pulse provisions a digital software-as-a-service (SaaS) platform designed to
+            assist businesses in tracking scan traffic, monitoring consumer sentiment metrics, and
+            managing customer feedback routing to third-party public profiles (such as Google Review
+            listings) or private communication channels (such as WhatsApp).
+          </p>
         </Section>
 
-        <Section title="2. Description of Service">
-          The Daily Pulse provides a QR-based customer feedback routing service. Businesses
-          register a profile, receive a unique QR code, and use the platform to route customer
-          feedback to Google Reviews or a private WhatsApp channel depending on the customer's
-          satisfaction level.
+        <Section title="2. Account Security &amp; Registration">
+          <p>
+            Business clients must provide accurate and current information during registration. You
+            are entirely responsible for maintaining the confidentiality of your dashboard access
+            tokens and account credentials. Any unauthorized utilization of your account must be
+            immediately reported to us.
+          </p>
         </Section>
 
-        <Section title="3. Eligibility">
-          You must be at least 18 years of age and operating a legitimate registered business to
-          use this service. By registering, you represent and warrant that you meet these
-          requirements.
-        </Section>
-
-        <Section title="4. Account Responsibilities">
-          <ul className="mt-2 list-disc pl-5 space-y-1 text-sm leading-relaxed text-[#1e1e24]/75">
-            <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+        <Section title="3. Service Access &amp; Commercial Terms">
+          <ul>
             <li>
-              You must ensure that the WhatsApp number and Google Review URL you provide are
-              accurate and belong to your business.
+              <strong>Pricing Structure:</strong> Services are rendered based on the specific
+              commercial agreements or tiers selected during your initial business setup, which may
+              include one-time setup or hardware fabrication fees combined with ongoing renewal fees.
             </li>
             <li>
-              You must not use the platform to collect feedback in a deceptive, misleading, or
-              manipulative manner.
-            </li>
-            <li>
-              You are responsible for all activity that occurs under your account.
+              <strong>Cancellation &amp; Account Closure:</strong> You may request account closure
+              or service cancellation at any time by contacting us directly. Due to the immediate
+              allocation of cloud computing resources and physical hardware printing costs, all
+              payments made are non-refundable unless explicitly stated otherwise in writing.
             </li>
           </ul>
         </Section>
 
-        <Section title="5. Prohibited Uses">
-          You agree not to:
-          <ul className="mt-2 list-disc pl-5 space-y-1 text-sm leading-relaxed text-[#1e1e24]/75">
-            <li>Use the service for any unlawful purpose or in violation of any regulations.</li>
-            <li>Attempt to reverse-engineer, scrape, or disrupt the platform.</li>
-            <li>Impersonate another business or individual.</li>
-            <li>Use the service to send unsolicited communications.</li>
+        <Section title="4. Acceptable Use Policy &amp; System Integrity">
+          <p>Users and clients are strictly prohibited from:</p>
+          <ul>
+            <li>
+              Using automated systems, bots, or scrapers to generate artificial scan traffic or
+              fraudulent feedback entries.
+            </li>
+            <li>
+              Circumventing, disabling, or tampering with the security infrastructure or caching
+              systems of the application.
+            </li>
+            <li>
+              Deploying our platform to maliciously mask, manipulate, or deceptively gate public
+              feedback in direct violation of third-party ecosystem policies (including Google's core
+              review guidelines).
+            </li>
           </ul>
         </Section>
 
-        <Section title="6. Physical Standee Orders">
-          Standee orders are fulfilled by The Daily Pulse team on a best-effort basis. Delivery
-          timelines, pricing (where applicable), and refund eligibility will be communicated
-          directly to you via WhatsApp after you submit a standee request through the dashboard.
-          All sales are final unless the product arrives damaged or defective.
+        <Section title="5. Third-Party Disclaimers">
+          <p>
+            Our service interacts directly with third-party platforms such as Google and WhatsApp.
+            We do not own, control, or operate these external networks. You acknowledge that your
+            use of third-party platforms through our routing system is entirely governed by their
+            respective terms of service and platform guidelines.
+          </p>
         </Section>
 
-        <Section title="7. Intellectual Property">
-          All platform content, branding, code, and design is the exclusive property of The Daily
-          Pulse. You are granted a limited, non-exclusive, non-transferable licence to use the
-          platform solely for your business purposes during the term of your account.
+        <Section title="6. Intellectual Property">
+          <p>
+            The Daily Pulse, including its source code, interface designs, logos, software logic,
+            database architecture, and proprietary documentation, remains the exclusive property of
+            our founding entity. No ownership transfer occurs under these terms.
+          </p>
         </Section>
 
-        <Section title="8. Disclaimer of Warranties">
-          The service is provided "as is" and "as available" without warranties of any kind,
-          express or implied. We do not guarantee that the service will be uninterrupted,
-          error-free, or meet your specific requirements.
+        <Section title="7. Limitation of Liability &amp; Service Availability">
+          <p>
+            The platform is provided on an "as-is" and "as-available" framework. While we strive
+            for maximum performance, we make no explicit guarantees regarding continuous,
+            uninterrupted platform operation. We are not liable for any lost business revenues,
+            indirect damages, or downstream business disruptions resulting from database downtime,
+            network latencies, or upstream service provider interruptions.
+          </p>
         </Section>
 
-        <Section title="9. Limitation of Liability">
-          To the maximum extent permitted by applicable law, The Daily Pulse shall not be liable
-          for any indirect, incidental, special, or consequential damages arising from your use
-          of or inability to use the service.
+        <Section title="8. Account Termination">
+          <p>
+            We reserve the right to suspend or permanently terminate access to our services,
+            dashboards, and active routing endpoints without prior notice if an account defaults on
+            outstanding payment terms or is found in material violation of these Terms.
+          </p>
         </Section>
 
-        <Section title="10. Termination">
-          We reserve the right to suspend or terminate your account at any time if you breach
-          these terms or if the service is discontinued. You may also close your account at any
-          time by contacting us.
+        <Section title="9. Governing Law &amp; Dispute Resolution">
+          <p>
+            These Terms are governed by, interpreted, and enforced under the laws of Pakistan. Any
+            legal actions, disputes, or formal proceedings arising from these terms shall be subject
+            to the exclusive jurisdiction of the competent courts located in Lahore, Pakistan.
+          </p>
         </Section>
 
-        <Section title="11. Governing Law">
-          These terms are governed by the laws of the Islamic Republic of Pakistan. Any disputes
-          arising under these terms shall be subject to the exclusive jurisdiction of the courts
-          of Lahore, Pakistan.
-        </Section>
-
-        <Section title="12. Changes to These Terms">
-          We may revise these terms at any time. The "Last updated" date will reflect changes.
-          Continued use of the platform after changes constitutes acceptance of the revised terms.
-        </Section>
-
-        <Section title="13. Contact">
-          For questions about these terms, contact us via the details available in your business
-          dashboard.
+        <Section title="10. Contact Details">
+          <p>
+            For formal inquiries, support notices, or operational questions concerning these terms,
+            please contact{" "}
+            <a
+              href="mailto:mail.arhamkhan1@gmail.com"
+              className="text-[#1a5c4d] underline underline-offset-2 hover:text-[#134539]"
+            >
+              mail.arhamkhan1@gmail.com
+            </a>
+            .
+          </p>
         </Section>
       </article>
     </MarketingShell>
@@ -111,9 +135,11 @@ export default function TermsOfServicePage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="mt-8">
-      <h2 className="text-lg font-semibold text-[#1e1e24]">{title}</h2>
-      <div className="mt-2 text-sm leading-relaxed text-[#1e1e24]/75">{children}</div>
+    <section className="mt-10">
+      <h2 className="text-base font-semibold text-[#1e1e24]">{title}</h2>
+      <div className="mt-3 space-y-3 text-sm leading-7 text-[#1e1e24]/70 [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_strong]:font-semibold [&_strong]:text-[#1e1e24]/85">
+        {children}
+      </div>
     </section>
   );
 }
