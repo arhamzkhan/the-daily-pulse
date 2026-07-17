@@ -116,7 +116,16 @@ export default function LandingPage() {
       </section>
 
       <footer className="border-t border-[#1e1e24]/8 py-8 text-center text-xs text-[#1e1e24]/45">
-        &copy; {new Date().getFullYear()} The Daily Pulse. Feedback intelligence for modern branches.
+        <p>&copy; {new Date().getFullYear()} The Daily Pulse. Feedback intelligence for modern branches.</p>
+        <div className="mt-3 flex items-center justify-center gap-4">
+          <Link href="/privacy-policy" className="hover:text-[#1e1e24]/70 transition underline underline-offset-2">
+            Privacy Policy
+          </Link>
+          <span aria-hidden>·</span>
+          <Link href="/terms-of-service" className="hover:text-[#1e1e24]/70 transition underline underline-offset-2">
+            Terms of Service
+          </Link>
+        </div>
       </footer>
     </MarketingShell>
   );

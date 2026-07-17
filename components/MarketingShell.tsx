@@ -96,6 +96,18 @@ export default function MarketingShell({
       <div className={`relative z-10 mx-auto w-full px-4 py-8 sm:px-6 ${maxWidthClass[maxWidth]}`}>
         {children}
       </div>
+
+      <footer className="relative z-10 border-t border-[#1e1e24]/8 py-6 text-center text-[11px] text-[#1e1e24]/40">
+        <div className="flex items-center justify-center gap-4">
+          <Link href="/privacy-policy" className="hover:text-[#1e1e24]/65 transition underline underline-offset-2">
+            Privacy Policy
+          </Link>
+          <span aria-hidden>·</span>
+          <Link href="/terms-of-service" className="hover:text-[#1e1e24]/65 transition underline underline-offset-2">
+            Terms of Service
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }
