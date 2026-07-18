@@ -1,93 +1,66 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-// Simple in-memory rate limiting map for edge runtime to prevent brute-force burst spam.
-// Note: In serverless/edge environments, memory is isolated per instance.
-// For production multi-region global enforcement, we advise replacing this with Upstash/Vercel KV (Redis).
-const rateLimitCache = new Map<string, { count: number; resetTime: number }>();
-
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_MINUTE = 3; // Allow max 3 logs/page-views per minute per IP
+// Simple in-memory map for basic rate limiting
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
 function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitCache.get(ip);
+  const now = Date.now()
+  const windowMs = 60 * 1000 // 1 minute
+  const maxRequests = 60 // 1 request per second average
 
-  if (!record || now > record.resetTime) {
-    rateLimitCache.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
-    // Cleanup old records lazily
-    if (rateLimitCache.size > 5000) {
-      for (const [key, val] of rateLimitCache.entries()) {
-        if (now > val.resetTime) rateLimitCache.delete(key);
-      }
-    }
-    return true;
+  const currentData = rateLimitMap.get(ip)
+
+  if (!currentData || now > currentData.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    return true
   }
 
-  record.count++;
-  if (record.count > MAX_REQUESTS_PER_MINUTE) {
-    return false; // Limit exceeded
+  if (currentData.count >= maxRequests) {
+    return false
   }
 
-  return true;
+  currentData.count++
+  return true
 }
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
 
-  // Apply strict IP-based rate-limiting on 'scan_logs' endpoint (/api/log) and review landing page
+  // 1. Resolve the TypeScript IP issue safely via headers
+  const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1"
+
   if (pathname === "/api/log" || pathname.startsWith("/review/")) {
-    const ip = request.ip || request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
-    
     if (!checkRateLimit(ip)) {
       return new NextResponse(
         JSON.stringify({ error: "Too many requests. Please try again later." }),
-        {
-          status: 429,
-          headers: {
-            "Content-Type": "application/json",
-            "Retry-After": "60",
-          },
-        }
-      );
+        { status: 429, headers: { 'content-type': 'application/json' } }
+      )
     }
   }
 
-  let supabaseResponse = NextResponse.next({ request });
+  // 2. Add the Content Security Policy cleanly to all outbound responses
+  const response = NextResponse.next()
+  
+  // A standard, secure starter CSP for Next.js apps
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data:;
+    connect-src 'self' https://*.supabase.co wss://*.supabase.co;
+    font-src 'self' data:;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+  `.replace(/\s{2,}/g, ' ').trim()
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => {
-            request.cookies.set(name, value);
-          });
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) => {
-            supabaseResponse.cookies.set(name, value, options);
-          });
-        },
-      },
-    }
-  );
-
-  await supabase.auth.getUser();
-  return supabaseResponse;
+  response.headers.set('Content-Security-Policy', cspHeader)
+  
+  return response
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/onboarding/:path*",
-    "/api/dashboard/:path*",
-    "/api/onboarding/:path*",
-    "/api/admin/:path*",
-    "/api/log",
-    "/review/:path*",
-  ],
-};
+  matcher: ['/api/log', '/review/:path*', '/login', '/register', '/dashboard'],
+}

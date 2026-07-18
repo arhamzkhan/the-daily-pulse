@@ -80,7 +80,7 @@ function ForgotPasswordModal({
               Enter your account email and we will send you a secure reset link.
             </p>
 
-            <form onSubmit={onSubmit} className="mt-6 grid gap-4">
+            <form method="POST" onSubmit={onSubmit} className="mt-6 grid gap-4">
               <label className="grid gap-2 text-sm text-[#1e1e24]/75">
                 Email
                 <input
