@@ -26,5 +26,17 @@ export default async function DashboardPage() {
     redirect("/onboarding");
   }
 
-  return <DashboardClient business={normalizeBusinessMetrics(business)} />;
+  // Fetch scan logs for analytics
+  const { data: scanLogs } = await supabase
+    .from("scan_logs")
+    .select("*")
+    .eq("business_id", business.id)
+    .order("scanned_at", { ascending: false });
+
+  return (
+    <DashboardClient
+      business={normalizeBusinessMetrics(business)}
+      scanLogs={scanLogs || []}
+    />
+  );
 }

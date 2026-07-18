@@ -7,8 +7,18 @@ import { getTheme, INDUSTRY_OPTIONS, type IndustryType } from "@/lib/themes";
 import type { Business } from "@/lib/supabase";
 import QRCodeGenerator from "@/app/admin/components/QRCodeGenerator";
 
+type ScanLog = {
+  id: number;
+  business_id: string;
+  action_type: "page_view" | "review_click" | "manager_click";
+  rating?: number;
+  device_type?: string;
+  scanned_at: string;
+};
+
 type DashboardClientProps = {
   business: Business;
+  scanLogs: ScanLog[];
 };
 
 type TabId = "overview" | "qr" | "settings";
@@ -19,7 +29,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "settings", label: "Settings" },
 ];
 
-export default function DashboardClient({ business: initialBusiness }: DashboardClientProps) {
+export default function DashboardClient({ business: initialBusiness, scanLogs }: DashboardClientProps) {
   const [business, setBusiness] = useState(initialBusiness);
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [saving, setSaving] = useState(false);
@@ -101,6 +111,19 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
   const googleClicks = business.google_clicks;
   const whatsappClicks = business.whatsapp_clicks;
 
+  // Analytics calculations
+  const totalScans = scanLogs.length;
+  const ratingLogs = scanLogs.filter((log) => log.rating && log.rating > 0);
+  const avgRating = ratingLogs.length
+    ? (ratingLogs.reduce((acc, curr) => acc + (curr.rating || 0), 0) / ratingLogs.length).toFixed(1)
+    : "0.0";
+  const conversionRate = totalScans ? ((ratingLogs.length / totalScans) * 100).toFixed(0) : "0";
+
+  const actionDistribution = {
+    google: scanLogs.filter((l) => l.action_type === "review_click").length,
+    private: scanLogs.filter((l) => l.action_type === "manager_click").length,
+  };
+
   return (
     <div className={`min-h-screen ${theme.pageBg} ${theme.bodyFont}`}>
       <div className={`pointer-events-none fixed inset-0 ${theme.pageGradient}`} />
@@ -161,22 +184,128 @@ export default function DashboardClient({ business: initialBusiness }: Dashboard
         ) : null}
 
         {activeTab === "overview" ? (
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              { label: "Total Taps", value: scans },
-              { label: "Google Reviews", value: googleClicks },
-              { label: "WhatsApp Intercepts", value: whatsappClicks },
-            ].map((metric) => (
-              <div
-                key={metric.label}
-                className={`rounded-2xl border p-6 ${theme.cardBg} ${theme.cardBorder} ${theme.shadow}`}
-              >
-                <p className={`text-xs font-semibold uppercase tracking-[0.12em] ${theme.subtitle}`}>
-                  {metric.label}
-                </p>
-                <p className={`mt-3 text-4xl ${theme.headingFont} ${theme.title}`}>{metric.value}</p>
+          <div className="space-y-8">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { label: "Total Scans", value: totalScans },
+                { label: "Avg Rating", value: `${avgRating} ★` },
+                { label: "Conversion", value: `${conversionRate}%` },
+                { label: "Direct Clicks", value: googleClicks + whatsappClicks },
+              ].map((metric) => (
+                <div
+                  key={metric.label}
+                  className={`rounded-2xl border p-6 ${theme.cardBg} ${theme.cardBorder} ${theme.shadow}`}
+                >
+                  <p className={`text-[10px] font-bold uppercase tracking-[0.15em] ${theme.subtitle}`}>
+                    {metric.label}
+                  </p>
+                  <p className={`mt-3 text-3xl font-extrabold ${theme.headingFont} ${theme.title}`}>
+                    {metric.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className={`rounded-2xl border p-6 ${theme.cardBg} ${theme.cardBorder} ${theme.shadow}`}>
+                <h3 className={`text-sm font-bold uppercase tracking-wider ${theme.title}`}>
+                  Action Distribution
+                </h3>
+                <div className="mt-6 flex flex-col gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs font-medium">
+                      <span className={theme.subtitle}>Google Reviews</span>
+                      <span className={theme.title}>{actionDistribution.google}</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-neutral-800">
+                      <div
+                        className="h-full bg-emerald-500 transition-all"
+                        style={{
+                          width: `${totalScans ? (actionDistribution.google / totalScans) * 100 : 0}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs font-medium">
+                      <span className={theme.subtitle}>Private Feedback</span>
+                      <span className={theme.title}>{actionDistribution.private}</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-neutral-800">
+                      <div
+                        className="h-full bg-amber-500 transition-all"
+                        style={{
+                          width: `${totalScans ? (actionDistribution.private / totalScans) * 100 : 0}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
+
+              <div className={`rounded-2xl border p-6 ${theme.cardBg} ${theme.cardBorder} ${theme.shadow}`}>
+                <h3 className={`text-sm font-bold uppercase tracking-wider ${theme.title}`}>
+                  Quick Insights
+                </h3>
+                <p className={`mt-4 text-sm leading-relaxed ${theme.subtitle}`}>
+                  {totalScans > 0
+                    ? `Your business has seen ${totalScans} total scans. ${
+                        Number(conversionRate) > 50
+                          ? "Engagement is high! Your customers are actively sharing feedback."
+                          : "Try placing your QR standee in a more visible location to boost engagement."
+                      }`
+                    : "No scan data available yet. Deploy your QR standee to start collecting analytics."}
+                </p>
+              </div>
+            </div>
+
+            <div className={`overflow-hidden rounded-2xl border ${theme.cardBg} ${theme.cardBorder} ${theme.shadow}`}>
+              <div className="border-b border-neutral-800 p-6">
+                <h3 className={`text-sm font-bold uppercase tracking-wider ${theme.title}`}>
+                  Recent Scan Activity
+                </h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className={`border-b border-neutral-800 ${theme.subtitle} uppercase tracking-wider`}>
+                      <th className="px-6 py-4 font-bold">Timestamp</th>
+                      <th className="px-6 py-4 font-bold">Action</th>
+                      <th className="px-6 py-4 font-bold">Device</th>
+                      <th className="px-6 py-4 font-bold text-right">Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody className={`divide-y divide-neutral-800 ${theme.title}`}>
+                    {scanLogs.length > 0 ? (
+                      scanLogs.slice(0, 10).map((log) => (
+                        <tr key={log.id} className="hover:bg-neutral-800/30 transition-colors">
+                          <td className="whitespace-nowrap px-6 py-4 text-neutral-400">
+                            {new Date(log.scanned_at).toLocaleString()}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="capitalize">{log.action_type.replace("_", " ")}</span>
+                          </td>
+                          <td className="px-6 py-4 text-neutral-500">{log.device_type || "Unknown"}</td>
+                          <td className="px-6 py-4 text-right">
+                            {log.rating ? (
+                              <span className="font-bold text-emerald-400">{log.rating} ★</span>
+                            ) : (
+                              <span className="text-neutral-600">—</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="px-6 py-12 text-center text-neutral-500 italic">
+                          No recent activity recorded yet.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         ) : null}
 
