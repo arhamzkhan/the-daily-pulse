@@ -200,8 +200,16 @@ export default async function ReviewPage({ params }: PageProps) {
             </div>
           </section>
 
-          <footer className="mt-8 border-t border-neutral-800/40 pt-4 text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-bold">
-            The Daily Pulse
+          <footer className="mt-8 border-t border-neutral-800/40 pt-4 flex flex-col items-center gap-2">
+            <span className="text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-bold">
+              The Daily Pulse
+            </span>
+            <p className="text-[10px] text-neutral-500 max-w-[320px] leading-relaxed normal-case font-normal">
+              Anonymous telemetry (device type, timestamp, business ID) is processed solely for business analytics.{" "}
+              <a href="/privacy-policy" className="underline hover:text-neutral-300 transition-colors">
+                Privacy Policy
+              </a>
+            </p>
           </footer>
         </article>
       </div>

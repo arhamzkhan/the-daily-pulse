@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { loginAction } from "@/lib/auth-actions";
 import MarketingShell, {
   MarketingCard,
   marketingButtonClass,
@@ -117,27 +118,12 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [showForgot, setShowForgot] = useState(false);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function clientAction(formData: FormData) {
     setError("");
     setLoading(true);
-
-    try {
-      const supabase = createClient();
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: form.email.trim().toLowerCase(),
-        password: form.password,
-      });
-
-      if (signInError) {
-        throw new Error(signInError.message);
-      }
-
-      router.push(nextPath);
-      router.refresh();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Unable to sign in.");
-    } finally {
+    const result = await loginAction(formData);
+    if (result?.error) {
+      setError(result.error);
       setLoading(false);
     }
   }
@@ -169,11 +155,13 @@ function LoginForm() {
             </div>
           ) : null}
 
-          <form onSubmit={onSubmit} className="grid gap-4">
+          <form action={clientAction} className="grid gap-4">
+            <input type="hidden" name="next" value={nextPath} />
             <label className="grid gap-2 text-sm text-[#1e1e24]/75">
               Email
               <input
                 required
+                name="email"
                 type="email"
                 autoComplete="email"
                 value={form.email}
@@ -196,6 +184,7 @@ function LoginForm() {
               </span>
               <input
                 required
+                name="password"
                 type="password"
                 autoComplete="current-password"
                 value={form.password}
