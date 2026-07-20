@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <MarketingShell maxWidth="lg">
-      <article className="mx-auto max-w-2xl px-4 py-12 text-[#1e1e24]">
-        <h1 className="text-3xl font-bold tracking-tight">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-[#1e1e24]/50 font-medium">Last Updated: July 17, 2026</p>
+      <article className="mx-auto max-w-2xl px-4 py-12 text-[var(--color-text)]">
+        <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text)]">Privacy Policy</h1>
+        <p className="mt-2 text-sm text-[var(--color-subtle)] font-medium">Last Updated: July 17, 2026</p>
 
-        <p className="mt-6 text-sm leading-7 text-[#1e1e24]/70">
+        <p className="mt-6 text-sm leading-7 text-[var(--color-muted)]">
           Voucho ("we," "our," or "us") operates the customer feedback routing platform.
           This Privacy Policy explains how we collect, use, disclose, and safeguard your information
           when you visit our website, use our business dashboard, or interact with our physical QR
@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
 
         <Section title="1. Information We Collect">
           <SubSection title="A. For End-Users / Retail Customers (Reviewers)">
-            <p>When you scan a physical Daily Pulse QR code/NFC standee or submit feedback:</p>
+            <p>When you scan a physical Voucho QR code/NFC standee or submit feedback:</p>
             <ul>
               <li>
                 <strong>Usage &amp; Device Data:</strong> We automatically collect standard internet
@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
             interface. For account inquiries or data deletion requests, please contact us at{" "}
             <a
               href="mailto:mail.arhamkhan1@gmail.com"
-              className="text-[#1a5c4d] underline underline-offset-2 hover:text-[#134539]"
+              className="text-[var(--color-accent)] underline underline-offset-2 hover:text-[var(--color-accent-hi)]"
             >
               mail.arhamkhan1@gmail.com
             </a>
@@ -147,8 +147,8 @@ export default function PrivacyPolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-10">
-      <h2 className="text-base font-semibold text-[#1e1e24]">{title}</h2>
-      <div className="mt-3 space-y-3 text-sm leading-7 text-[#1e1e24]/70 [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_strong]:font-semibold [&_strong]:text-[#1e1e24]/85">
+      <h2 className="text-base font-semibold text-[var(--color-text)]">{title}</h2>
+      <div className="mt-3 space-y-3 text-sm leading-7 text-[var(--color-muted)] [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_strong]:font-semibold [&_strong]:text-[var(--color-text)]">
         {children}
       </div>
     </section>
@@ -158,7 +158,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-5">
-      <h3 className="text-sm font-semibold text-[#1e1e24]/80">{title}</h3>
+      <h3 className="text-sm font-semibold text-[var(--color-text)] opacity-90">{title}</h3>
       <div className="mt-2 space-y-2">{children}</div>
     </div>
   );

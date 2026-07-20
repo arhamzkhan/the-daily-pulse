@@ -42,7 +42,7 @@ export function MarketingCard({
 }) {
   return (
     <section
-      className={`rounded-2xl border border-white/8 bg-[#18181b] p-8 ${className}`}
+      className={`rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm transition-colors duration-200 ${className}`}
     >
       {children}
     </section>
@@ -73,13 +73,13 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
       className={[
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-white/8 bg-[#09090b]/90 backdrop-blur-md"
+          ? "border-b border-[var(--color-border)] bg-[var(--color-bg)]/90 backdrop-blur-md"
           : "bg-transparent",
       ].join(" ")}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center text-white">
+        <Link href="/" className="flex items-center text-[var(--color-text)]">
           <VouchoLogo size="sm" />
         </Link>
 
@@ -89,7 +89,7 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-medium text-white/55 transition-colors duration-150 hover:text-white"
+                className="text-sm font-medium text-[var(--color-muted)] transition-colors duration-150 hover:text-[var(--color-text)]"
               >
                 {link.label}
               </Link>
@@ -102,7 +102,7 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
           {hasSession ? (
             <Link
               href="/dashboard"
-              className="rounded-lg border border-white/10 bg-white/6 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-hi)]"
             >
               Dashboard
             </Link>
@@ -110,15 +110,15 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
             <>
               <Link
                 href="/login"
-                className="px-4 py-2 text-sm font-medium text-white/55 transition hover:text-white"
+                className="px-4 py-2 text-sm font-medium text-[var(--color-muted)] transition hover:text-[var(--color-text)]"
               >
                 Login
               </Link>
               <Link
-                href="/register"
-                className="rounded-lg bg-[#0f766e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0d9488] active:scale-[0.97]"
+                href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
+                className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-accent-hi)] active:scale-[0.97]"
               >
-                Get Started
+                Book a Demo
               </Link>
             </>
           )}
@@ -132,38 +132,38 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
           <span
-            className={`block h-[1.5px] w-5 bg-white/70 transition-all duration-200 ${menuOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
+            className={`block h-[1.5px] w-5 bg-[var(--color-text)]/70 transition-all duration-200 ${menuOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
           />
           <span
-            className={`block h-[1.5px] w-5 bg-white/70 transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`}
+            className={`block h-[1.5px] w-5 bg-[var(--color-text)]/70 transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`}
           />
           <span
-            className={`block h-[1.5px] w-5 bg-white/70 transition-all duration-200 ${menuOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
+            className={`block h-[1.5px] w-5 bg-[var(--color-text)]/70 transition-all duration-200 ${menuOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
           />
         </button>
       </nav>
 
       {/* Mobile drawer */}
       {menuOpen && (
-        <div className="animate-slide-down border-t border-white/8 bg-[#09090b]/95 px-5 pb-6 backdrop-blur-md md:hidden">
+        <div className="animate-slide-down border-t border-[var(--color-border)] bg-[var(--color-bg)]/95 px-5 pb-6 backdrop-blur-md md:hidden">
           <ul className="flex flex-col gap-1 pt-4">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 transition hover:bg-white/6 hover:text-white"
+                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--color-muted)] transition hover:bg-[var(--color-surface-hi)] hover:text-[var(--color-text)]"
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-4 flex flex-col gap-2 border-t border-white/8 pt-4">
+          <div className="mt-4 flex flex-col gap-2 border-t border-[var(--color-border)] pt-4">
             {hasSession ? (
               <Link
                 href="/dashboard"
-                className="rounded-lg border border-white/10 px-4 py-2.5 text-center text-sm font-medium text-white"
+                className="rounded-lg border border-[var(--color-border)] px-4 py-2.5 text-center text-sm font-medium text-[var(--color-text)]"
               >
                 Dashboard
               </Link>
@@ -171,15 +171,15 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
               <>
                 <Link
                   href="/login"
-                  className="rounded-lg px-4 py-2.5 text-center text-sm font-medium text-white/55"
+                  className="rounded-lg px-4 py-2.5 text-center text-sm font-medium text-[var(--color-muted)]"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/register"
-                  className="rounded-lg bg-[#0f766e] px-4 py-2.5 text-center text-sm font-semibold text-white"
+                  href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
+                  className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-center text-sm font-semibold text-white"
                 >
-                  Get Started
+                  Book a Demo
                 </Link>
               </>
             )}
@@ -217,30 +217,30 @@ export default function MarketingShell({
   }, []);
 
   return (
-    <div className="relative min-h-[100dvh] bg-[#09090b] text-[#fafafa]">
-      {/* Subtle dot grid overlay */}
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:28px_28px]" />
+    <div className="relative min-h-[100dvh] bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+      {/* Subtle dot grid overlay for light theme */}
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:28px_28px] opacity-100 dark:opacity-20" />
 
       {showNav && <Navbar hasSession={hasSession} />}
 
       <div
-        className={`relative z-10 mx-auto w-full px-4 sm:px-6 ${maxWidthClass[maxWidth]} ${showNav ? "pt-20" : "py-8"}`}
+        className={`relative z-10 mx-auto w-full px-4 sm:px-6 ${maxWidthClass[maxWidth]} ${showNav ? "pt-24" : "py-8"}`}
       >
         {children}
       </div>
 
-      <footer className="relative z-10 border-t border-white/8 py-6 text-center text-[11px] text-white/35">
+      <footer className="relative z-10 border-t border-[var(--color-border)] py-6 text-center text-[11px] text-[var(--color-subtle)]">
         <div className="flex items-center justify-center gap-4">
           <Link
             href="/privacy-policy"
-            className="transition hover:text-white/60 underline underline-offset-2"
+            className="transition hover:text-[var(--color-muted)] underline underline-offset-2"
           >
             Privacy Policy
           </Link>
           <span aria-hidden>·</span>
           <Link
             href="/terms-of-service"
-            className="transition hover:text-white/60 underline underline-offset-2"
+            className="transition hover:text-[var(--color-muted)] underline underline-offset-2"
           >
             Terms of Service
           </Link>
@@ -253,9 +253,9 @@ export default function MarketingShell({
 /* ── Shared primitive class strings ─────────────── */
 
 export const marketingInputClass =
-  "rounded-xl border border-white/10 bg-[#18181b] px-4 py-3 text-[#fafafa] outline-none transition placeholder:text-white/30 focus:border-[#0f766e]/60 focus:ring-2 focus:ring-[#0f766e]/20 w-full";
+  "rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-subtle)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/15 w-full";
 
 export const marketingButtonClass =
-  "rounded-xl bg-[#0f766e] py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d9488] active:scale-[0.98] disabled:opacity-60 w-full";
+  "rounded-xl bg-[var(--color-accent)] py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-accent-hi)] active:scale-[0.98] disabled:opacity-60 w-full";
 
-export const marketingLinkClass = "font-medium text-[#14b8a6] hover:text-[#0d9488] transition";
+export const marketingLinkClass = "font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hi)] transition";

@@ -1,36 +1,46 @@
 /* ── Google Fonts (must precede all other rules per CSS spec) ── */
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..950;1,400..950&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
 
 @import "tailwindcss";
 
-/* ── Voucho Design Tokens ───────────────────────── */
+/* ── Voucho Design Tokens (Editorial & Trustworthy Serif Theme) ── */
 :root {
-  /* Background */
-  --color-bg:       #09090b;        /* near-black zinc */
-  --color-bg-soft:  #111113;        /* slightly lighter panels */
+  /* Backgrounds */
+  --color-bg:       #FBFBFA;        /* Warm off-white */
+  --color-bg-soft:  #F5F5F2;        /* Slightly darker warm tone */
 
   /* Surfaces */
-  --color-surface:  #18181b;        /* card / panel background */
-  --color-surface-hi: #1f1f23;     /* hovered or elevated surface */
+  --color-surface:  #FFFFFF;        /* Card / panel background */
+  --color-surface-hi: #F5F5F2;     /* Card hover */
 
   /* Borders */
-  --color-border:   rgba(255, 255, 255, 0.08);
-  --color-border-hi: rgba(255, 255, 255, 0.14);
+  --color-border:   #EAEAE7;        /* Light warm border */
+  --color-border-hi: #DCDCD8;
 
   /* Text */
-  --color-text:     #fafafa;
-  --color-muted:    rgba(250, 250, 250, 0.5);
-  --color-subtle:   rgba(250, 250, 250, 0.3);
+  --color-text:     #1A202C;        /* Dark slate-gray */
+  --color-muted:    #4A5568;        /* Muted cool gray */
+  --color-subtle:   #718096;        /* Subtle slate */
 
-  /* Accent — teal */
-  --color-accent:    #0f766e;       /* teal-700 */
-  --color-accent-hi: #0d9488;       /* teal-600, hover */
-  --color-accent-lit: #14b8a6;      /* teal-500, glow / highlights */
+  /* Accent — Teal & Slate */
+  --color-accent:    #0f766e;       /* Teal-700 */
+  --color-accent-hi: #0d9488;       /* Teal-600 */
+  --color-accent-lit: #14b8a6;      /* Teal-500 */
+}
 
-  /* Status */
-  --color-success:  #10b981;
-  --color-warning:  #f59e0b;
-  --color-error:    #ef4444;
+/* Support dark mode dynamically for system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:       #12141a;      /* Clean near-black slate */
+    --color-bg-soft:  #1a1d24;      /* slate-850 */
+    --color-surface:  #1a1d24;      /* slate-850 */
+    --color-surface-hi: #252a33;    /* slate-800 */
+    --color-border:   rgba(234, 234, 231, 0.08);
+    --color-border-hi: rgba(234, 234, 231, 0.14);
+    --color-text:     #f7fafc;      /* cool gray-50 */
+    --color-muted:    #a0aec0;      /* cool gray-400 */
+    --color-subtle:   #4a5568;      /* cool gray-600 */
+  }
 }
 
 /* ── Base Reset ─────────────────────────────────── */
@@ -41,9 +51,16 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 /* ── Urdu (RTL) typography override ─────────────── */
@@ -63,10 +80,10 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(15, 118, 110, 0.3);
+  background: rgba(15, 118, 110, 0.2);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(15, 118, 110, 0.5); }
+::-webkit-scrollbar-thumb:hover { background: rgba(15, 118, 110, 0.4); }
 
 /* ── Button micro-animation ─────────────────────── */
 button {
