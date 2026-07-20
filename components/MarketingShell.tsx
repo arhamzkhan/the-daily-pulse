@@ -115,10 +115,10 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
                 Login
               </Link>
               <Link
-                href="/register"
+                href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
                 className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-accent-hi)] active:scale-[0.97]"
               >
-                Get Started
+                Book a Demo
               </Link>
             </>
           )}
@@ -176,10 +176,10 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
                   Login
                 </Link>
                 <Link
-                  href="/register"
+                  href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
                   className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-center text-sm font-semibold text-white"
                 >
-                  Get Started
+                  Book a Demo
                 </Link>
               </>
             )}
