@@ -3,34 +3,44 @@
 
 @import "tailwindcss";
 
-/* ── Voucho Design Tokens ───────────────────────── */
+/* ── Voucho Design Tokens (Light-first Trustworthy & Approachable) ── */
 :root {
-  /* Background */
-  --color-bg:       #09090b;        /* near-black zinc */
-  --color-bg-soft:  #111113;        /* slightly lighter panels */
+  /* Backgrounds */
+  --color-bg:       #ffffff;        /* Pure white */
+  --color-bg-soft:  #f8fafc;        /* slate-50 */
 
   /* Surfaces */
-  --color-surface:  #18181b;        /* card / panel background */
-  --color-surface-hi: #1f1f23;     /* hovered or elevated surface */
+  --color-surface:  #ffffff;        /* Card / panel background */
+  --color-surface-hi: #f1f5f9;     /* slate-100 */
 
   /* Borders */
-  --color-border:   rgba(255, 255, 255, 0.08);
-  --color-border-hi: rgba(255, 255, 255, 0.14);
+  --color-border:   rgba(15, 23, 42, 0.08); /* slate-900/8% */
+  --color-border-hi: rgba(15, 23, 42, 0.14); /* slate-900/14% */
 
   /* Text */
-  --color-text:     #fafafa;
-  --color-muted:    rgba(250, 250, 250, 0.5);
-  --color-subtle:   rgba(250, 250, 250, 0.3);
+  --color-text:     #0f172a;        /* slate-900 */
+  --color-muted:    #475569;        /* slate-600 */
+  --color-subtle:   #94a3b8;        /* slate-400 */
 
-  /* Accent — teal */
+  /* Accent — Teal & Slate */
   --color-accent:    #0f766e;       /* teal-700 */
-  --color-accent-hi: #0d9488;       /* teal-600, hover */
-  --color-accent-lit: #14b8a6;      /* teal-500, glow / highlights */
+  --color-accent-hi: #0d9488;       /* teal-600 */
+  --color-accent-lit: #14b8a6;      /* teal-500 */
+}
 
-  /* Status */
-  --color-success:  #10b981;
-  --color-warning:  #f59e0b;
-  --color-error:    #ef4444;
+/* Support dark mode dynamically for system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:       #0f172a;      /* slate-900 */
+    --color-bg-soft:  #1e293b;      /* slate-800 */
+    --color-surface:  #1e293b;      /* slate-800 */
+    --color-surface-hi: #334155;    /* slate-700 */
+    --color-border:   rgba(255, 255, 255, 0.08);
+    --color-border-hi: rgba(255, 255, 255, 0.14);
+    --color-text:     #f8fafc;      /* slate-50 */
+    --color-muted:    #cbd5e1;      /* slate-300 */
+    --color-subtle:   #64748b;      /* slate-500 */
+  }
 }
 
 /* ── Base Reset ─────────────────────────────────── */
@@ -63,10 +73,10 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(15, 118, 110, 0.3);
+  background: rgba(15, 118, 110, 0.2);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(15, 118, 110, 0.5); }
+::-webkit-scrollbar-thumb:hover { background: rgba(15, 118, 110, 0.4); }
 
 /* ── Button micro-animation ─────────────────────── */
 button {

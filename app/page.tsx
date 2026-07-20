@@ -4,8 +4,9 @@
  * Voucho — landing page.
  * Sections: Hero · Features · How It Works · Dashboard Preview · Pricing · FAQ · Footer
  *
- * Design: dark, premium, flat surfaces with subtle borders.
- * Animations: fade-up on entry, hover effects only. No blobs or heavy gradients.
+ * Design: Light-first, trustworthy, approachable, premium SaaS.
+ * Plenty of whitespace, flat surfaces, clean borders and elevation.
+ * Subtle teal/slate accents. Minimal animations.
  */
 
 import Link from "next/link";
@@ -17,10 +18,10 @@ import VouchoLogo from "@/components/VouchoLogo";
 ═══════════════════════════════════════════════════ */
 
 const NAV_LINKS = [
-  { label: "Features",     href: "/#features"     },
-  { label: "How it Works", href: "/#how-it-works"  },
-  { label: "Pricing",      href: "/#pricing"       },
-  { label: "FAQ",          href: "/#faq"           },
+  { label: "Features",     href: "#features"     },
+  { label: "How it Works", href: "#how-it-works"  },
+  { label: "Pricing",      href: "#pricing"       },
+  { label: "FAQ",          href: "#faq"           },
 ];
 
 const features = [
@@ -185,7 +186,7 @@ const faqs = [
    COMPONENTS
 ═══════════════════════════════════════════════════ */
 
-/** Simple flat card with a subtle border */
+/** Simple flat card with a subtle border and light shadow */
 function Card({
   children,
   className = "",
@@ -195,7 +196,7 @@ function Card({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-white/8 bg-[#18181b] ${className}`}
+      className={`rounded-2xl border border-slate-200 bg-white p-7 shadow-xs hover:shadow-sm transition-all duration-200 dark:border-slate-800 dark:bg-slate-800/50 ${className}`}
     >
       {children}
     </div>
@@ -213,13 +214,13 @@ function SectionHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-12 text-center animate-fade-up">
-      <p className="mb-3 inline-block rounded-full border border-[#0f766e]/30 bg-[#0f766e]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#14b8a6]">
+    <div className="mb-14 text-center animate-fade-up">
+      <p className="mb-3 inline-block rounded-full border border-teal-200 bg-teal-50/50 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-teal-800 dark:border-teal-900/30 dark:bg-teal-950/20 dark:text-teal-400">
         {eyebrow}
       </p>
-      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">{title}</h2>
       {subtitle && (
-        <p className="mt-4 text-base text-white/50 max-w-xl mx-auto">{subtitle}</p>
+        <p className="mt-4 text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto">{subtitle}</p>
       )}
     </div>
   );
@@ -227,46 +228,46 @@ function SectionHeader({
 
 /* ═══════════════════════════════════════════════════
    DASHBOARD PREVIEW
-   Shows the actual product flow: scan → route → dashboard update
+   Clean light-first style reflecting actual product flow
 ═══════════════════════════════════════════════════ */
 
 function DashboardPreview() {
-  const scans = [
-    { label: "Salon Gulberg",   scans: 847,  google: 631,  private: 216, rating: 4.8 },
-    { label: "Salon DHA",       scans: 512,  google: 398,  private: 114, rating: 4.6 },
-    { label: "Salon Johar Town",scans: 293,  google: 201,  private:  92, rating: 4.5 },
+  const branches = [
+    { label: "Gulberg Salon",   scans: 847,  google: 631,  private: 216, rating: 4.8 },
+    { label: "DHA Clinic",      scans: 512,  google: 398,  private: 114, rating: 4.6 },
+    { label: "Johar Town Gym",  scans: 293,  google: 201,  private:  92, rating: 4.5 },
   ];
 
   const recentFeedback = [
-    { type: "google",  time: "2 min ago",  branch: "Gulberg", snippet: "Redirected to Google →" },
-    { type: "private", time: "11 min ago", branch: "DHA",     snippet: "Private: 'The wait was too long…'" },
-    { type: "google",  time: "18 min ago", branch: "Gulberg", snippet: "Redirected to Google →" },
-    { type: "google",  time: "34 min ago", branch: "Johar",   snippet: "Redirected to Google →" },
-    { type: "private", time: "1 hr ago",   branch: "DHA",     snippet: "Private: 'Staff was rude…'" },
+    { type: "google",  time: "2 min ago",  branch: "Gulberg Salon", snippet: "Redirected Happy Customer to Google Review Page" },
+    { type: "private", time: "11 min ago", branch: "DHA Clinic",     snippet: "Negative experience recovered privately via WhatsApp: 'Long wait times...'" },
+    { type: "google",  time: "18 min ago", branch: "Gulberg Salon", snippet: "Redirected Happy Customer to Google Review Page" },
+    { type: "google",  time: "34 min ago", branch: "Johar Town Gym",   snippet: "Redirected Happy Customer to Google Review Page" },
+    { type: "private", time: "1 hr ago",   branch: "DHA Clinic",     snippet: "Negative experience recovered privately via WhatsApp: 'Unclean counter...'" },
   ];
 
   return (
-    <div className="animate-fade-up delay-200 overflow-hidden rounded-2xl border border-white/8 bg-[#111113]">
+    <div className="animate-fade-up delay-200 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
       {/* Window chrome */}
-      <div className="flex items-center gap-2 border-b border-white/8 px-5 py-3">
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="ml-3 text-xs font-medium text-white/30">Voucho Dashboard — Overview</span>
+      <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-100/50 px-5 py-3 dark:border-slate-800 dark:bg-slate-900/60">
+        <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+        <span className="ml-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">Voucho Dashboard — Reputation Hub</span>
       </div>
 
       <div className="p-5 sm:p-6">
         {/* Stat row */}
         <div className="mb-6 grid grid-cols-3 gap-3 sm:gap-4">
           {[
-            { label: "Total Scans",     value: "1,652", delta: "+12% this week" },
-            { label: "Google Redirects",value: "1,230", delta: "74% conversion"  },
-            { label: "Recovered",       value:   "422", delta: "saved from going public" },
+            { label: "Total QR Scans",     value: "1,652", delta: "Across all branches" },
+            { label: "Google Redirects",value: "1,230", delta: "Happy customers routed"  },
+            { label: "Private Recoveries",value:   "422", delta: "Unhappy complaints saved" },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-white/6 bg-[#18181b] p-3 sm:p-4">
-              <p className="text-[10px] font-medium uppercase tracking-wider text-white/40">{stat.label}</p>
-              <p className="mt-1 text-xl font-bold text-white sm:text-2xl">{stat.value}</p>
-              <p className="mt-0.5 text-[10px] text-[#14b8a6]">{stat.delta}</p>
+            <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">{stat.label}</p>
+              <p className="mt-1 text-xl font-bold text-slate-950 dark:text-white sm:text-2xl">{stat.value}</p>
+              <p className="mt-0.5 text-[10px] text-teal-600 dark:text-teal-400 font-medium">{stat.delta}</p>
             </div>
           ))}
         </div>
@@ -275,54 +276,54 @@ function DashboardPreview() {
         <div className="grid gap-4 lg:grid-cols-2">
           {/* Branch performance */}
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/35">
-              Branch Performance
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Active Locations
             </p>
             <div className="space-y-2">
-              {scans.map((b) => (
+              {branches.map((b) => (
                 <div
                   key={b.label}
-                  className="flex items-center justify-between rounded-xl border border-white/6 bg-[#18181b] px-4 py-3"
+                  className="flex items-center justify-between rounded-xl border border-slate-100 bg-white px-4 py-3 shadow-xs dark:border-slate-800 dark:bg-slate-800"
                 >
-                  <div>
-                    <p className="text-sm font-semibold text-white">{b.label}</p>
-                    <p className="mt-0.5 text-xs text-white/40">{b.scans} scans</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{b.label}</p>
+                    <p className="mt-0.5 text-[11px] text-slate-400">{b.scans} scans</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-[#14b8a6]">
+                  <div className="text-right ml-2 flex-shrink-0">
+                    <p className="text-[11px] text-teal-600 font-medium">
                       <span className="font-semibold">{b.google}</span> Google
                     </p>
-                    <p className="text-xs text-white/40">
-                      <span className="font-semibold">{b.private}</span> private
+                    <p className="text-[11px] text-slate-400">
+                      <span className="font-semibold">{b.private}</span> Private
                     </p>
                   </div>
-                  <div className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#0f766e]/15 text-xs font-bold text-[#14b8a6]">
-                    {b.rating}★
+                  <div className="ml-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-teal-50 text-xs font-bold text-teal-700 dark:bg-teal-950/40 dark:text-teal-400">
+                    {b.rating}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Live feedback feed */}
+          {/* Live routing activity */}
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/35">
-              Live Feedback Feed
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Live Activity Flow
             </p>
             <div className="space-y-2">
               {recentFeedback.map((f, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 rounded-xl border border-white/6 bg-[#18181b] px-4 py-3"
+                  className="flex items-start gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 shadow-xs dark:border-slate-800 dark:bg-slate-800"
                 >
                   <span
-                    className={`mt-0.5 h-2 w-2 flex-none rounded-full ${
-                      f.type === "google" ? "bg-[#14b8a6]" : "bg-amber-400"
+                    className={`mt-1.5 h-2 w-2 flex-none rounded-full ${
+                      f.type === "google" ? "bg-teal-500" : "bg-amber-500"
                     }`}
                   />
                   <div className="min-w-0">
-                    <p className="truncate text-xs font-medium text-white/75">{f.snippet}</p>
-                    <p className="mt-0.5 text-[10px] text-white/35">
+                    <p className="text-xs font-medium text-slate-700 dark:text-slate-350">{f.snippet}</p>
+                    <p className="mt-0.5 text-[10px] text-slate-400 font-medium">
                       {f.branch} · {f.time}
                     </p>
                   </div>
@@ -344,16 +345,16 @@ export default function LandingPage() {
   return (
     <MarketingShell showNav maxWidth="full">
       {/* ── HERO ──────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:pt-32 sm:pb-24">
+      <section className="mx-auto max-w-6xl px-4 pb-20 pt-20 sm:pt-28 sm:pb-24">
         <div className="mx-auto max-w-3xl text-center animate-fade-up">
-          <p className="mb-5 inline-block rounded-full border border-[#0f766e]/30 bg-[#0f766e]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#14b8a6]">
+          <p className="mb-5 inline-block rounded-full border border-teal-200 bg-teal-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-teal-800 dark:border-teal-900/30 dark:bg-teal-950/20 dark:text-teal-400">
             Business Reputation Platform
           </p>
-          <h1 className="text-5xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
             Turn customer feedback<br />
-            <span className="text-white/40">into business growth.</span>
+            <span className="text-slate-400">into business growth.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/55 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-500 dark:text-slate-400 sm:text-lg">
             Collect Google reviews, recover unhappy customers privately, and manage your reputation
             from one dashboard — with a single QR code at your counter.
           </p>
@@ -361,14 +362,14 @@ export default function LandingPage() {
             <Link
               id="hero-get-started"
               href="/register"
-              className="w-full rounded-xl bg-[#0f766e] px-8 py-4 text-center text-[15px] font-semibold text-white shadow-lg shadow-[#0f766e]/20 transition hover:bg-[#0d9488] active:scale-[0.98] sm:w-auto"
+              className="w-full rounded-xl bg-teal-800 px-8 py-4 text-center text-[15px] font-semibold text-white shadow-sm transition hover:bg-teal-700 active:scale-[0.98] sm:w-auto"
             >
               Get Started — it&apos;s free
             </Link>
             <Link
               id="hero-book-demo"
               href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
-              className="w-full rounded-xl border border-white/12 bg-white/5 px-8 py-4 text-center text-[15px] font-medium text-white/70 transition hover:bg-white/8 hover:text-white sm:w-auto"
+              className="w-full rounded-xl border border-slate-200 bg-white px-8 py-4 text-center text-[15px] font-semibold text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 sm:w-auto"
             >
               Book a Demo
             </Link>
@@ -382,7 +383,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── FEATURES ──────────────────────────────── */}
-      <section id="features" className="border-t border-white/8 py-24">
+      <section id="features" className="border-t border-slate-100 bg-slate-50/50 py-24 dark:border-slate-900 dark:bg-slate-900/10">
         <div className="mx-auto max-w-6xl px-4">
           <SectionHeader
             eyebrow="Features"
@@ -393,13 +394,13 @@ export default function LandingPage() {
             {features.map((f, i) => (
               <Card
                 key={f.title}
-                className={`group p-6 transition-colors duration-200 hover:border-white/14 hover:bg-[#1f1f23] animate-fade-up delay-${(i % 3) * 100}`}
+                className={`group p-6 animate-fade-up delay-${(i % 3) * 100}`}
               >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-[#0f766e]/10 text-[#14b8a6]">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-800 dark:bg-teal-950/30 dark:text-teal-400">
                   {f.icon}
                 </div>
-                <h3 className="text-base font-semibold text-white">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/50">{f.body}</p>
+                <h3 className="text-base font-semibold text-slate-900 dark:text-white">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{f.body}</p>
               </Card>
             ))}
           </div>
@@ -407,7 +408,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── HOW IT WORKS ──────────────────────────── */}
-      <section id="how-it-works" className="border-t border-white/8 py-24">
+      <section id="how-it-works" className="border-t border-slate-100 py-24 dark:border-slate-900">
         <div className="mx-auto max-w-6xl px-4">
           <SectionHeader
             eyebrow="How it Works"
@@ -418,24 +419,24 @@ export default function LandingPage() {
             {steps.map((s, i) => (
               <div key={s.step} className={`animate-fade-up delay-${i * 150}`}>
                 <Card className="h-full p-7">
-                  <p className="text-xs font-bold tracking-[0.2em] text-[#0f766e]">{s.step}</p>
-                  <h3 className="mt-4 text-xl font-semibold text-white">{s.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/50">{s.body}</p>
+                  <p className="text-xs font-bold tracking-[0.2em] text-teal-700 dark:text-teal-400">{s.step}</p>
+                  <h3 className="mt-4 text-xl font-semibold text-slate-900 dark:text-white">{s.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{s.body}</p>
                 </Card>
               </div>
             ))}
           </div>
 
           {/* Flow diagram */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-2 text-xs text-white/35 sm:flex-row sm:gap-4">
+          <div className="mt-12 flex flex-col items-center justify-center gap-2 text-xs text-slate-400 sm:flex-row sm:gap-4">
             {["Customer scans QR", "Rates experience", "Happy → Google review", "Unhappy → Private WhatsApp"].map(
               (label, i, arr) => (
                 <span key={label} className="flex items-center gap-2 sm:gap-4">
-                  <span className="rounded-full border border-white/8 bg-[#18181b] px-3 py-1.5 text-white/50">
+                  <span className="rounded-full border border-slate-100 bg-slate-50 px-3.5 py-2 text-slate-500 font-medium dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
                     {label}
                   </span>
                   {i < arr.length - 1 && (
-                    <span className="hidden text-white/20 sm:inline">→</span>
+                    <span className="hidden text-slate-300 dark:text-slate-700 sm:inline">→</span>
                   )}
                 </span>
               )
@@ -445,7 +446,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── PRICING ───────────────────────────────── */}
-      <section id="pricing" className="border-t border-white/8 py-24">
+      <section id="pricing" className="border-t border-slate-100 bg-slate-50/50 py-24 dark:border-slate-900 dark:bg-slate-900/10">
         <div className="mx-auto max-w-6xl px-4">
           <SectionHeader
             eyebrow="Pricing"
@@ -458,27 +459,27 @@ export default function LandingPage() {
                 <Card
                   className={`flex h-full flex-col p-7 transition-colors duration-200 ${
                     tier.highlighted
-                      ? "border-[#0f766e]/50 bg-[#0f766e]/6 hover:border-[#0f766e]/70"
-                      : "hover:border-white/14 hover:bg-[#1f1f23]"
+                      ? "border-teal-700/60 bg-white ring-1 ring-teal-700/10 dark:border-teal-500/40"
+                      : ""
                   }`}
                 >
                   {tier.highlighted && (
-                    <p className="mb-4 inline-block self-start rounded-full bg-[#0f766e] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    <p className="mb-4 inline-block self-start rounded-full bg-teal-50 border border-teal-200 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-800 dark:bg-teal-950 dark:border-teal-900 dark:text-teal-400">
                       Most Popular
                     </p>
                   )}
-                  <p className="text-xs font-semibold uppercase tracking-wider text-white/40">{tier.name}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">{tier.name}</p>
                   <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-white">{tier.price}</span>
+                    <span className="text-4xl font-bold text-slate-900 dark:text-white">{tier.price}</span>
                     {tier.period && (
-                      <span className="text-sm text-white/40">/ {tier.period}</span>
+                      <span className="text-sm text-slate-400">/ {tier.period}</span>
                     )}
                   </div>
-                  <p className="mt-3 text-sm text-white/50">{tier.description}</p>
-                  <ul className="my-7 flex-1 space-y-3 border-t border-white/8 pt-6 text-sm">
+                  <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{tier.description}</p>
+                  <ul className="my-7 flex-1 space-y-3 border-t border-slate-100 pt-6 text-sm dark:border-slate-800">
                     {tier.features.map((feat) => (
-                      <li key={feat} className="flex items-start gap-2.5 text-white/65">
-                        <svg className="mt-0.5 h-4 w-4 flex-none text-[#14b8a6]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <li key={feat} className="flex items-start gap-2.5 text-slate-600 dark:text-slate-450">
+                        <svg className="mt-0.5 h-4 w-4 flex-none text-teal-600 dark:text-teal-400" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                           <path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         {feat}
@@ -490,8 +491,8 @@ export default function LandingPage() {
                     href={tier.ctaHref}
                     className={`mt-auto block rounded-xl px-5 py-3 text-center text-sm font-semibold transition ${
                       tier.highlighted
-                        ? "bg-[#0f766e] text-white shadow-lg shadow-[#0f766e]/20 hover:bg-[#0d9488]"
-                        : "border border-white/10 text-white/75 hover:bg-white/5 hover:text-white"
+                        ? "bg-teal-800 text-white shadow-sm hover:bg-teal-700"
+                        : "border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-950 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-850"
                     }`}
                   >
                     {tier.cta}
@@ -504,7 +505,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────── */}
-      <section id="faq" className="border-t border-white/8 py-24">
+      <section id="faq" className="border-t border-slate-100 py-24 dark:border-slate-900">
         <div className="mx-auto max-w-3xl px-4">
           <SectionHeader
             eyebrow="FAQ"
@@ -514,12 +515,12 @@ export default function LandingPage() {
             {faqs.map((item) => (
               <details
                 key={item.q}
-                className="group rounded-2xl border border-white/8 bg-[#18181b] px-6 py-5 transition-colors duration-150 hover:border-white/14"
+                className="group rounded-2xl border border-slate-200 bg-white px-6 py-5 transition-colors duration-150 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/40"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-slate-900 dark:text-white">
                   {item.q}
                   <svg
-                    className="h-4 w-4 flex-none text-white/40 transition-transform duration-200 group-open:rotate-45"
+                    className="h-4 w-4 flex-none text-slate-400 transition-transform duration-200 group-open:rotate-45"
                     viewBox="0 0 16 16"
                     fill="none"
                     aria-hidden="true"
@@ -527,7 +528,7 @@ export default function LandingPage() {
                     <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
                   </svg>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-white/50">{item.a}</p>
+                <p className="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item.a}</p>
               </details>
             ))}
           </div>
@@ -535,12 +536,12 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA BANNER ────────────────────────────── */}
-      <section className="border-t border-white/8 py-24">
+      <section className="border-t border-slate-100 bg-slate-50/50 py-24 dark:border-slate-900 dark:bg-slate-900/10">
         <div className="mx-auto max-w-3xl px-4 text-center animate-fade-up">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Ready to put a QR on your counter?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
+          <p className="mx-auto mt-4 max-w-xl text-base text-slate-500 dark:text-slate-400">
             Set up your branch, download your print-ready QR standee, and start collecting reviews
             in under 5 minutes.
           </p>
@@ -548,14 +549,14 @@ export default function LandingPage() {
             <Link
               id="cta-banner-get-started"
               href="/register"
-              className="w-full rounded-xl bg-[#0f766e] px-8 py-4 text-center text-[15px] font-semibold text-white shadow-lg shadow-[#0f766e]/20 transition hover:bg-[#0d9488] active:scale-[0.98] sm:w-auto"
+              className="w-full rounded-xl bg-teal-800 px-8 py-4 text-center text-[15px] font-semibold text-white shadow-sm transition hover:bg-teal-700 active:scale-[0.98] sm:w-auto"
             >
               Get Started — it&apos;s free
             </Link>
             <Link
               id="cta-banner-book-demo"
               href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
-              className="w-full rounded-xl border border-white/12 bg-white/5 px-8 py-4 text-center text-[15px] font-medium text-white/70 transition hover:bg-white/8 hover:text-white sm:w-auto"
+              className="w-full rounded-xl border border-slate-200 bg-white px-8 py-4 text-center text-[15px] font-semibold text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 sm:w-auto"
             >
               Book a Demo
             </Link>
@@ -564,10 +565,10 @@ export default function LandingPage() {
       </section>
 
       {/* ── FOOTER ────────────────────────────────── */}
-      <footer className="border-t border-white/8 py-12">
+      <footer className="border-t border-slate-100 py-12 dark:border-slate-900">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <Link href="/" className="text-white">
+            <Link href="/" className="text-slate-900 dark:text-white">
               <VouchoLogo size="sm" />
             </Link>
             <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
@@ -575,7 +576,7 @@ export default function LandingPage() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-xs text-white/40 transition hover:text-white/70"
+                  className="text-xs text-slate-400 hover:text-slate-650 transition dark:text-slate-500 dark:hover:text-slate-300"
                 >
                   {link.label}
                 </Link>
@@ -584,20 +585,20 @@ export default function LandingPage() {
             <div className="flex items-center gap-4">
               <Link
                 href="/privacy-policy"
-                className="text-xs text-white/35 transition hover:text-white/60 underline underline-offset-2"
+                className="text-xs text-slate-400 hover:text-slate-600 transition underline underline-offset-2 dark:text-slate-500 dark:hover:text-slate-350"
               >
                 Privacy
               </Link>
-              <span aria-hidden className="text-white/20">·</span>
+              <span aria-hidden className="text-slate-200 dark:text-slate-800">·</span>
               <Link
                 href="/terms-of-service"
-                className="text-xs text-white/35 transition hover:text-white/60 underline underline-offset-2"
+                className="text-xs text-slate-400 hover:text-slate-600 transition underline underline-offset-2 dark:text-slate-500 dark:hover:text-slate-350"
               >
                 Terms
               </Link>
             </div>
           </div>
-          <p className="mt-8 text-center text-xs text-white/25">
+          <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
             © {new Date().getFullYear()} Voucho. Business Reputation Platform.
           </p>
         </div>
@@ -605,6 +606,3 @@ export default function LandingPage() {
     </MarketingShell>
   );
 }
-
-
-
