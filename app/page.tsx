@@ -2,59 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 export default function LandingPage() {
-  const pricingTiers = [
-    {
-      name: "Starter",
-      price: "Free",
-      period: "",
-      description: "Perfect for a single-location business just getting started.",
-      cta: "Get Started",
-      ctaHref: "/register",
-      highlighted: false,
-      features: [
-        "1 branch / location",
-        "QR & NFC standee generation",
-        "Google review routing",
-        "WhatsApp private feedback",
-        "Basic scan analytics",
-      ],
-    },
-    {
-      name: "Growth",
-      price: "$49",
-      period: "per location / mo",
-      description: "For businesses ready to take reputation management seriously.",
-      cta: "Get Started",
-      ctaHref: "/register",
-      highlighted: true,
-      features: [
-        "Up to 5 branches",
-        "Everything in Starter",
-        "Priority WhatsApp alerts",
-        "Custom branded standee",
-        "Weekly performance digest",
-        "Email support",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "Custom",
-      period: "enterprise tier",
-      description: "Multi-branch chains and franchises that need full control.",
-      cta: "Contact Us",
-      ctaHref: "mailto:mail.arhamkhan1@gmail.com?subject=Voucho Enterprise Request",
-      highlighted: false,
-      features: [
-        "Unlimited branches",
-        "Everything in Growth",
-        "Dedicated account manager",
-        "Custom integrations",
-        "SLA & uptime guarantees",
-        "Priority support",
-      ],
-    },
-  ];
-
   return (
     // Base Canvas: Warm, rich off-white premium background instead of flat #FFFFFF
     <div className="min-h-screen bg-[#FBFBFA] text-[#1A202C] antialiased selection:bg-[#1A202C]/10 font-sans selection:text-[#1A202C]">
@@ -80,7 +27,7 @@ export default function LandingPage() {
             <Link href="/login" className="text-sm font-medium text-[#1A202C]/70 hover:text-[#1A202C] transition-colors duration-200">
               Login
             </Link>
-            <Link href="/register" className="bg-[#1A202C] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-sm">
+            <Link href="mailto:support@voucho.com?subject=Voucho Demo Request" className="bg-[#1A202C] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-sm">
               Book a Demo
             </Link>
           </div>
@@ -106,7 +53,7 @@ export default function LandingPage() {
               <Link href="/register" className="inline-block text-center bg-[#1A202C] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-md">
                 REQUEST ACCESS
               </Link>
-              <Link href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request" className="inline-block text-center border border-[#EAEAE7] text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFFFF] transition-all duration-200">
+              <Link href="mailto:support@voucho.com?subject=Voucho Demo Request" className="inline-block text-center border border-[#EAEAE7] text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFFFF] transition-all duration-200">
                 BOOK PRIVATE DEMO
               </Link>
             </div>
@@ -274,59 +221,41 @@ export default function LandingPage() {
       <section id="pricing" className="py-32 bg-[#FBFBFA] border-t border-[#EAEAE7]">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">PRICING</span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Simple, transparent investment.</h2>
-            <p className="mt-4 text-sm text-[#1A202C]/60">Start free. Upgrade when you are ready to scale absolute local authority.</p>
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">INVESTMENT</span>
+            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Predictable pricing for growing brands.</h2>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {pricingTiers.map((tier) => (
-              <div
-                key={tier.name}
-                className={`bg-[#FFFFFF] border rounded-xl p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-md ${
-                  tier.highlighted
-                    ? "border-[#1A202C] shadow-sm relative"
-                    : "border-[#EAEAE7]"
-                }`}
-                style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}
-              >
-                {tier.highlighted && (
-                  <span className="absolute -top-3 left-6 bg-[#1A202C] text-white text-[10px] tracking-wider font-bold uppercase px-3 py-1 rounded">
-                    Most Popular
-                  </span>
-                )}
-                <div>
-                  <h4 className="text-xs font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">{tier.name}</h4>
-                  <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-4xl font-serif font-bold text-[#1A202C]">{tier.price}</span>
-                    {tier.period && (
-                      <span className="text-xs text-[#1A202C]/60">{tier.period}</span>
-                    )}
-                  </div>
-                  <p className="text-sm text-[#1A202C]/70 mb-6">{tier.description}</p>
-                  <ul className="border-t border-[#EAEAE7] pt-6 space-y-4 mb-8">
-                    {tier.features.map((feat) => (
-                      <li key={feat} className="flex items-start gap-3 text-sm text-[#1A202C]/70">
-                        <svg className="w-4 h-4 text-[#1A202C] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Link
-                  href={tier.ctaHref}
-                  className={`block text-center text-sm font-semibold py-3.5 rounded-sm transition-all duration-200 ${
-                    tier.highlighted
-                      ? "bg-[#1A202C] text-white hover:bg-[#1A202C]/90"
-                      : "border border-[#EAEAE7] text-[#1A202C] hover:bg-[#FBFBFA]"
-                  }`}
-                >
-                  {tier.cta}
-                </Link>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            {/* Starter Plan */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
+              <div>
+                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Starter</h4>
+                <div className="text-4xl font-serif text-[#1A202C] mb-4">Free</div>
+                <p className="text-sm text-[#1A202C]/60 mb-6">Essential feedback tools for a single location.</p>
               </div>
-            ))}
+              <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Get Started</Link>
+            </div>
+
+            {/* Growth Plan */}
+            <div className="bg-[#FFFFFF] border-2 border-[#1A202C] rounded-xl p-8 flex flex-col justify-between relative" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.04)' }}>
+              <div>
+                <span className="absolute -top-3 right-6 bg-[#1A202C] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">POPULAR</span>
+                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Growth</h4>
+                <div className="text-4xl font-serif text-[#1A202C] mb-4">$49<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
+                <p className="text-sm text-[#1A202C]/60 mb-6">Advanced compounding review funnels and core automation mechanics.</p>
+              </div>
+              <Link href="/register" className="w-full text-center bg-[#1A202C] hover:bg-[#1A202C]/90 text-white text-sm font-medium py-3 rounded-sm transition-colors">Deploy Growth</Link>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
+              <div>
+                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Enterprise</h4>
+                <div className="text-4xl font-serif text-[#1A202C] mb-4">Custom</div>
+                <p className="text-sm text-[#1A202C]/60 mb-6">Multi-location mapping, custom integrations, and dedicated management.</p>
+              </div>
+              <Link href="mailto:support@voucho.com?subject=Voucho Enterprise Request" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Contact Suite</Link>
+            </div>
           </div>
         </div>
       </section>
@@ -363,7 +292,7 @@ export default function LandingPage() {
           <p className="text-white/60 text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
             Elevate your local visual footprint. Deploy Voucho's premium reputation pipeline across your enterprise locations today.
           </p>
-          <Link href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Private Demo" className="inline-block bg-white text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
+          <Link href="mailto:support@voucho.com?subject=Voucho Private Demo" className="inline-block bg-white text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
             BOOK A PRIVATE DEMO
           </Link>
         </div>
@@ -374,9 +303,9 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>© {new Date().getFullYear()} Voucho Platform Inc. All rights protected.</div>
           <div className="flex gap-8 font-medium">
-            <Link href="/terms-of-service" className="hover:text-[#1A202C]">Terms</Link>
-            <Link href="/privacy-policy" className="hover:text-[#1A202C]">Privacy</Link>
-            <Link href="mailto:mail.arhamkhan1@gmail.com" className="hover:text-[#1A202C]">Contact</Link>
+            <Link href="/terms-of-service" className="hover:text-[#1A202C] transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-[#1A202C] transition-colors">Privacy Policy</Link>
+            <Link href="mailto:support@voucho.com" className="hover:text-[#1A202C] transition-colors">Contact</Link>
           </div>
         </div>
       </footer>
