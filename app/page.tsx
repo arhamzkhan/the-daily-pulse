@@ -1,610 +1,386 @@
-/**
- * app/page.tsx
- *
- * Voucho — landing page.
- * Sections: Hero · Features · How It Works · Dashboard Preview · Pricing · FAQ · Footer
- *
- * Design: dark, premium, flat surfaces with subtle borders.
- * Animations: fade-up on entry, hover effects only. No blobs or heavy gradients.
- */
-
-import Link from "next/link";
-import MarketingShell from "@/components/MarketingShell";
-import VouchoLogo from "@/components/VouchoLogo";
-
-/* ═══════════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════════ */
-
-const NAV_LINKS = [
-  { label: "Features",     href: "/#features"     },
-  { label: "How it Works", href: "/#how-it-works"  },
-  { label: "Pricing",      href: "/#pricing"       },
-  { label: "FAQ",          href: "/#faq"           },
-];
-
-const features = [
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Google Review Collection",
-    body: "Route happy customers directly to your Google listing — one tap, zero friction.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Reputation Recovery",
-    body: "Unhappy guests reach your manager privately on WhatsApp before posting publicly.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.75" />
-        <path d="M3 9h18M9 21V9" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "QR & NFC Campaigns",
-    body: "Print a branded standee in seconds. Place it at checkout, tables, or the reception desk.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Multi-Branch Management",
-    body: "Each location gets its own link and analytics. Manage every branch from one panel.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Real-Time Alerts",
-    body: "Instant WhatsApp notifications when a customer leaves private feedback.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Scan & Traffic Analytics",
-    body: "See exactly how many customers scanned, redirected, or sent private feedback.",
-  },
-];
-
-const steps = [
-  {
-    step: "01",
-    title: "Register your branch",
-    body: "Add your business name, Google profile URL, and manager WhatsApp. Takes under 2 minutes.",
-  },
-  {
-    step: "02",
-    title: "Deploy your QR code",
-    body: "Download a print-ready QR standee and place it at checkout, the table, or your counter.",
-  },
-  {
-    step: "03",
-    title: "Watch your reputation grow",
-    body: "Happy customers tap through to Google. Unhappy ones go to your manager — not the internet.",
-  },
-];
-
-// Placeholder pricing — edit tiers, prices, and features freely
-const pricingTiers = [
-  {
-    name: "Starter",
-    price: "Free",
-    period: "",
-    description: "Perfect for a single-location business just getting started.",
-    cta: "Get Started",
-    ctaHref: "/register",
-    highlighted: false,
-    features: [
-      "1 branch / location",
-      "QR & NFC standee generation",
-      "Google review routing",
-      "WhatsApp private feedback",
-      "Basic scan analytics",
-    ],
-  },
-  {
-    name: "Growth",
-    price: "— / mo",          // replace with real price
-    period: "per location",
-    description: "For businesses ready to take reputation management seriously.",
-    cta: "Get Started",
-    ctaHref: "/register",
-    highlighted: true,
-    features: [
-      "Up to 5 branches",
-      "Everything in Starter",
-      "Priority WhatsApp alerts",
-      "Custom branded standee",
-      "Weekly performance digest",
-      "Email support",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "— / mo",          // replace with real price
-    period: "per location",
-    description: "Multi-branch chains and franchises that need full control.",
-    cta: "Contact Us",
-    ctaHref: "mailto:mail.arhamkhan1@gmail.com",
-    highlighted: false,
-    features: [
-      "Unlimited branches",
-      "Everything in Growth",
-      "Dedicated account manager",
-      "Custom integrations",
-      "SLA & uptime guarantees",
-      "Priority support",
-    ],
-  },
-];
-
-const faqs = [
-  {
-    q: "How does Voucho prevent bad reviews from going public?",
-    a: "When a customer rates their experience poorly, Voucho routes them to a private WhatsApp message to your branch manager instead of sending them to Google. Happy customers go straight to your Google listing to leave a public review.",
-  },
-  {
-    q: "Does the customer need to download an app?",
-    a: "No. The entire flow works in the customer's mobile browser — they scan the QR code, tap a rating, and are routed instantly. Zero app downloads, zero friction.",
-  },
-  {
-    q: "Can I manage multiple branches from one account?",
-    a: "Yes. Each branch gets its own unique QR code, public link, and analytics. You manage all locations from a single dashboard.",
-  },
-  {
-    q: "How long does setup take?",
-    a: "Under 5 minutes. Register, enter your Google review link and WhatsApp number, download the QR standee, and you're live.",
-  },
-  {
-    q: "Is my customer data kept private?",
-    a: "Absolutely. We don't collect customer names or contact details during the review flow. Private feedback goes directly to your WhatsApp — we don't store the message content.",
-  },
-];
-
-/* ═══════════════════════════════════════════════════
-   COMPONENTS
-═══════════════════════════════════════════════════ */
-
-/** Simple flat card with a subtle border */
-function Card({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl border border-white/8 bg-[#18181b] ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-/** Section heading block */
-function SectionHeader({
-  eyebrow,
-  title,
-  subtitle,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle?: string;
-}) {
-  return (
-    <div className="mb-12 text-center animate-fade-up">
-      <p className="mb-3 inline-block rounded-full border border-[#0f766e]/30 bg-[#0f766e]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#14b8a6]">
-        {eyebrow}
-      </p>
-      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
-      {subtitle && (
-        <p className="mt-4 text-base text-white/50 max-w-xl mx-auto">{subtitle}</p>
-      )}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   DASHBOARD PREVIEW
-   Shows the actual product flow: scan → route → dashboard update
-═══════════════════════════════════════════════════ */
-
-function DashboardPreview() {
-  const scans = [
-    { label: "Salon Gulberg",   scans: 847,  google: 631,  private: 216, rating: 4.8 },
-    { label: "Salon DHA",       scans: 512,  google: 398,  private: 114, rating: 4.6 },
-    { label: "Salon Johar Town",scans: 293,  google: 201,  private:  92, rating: 4.5 },
-  ];
-
-  const recentFeedback = [
-    { type: "google",  time: "2 min ago",  branch: "Gulberg", snippet: "Redirected to Google →" },
-    { type: "private", time: "11 min ago", branch: "DHA",     snippet: "Private: 'The wait was too long…'" },
-    { type: "google",  time: "18 min ago", branch: "Gulberg", snippet: "Redirected to Google →" },
-    { type: "google",  time: "34 min ago", branch: "Johar",   snippet: "Redirected to Google →" },
-    { type: "private", time: "1 hr ago",   branch: "DHA",     snippet: "Private: 'Staff was rude…'" },
-  ];
-
-  return (
-    <div className="animate-fade-up delay-200 overflow-hidden rounded-2xl border border-white/8 bg-[#111113]">
-      {/* Window chrome */}
-      <div className="flex items-center gap-2 border-b border-white/8 px-5 py-3">
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="h-3 w-3 rounded-full bg-white/10" />
-        <span className="ml-3 text-xs font-medium text-white/30">Voucho Dashboard — Overview</span>
-      </div>
-
-      <div className="p-5 sm:p-6">
-        {/* Stat row */}
-        <div className="mb-6 grid grid-cols-3 gap-3 sm:gap-4">
-          {[
-            { label: "Total Scans",     value: "1,652", delta: "+12% this week" },
-            { label: "Google Redirects",value: "1,230", delta: "74% conversion"  },
-            { label: "Recovered",       value:   "422", delta: "saved from going public" },
-          ].map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-white/6 bg-[#18181b] p-3 sm:p-4">
-              <p className="text-[10px] font-medium uppercase tracking-wider text-white/40">{stat.label}</p>
-              <p className="mt-1 text-xl font-bold text-white sm:text-2xl">{stat.value}</p>
-              <p className="mt-0.5 text-[10px] text-[#14b8a6]">{stat.delta}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Two-column layout */}
-        <div className="grid gap-4 lg:grid-cols-2">
-          {/* Branch performance */}
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/35">
-              Branch Performance
-            </p>
-            <div className="space-y-2">
-              {scans.map((b) => (
-                <div
-                  key={b.label}
-                  className="flex items-center justify-between rounded-xl border border-white/6 bg-[#18181b] px-4 py-3"
-                >
-                  <div>
-                    <p className="text-sm font-semibold text-white">{b.label}</p>
-                    <p className="mt-0.5 text-xs text-white/40">{b.scans} scans</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-[#14b8a6]">
-                      <span className="font-semibold">{b.google}</span> Google
-                    </p>
-                    <p className="text-xs text-white/40">
-                      <span className="font-semibold">{b.private}</span> private
-                    </p>
-                  </div>
-                  <div className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#0f766e]/15 text-xs font-bold text-[#14b8a6]">
-                    {b.rating}★
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Live feedback feed */}
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/35">
-              Live Feedback Feed
-            </p>
-            <div className="space-y-2">
-              {recentFeedback.map((f, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 rounded-xl border border-white/6 bg-[#18181b] px-4 py-3"
-                >
-                  <span
-                    className={`mt-0.5 h-2 w-2 flex-none rounded-full ${
-                      f.type === "google" ? "bg-[#14b8a6]" : "bg-amber-400"
-                    }`}
-                  />
-                  <div className="min-w-0">
-                    <p className="truncate text-xs font-medium text-white/75">{f.snippet}</p>
-                    <p className="mt-0.5 text-[10px] text-white/35">
-                      {f.branch} · {f.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   PAGE
-═══════════════════════════════════════════════════ */
+import React from 'react';
+import Link from 'next/link';
 
 export default function LandingPage() {
+  const pricingTiers = [
+    {
+      name: "Starter",
+      price: "Free",
+      period: "",
+      description: "Perfect for a single-location business just getting started.",
+      cta: "Get Started",
+      ctaHref: "/register",
+      highlighted: false,
+      features: [
+        "1 branch / location",
+        "QR & NFC standee generation",
+        "Google review routing",
+        "WhatsApp private feedback",
+        "Basic scan analytics",
+      ],
+    },
+    {
+      name: "Growth",
+      price: "$49",
+      period: "per location / mo",
+      description: "For businesses ready to take reputation management seriously.",
+      cta: "Get Started",
+      ctaHref: "/register",
+      highlighted: true,
+      features: [
+        "Up to 5 branches",
+        "Everything in Starter",
+        "Priority WhatsApp alerts",
+        "Custom branded standee",
+        "Weekly performance digest",
+        "Email support",
+      ],
+    },
+    {
+      name: "Pro",
+      price: "Custom",
+      period: "enterprise tier",
+      description: "Multi-branch chains and franchises that need full control.",
+      cta: "Contact Us",
+      ctaHref: "mailto:mail.arhamkhan1@gmail.com?subject=Voucho Enterprise Request",
+      highlighted: false,
+      features: [
+        "Unlimited branches",
+        "Everything in Growth",
+        "Dedicated account manager",
+        "Custom integrations",
+        "SLA & uptime guarantees",
+        "Priority support",
+      ],
+    },
+  ];
+
   return (
-    <MarketingShell showNav maxWidth="full">
-      {/* ── HERO ──────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:pt-32 sm:pb-24">
-        <div className="mx-auto max-w-3xl text-center animate-fade-up">
-          <p className="mb-5 inline-block rounded-full border border-[#0f766e]/30 bg-[#0f766e]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#14b8a6]">
-            Business Reputation Platform
-          </p>
-          <h1 className="text-5xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Turn customer feedback<br />
-            <span className="text-white/40">into business growth.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/55 sm:text-lg">
-            Collect Google reviews, recover unhappy customers privately, and manage your reputation
-            from one dashboard — with a single QR code at your counter.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              id="hero-get-started"
-              href="/register"
-              className="w-full rounded-xl bg-[#0f766e] px-8 py-4 text-center text-[15px] font-semibold text-white shadow-lg shadow-[#0f766e]/20 transition hover:bg-[#0d9488] active:scale-[0.98] sm:w-auto"
-            >
-              Get Started — it&apos;s free
+    // Base Canvas: Warm, rich off-white premium background instead of flat #FFFFFF
+    <div className="min-h-screen bg-[#FBFBFA] text-[#1A202C] antialiased selection:bg-[#1A202C]/10 font-sans selection:text-[#1A202C]">
+      
+      {/* 1. FIXED NAVIGATION BAR */}
+      <nav className="sticky top-0 z-50 border-b border-[#EAEAE7] bg-[#FFFFFF]/90 backdrop-blur-md transition-all duration-300">
+        <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
+          {/* Logo with high-end editorial serif look */}
+          <Link href="/" className="text-2xl font-semibold tracking-tight font-serif select-none cursor-pointer text-[#1A202C]">
+            VOUCHO
+          </Link>
+          
+          {/* Main Navigation Tabs */}
+          <div className="hidden md:flex items-center gap-10 text-sm font-medium text-[#1A202C]/70">
+            <Link href="#features" className="hover:text-[#1A202C] transition-colors duration-200">Features</Link>
+            <Link href="#how-it-works" className="hover:text-[#1A202C] transition-colors duration-200">How It Works</Link>
+            <Link href="#pricing" className="hover:text-[#1A202C] transition-colors duration-200">Pricing</Link>
+            <Link href="#faq" className="hover:text-[#1A202C] transition-colors duration-200">FAQ</Link>
+          </div>
+          
+          {/* Sharp, commanding primary action */}
+          <div className="flex items-center gap-4">
+            <Link href="/login" className="text-sm font-medium text-[#1A202C]/70 hover:text-[#1A202C] transition-colors duration-200">
+              Login
             </Link>
-            <Link
-              id="hero-book-demo"
-              href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
-              className="w-full rounded-xl border border-white/12 bg-white/5 px-8 py-4 text-center text-[15px] font-medium text-white/70 transition hover:bg-white/8 hover:text-white sm:w-auto"
-            >
+            <Link href="/register" className="bg-[#1A202C] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-sm">
               Book a Demo
             </Link>
           </div>
         </div>
+      </nav>
 
-        {/* Dashboard preview */}
-        <div className="mt-16 sm:mt-20">
-          <DashboardPreview />
-        </div>
-      </section>
+      {/* 2. HERO SECTION */}
+      <section className="relative overflow-hidden pt-24 pb-32">
+        <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          
+          {/* Hero Copy (Left) */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <span className="text-xs font-bold tracking-[0.2em] text-[#1A202C]/50 uppercase mb-4">
+              REPUTATION ENGINEERING
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-[#1A202C] leading-[1.1] mb-6">
+              The Trust Infrastructure for Exceptional Service Businesses.
+            </h1>
+            <p className="text-lg text-[#1A202C]/70 max-w-xl leading-relaxed mb-10 font-normal">
+              Automate customer feedback, compound your Google reviews organically, and manage your absolute reputation through a beautiful, seamless experience.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/register" className="inline-block text-center bg-[#1A202C] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-md">
+                REQUEST ACCESS
+              </Link>
+              <Link href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request" className="inline-block text-center border border-[#EAEAE7] text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFFFF] transition-all duration-200">
+                BOOK PRIVATE DEMO
+              </Link>
+            </div>
+          </div>
 
-      {/* ── FEATURES ──────────────────────────────── */}
-      <section id="features" className="border-t border-white/8 py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <SectionHeader
-            eyebrow="Features"
-            title="Everything you need to protect your reputation"
-            subtitle="Built for salons, restaurants, clinics, gyms, and other service businesses."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => (
-              <Card
-                key={f.title}
-                className={`group p-6 transition-colors duration-200 hover:border-white/14 hover:bg-[#1f1f23] animate-fade-up delay-${(i % 3) * 100}`}
-              >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-[#0f766e]/10 text-[#14b8a6]">
-                  {f.icon}
+          {/* Hero Premium UI Mockups (Right) */}
+          <div className="lg:col-span-6 relative flex flex-col gap-6 lg:pl-10">
+            
+            {/* Mockup Card 1: Google Review Growth */}
+            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-8 max-w-md ml-auto w-full transition-all duration-300 transform hover:-translate-y-1"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center">
+                    <svg className="w-5 h-5 text-[#1A202C]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-[#1A202C]">Google Review Growth</h4>
+                    <p className="text-xs text-green-600 font-medium">128% Monthly Increase</p>
+                  </div>
                 </div>
-                <h3 className="text-base font-semibold text-white">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/50">{f.body}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ──────────────────────────── */}
-      <section id="how-it-works" className="border-t border-white/8 py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <SectionHeader
-            eyebrow="How it Works"
-            title="Live in three steps"
-            subtitle="No technical setup required. If you can print a page, you're good to go."
-          />
-          <div className="grid gap-6 md:grid-cols-3">
-            {steps.map((s, i) => (
-              <div key={s.step} className={`animate-fade-up delay-${i * 150}`}>
-                <Card className="h-full p-7">
-                  <p className="text-xs font-bold tracking-[0.2em] text-[#0f766e]">{s.step}</p>
-                  <h3 className="mt-4 text-xl font-semibold text-white">{s.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/50">{s.body}</p>
-                </Card>
               </div>
-            ))}
-          </div>
+              {/* Minimal Line Chart Vector */}
+              <div className="w-full h-24 pt-4 flex items-end">
+                <svg className="w-full h-full text-[#1A202C]/20" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,25 Q15,22 30,18 T60,12 T90,5 L100,2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
 
-          {/* Flow diagram */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-2 text-xs text-white/35 sm:flex-row sm:gap-4">
-            {["Customer scans QR", "Rates experience", "Happy → Google review", "Unhappy → Private WhatsApp"].map(
-              (label, i, arr) => (
-                <span key={label} className="flex items-center gap-2 sm:gap-4">
-                  <span className="rounded-full border border-white/8 bg-[#18181b] px-3 py-1.5 text-white/50">
-                    {label}
-                  </span>
-                  {i < arr.length - 1 && (
-                    <span className="hidden text-white/20 sm:inline">→</span>
-                  )}
-                </span>
-              )
-            )}
+            {/* Mockup Card 3: Reputation Score */}
+            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-6 max-w-md ml-auto mr-4 w-11/12 transition-all duration-300 transform hover:-translate-y-1"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-bold tracking-wider text-[#1A202C]/50 uppercase">Voucho Score</h4>
+                  <div className="flex items-baseline gap-2 mt-1">
+                    <span className="text-3xl font-serif font-bold text-[#1A202C]">4.9</span>
+                    <span className="text-sm text-[#1A202C]/60">/ 5.0</span>
+                  </div>
+                </div>
+                <div className="flex gap-1 text-amber-500 text-lg">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+              </div>
+              <p className="text-[11px] text-[#1A202C]/50 mt-2 font-medium">Based on 542 real customer submissions this month</p>
+            </div>
+
+            {/* Mockup Card 2: Feedback Hub */}
+            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-6 max-w-md mr-auto w-full transition-all duration-300 transform hover:-translate-y-1"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 text-sm">★</div>
+                <span className="text-xs tracking-wider text-[#1A202C]/50 font-medium uppercase">Recent Feedback</span>
+              </div>
+              <div className="space-y-3">
+                <div className="p-3 bg-[#FBFBFA] rounded border border-[#EAEAE7]/60 text-xs text-[#1A202C]/80 italic">
+                  "Amazing service and unparalleled attention to detail!"
+                </div>
+                <div className="p-3 bg-[#FBFBFA] rounded border border-[#EAEAE7]/60 text-xs text-[#1A202C]/80 italic">
+                  "The booking system was flawless, highly recommended."
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── PRICING ───────────────────────────────── */}
-      <section id="pricing" className="border-t border-white/8 py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <SectionHeader
-            eyebrow="Pricing"
-            title="Simple, transparent pricing"
-            subtitle="Start free. Upgrade when you're ready. No hidden fees."
-          />
-          <div className="grid gap-5 md:grid-cols-3">
-            {pricingTiers.map((tier, i) => (
-              <div key={tier.name} className={`animate-fade-up delay-${i * 100}`}>
-                <Card
-                  className={`flex h-full flex-col p-7 transition-colors duration-200 ${
-                    tier.highlighted
-                      ? "border-[#0f766e]/50 bg-[#0f766e]/6 hover:border-[#0f766e]/70"
-                      : "hover:border-white/14 hover:bg-[#1f1f23]"
-                  }`}
-                >
-                  {tier.highlighted && (
-                    <p className="mb-4 inline-block self-start rounded-full bg-[#0f766e] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                      Most Popular
-                    </p>
-                  )}
-                  <p className="text-xs font-semibold uppercase tracking-wider text-white/40">{tier.name}</p>
-                  <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-white">{tier.price}</span>
+      {/* 3. CORE VALUE PROPOSITION AUDIENCE LINE */}
+      <section className="border-y border-[#EAEAE7] bg-[#FFFFFF] py-10">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <p className="text-xs tracking-[0.2em] text-[#1A202C]/50 font-bold uppercase mb-0">
+            DESIGNED FOR THE UNIQUE ENVIRONMENT OF PREMIUM SERVICE PROVIDERS
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center items-center gap-12 text-sm font-semibold tracking-widest text-[#1A202C]/40 uppercase">
+            <span>SALONS</span>
+            <span className="text-xs opacity-30">•</span>
+            <span>CLINICS</span>
+            <span className="text-xs opacity-30">•</span>
+            <span>RESTAURANTS</span>
+            <span className="text-xs opacity-30">•</span>
+            <span>GYMS</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. THREE-COLUMN CAPABILITY GRID */}
+      <section id="features" className="py-32 bg-[#FBFBFA]">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">FEATURES</span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Reputation engineering, handled seamlessly.</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
+              <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+              </div>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Automated Intercepts</h3>
+              <p className="text-sm text-[#1A202C]/70 leading-relaxed">
+                Gently collect exact customer insights immediately post-appointment before internal discrepancies scale out.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
+              <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+              </div>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Review Compounding</h3>
+              <p className="text-sm text-[#1A202C]/70 leading-relaxed">
+                Direct public validation straight into your Google Business listing to accelerate organic visibility and local dominance.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
+              <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
+              </div>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Central Analytics</h3>
+              <p className="text-sm text-[#1A202C]/70 leading-relaxed">
+                Track locations, operational teams, and structural score trendlines across a high-clarity unified interface.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. HOW IT WORKS SECTION */}
+      <section id="how-it-works" className="py-24 bg-[#FFFFFF] border-t border-[#EAEAE7]">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">THE WORKFLOW</span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Sophisticated tracking in three loops.</h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+            <div className="flex flex-col items-center text-center p-4">
+              <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">01</div>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Automated Triggers</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">Voucho detects appointment completion natively inside your management stack.</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-4">
+              <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">02</div>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">The Warm Intercept</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">Guests receive a beautifully branded micro-portal query optimized for speed.</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-4">
+              <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">03</div>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Google Propagation</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">Five-star scores are systematically routed directly to publish on your Google profile.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING SECTION */}
+      <section id="pricing" className="py-32 bg-[#FBFBFA] border-t border-[#EAEAE7]">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">PRICING</span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Simple, transparent investment.</h2>
+            <p className="mt-4 text-sm text-[#1A202C]/60">Start free. Upgrade when you are ready to scale absolute local authority.</p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {pricingTiers.map((tier) => (
+              <div
+                key={tier.name}
+                className={`bg-[#FFFFFF] border rounded-xl p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-md ${
+                  tier.highlighted
+                    ? "border-[#1A202C] shadow-sm relative"
+                    : "border-[#EAEAE7]"
+                }`}
+                style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}
+              >
+                {tier.highlighted && (
+                  <span className="absolute -top-3 left-6 bg-[#1A202C] text-white text-[10px] tracking-wider font-bold uppercase px-3 py-1 rounded">
+                    Most Popular
+                  </span>
+                )}
+                <div>
+                  <h4 className="text-xs font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">{tier.name}</h4>
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-4xl font-serif font-bold text-[#1A202C]">{tier.price}</span>
                     {tier.period && (
-                      <span className="text-sm text-white/40">/ {tier.period}</span>
+                      <span className="text-xs text-[#1A202C]/60">{tier.period}</span>
                     )}
                   </div>
-                  <p className="mt-3 text-sm text-white/50">{tier.description}</p>
-                  <ul className="my-7 flex-1 space-y-3 border-t border-white/8 pt-6 text-sm">
+                  <p className="text-sm text-[#1A202C]/70 mb-6">{tier.description}</p>
+                  <ul className="border-t border-[#EAEAE7] pt-6 space-y-4 mb-8">
                     {tier.features.map((feat) => (
-                      <li key={feat} className="flex items-start gap-2.5 text-white/65">
-                        <svg className="mt-0.5 h-4 w-4 flex-none text-[#14b8a6]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                          <path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                      <li key={feat} className="flex items-start gap-3 text-sm text-[#1A202C]/70">
+                        <svg className="w-4 h-4 text-[#1A202C] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        {feat}
+                        <span>{feat}</span>
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    id={`pricing-cta-${tier.name.toLowerCase()}`}
-                    href={tier.ctaHref}
-                    className={`mt-auto block rounded-xl px-5 py-3 text-center text-sm font-semibold transition ${
-                      tier.highlighted
-                        ? "bg-[#0f766e] text-white shadow-lg shadow-[#0f766e]/20 hover:bg-[#0d9488]"
-                        : "border border-white/10 text-white/75 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    {tier.cta}
-                  </Link>
-                </Card>
+                </div>
+                <Link
+                  href={tier.ctaHref}
+                  className={`block text-center text-sm font-semibold py-3.5 rounded-sm transition-all duration-200 ${
+                    tier.highlighted
+                      ? "bg-[#1A202C] text-white hover:bg-[#1A202C]/90"
+                      : "border border-[#EAEAE7] text-[#1A202C] hover:bg-[#FBFBFA]"
+                  }`}
+                >
+                  {tier.cta}
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── FAQ ───────────────────────────────────── */}
-      <section id="faq" className="border-t border-white/8 py-24">
-        <div className="mx-auto max-w-3xl px-4">
-          <SectionHeader
-            eyebrow="FAQ"
-            title="Common questions"
-          />
-          <div className="space-y-3 animate-fade-up delay-100">
-            {faqs.map((item) => (
-              <details
-                key={item.q}
-                className="group rounded-2xl border border-white/8 bg-[#18181b] px-6 py-5 transition-colors duration-150 hover:border-white/14"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-white">
-                  {item.q}
-                  <svg
-                    className="h-4 w-4 flex-none text-white/40 transition-transform duration-200 group-open:rotate-45"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-                  </svg>
-                </summary>
-                <p className="mt-4 text-sm leading-relaxed text-white/50">{item.a}</p>
-              </details>
+      {/* 6. MINIMALIST FAQ ACCORDION SECTION */}
+      <section id="faq" className="py-32 bg-[#FFFFFF] border-t border-[#EAEAE7]">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center mb-16">
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">ANSWERS</span>
+            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Frequently Inquired</h2>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              { q: "How exactly does it integrate with my scheduling software?", a: "Voucho safely interfaces via secure webhooks and API layers across classic hospitality, clinic management, and standard scheduling applications automatically." },
+              { q: "Can we handle negative critiques internally?", a: "Yes. Any engagement indicating operational problems allows the operator to resolve concerns instantly before any public platforms are altered." },
+              { q: "Is there setup overhead?", a: "None. Our configuration engineers launch and map your pipeline system completely end-to-end within 48 business hours." }
+            ].map((faq, index) => (
+              <div key={index} className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-lg p-6">
+                <h4 className="text-base font-medium text-[#1A202C] mb-2">{faq.q}</h4>
+                <p className="text-sm text-[#1A202C]/60 leading-relaxed">{faq.a}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA BANNER ────────────────────────────── */}
-      <section className="border-t border-white/8 py-24">
-        <div className="mx-auto max-w-3xl px-4 text-center animate-fade-up">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Ready to put a QR on your counter?
+      {/* 7. PREMIUM INVITATION CLOSING CTA */}
+      <section className="bg-[#1A202C] text-white py-28 text-center relative overflow-hidden">
+        <div className="relative z-10 mx-auto max-w-3xl px-6">
+          <h2 className="text-3xl sm:text-5xl font-serif tracking-tight mb-6">
+            Ready to secure absolute domain authority?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
-            Set up your branch, download your print-ready QR standee, and start collecting reviews
-            in under 5 minutes.
+          <p className="text-white/60 text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
+            Elevate your local visual footprint. Deploy Voucho's premium reputation pipeline across your enterprise locations today.
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              id="cta-banner-get-started"
-              href="/register"
-              className="w-full rounded-xl bg-[#0f766e] px-8 py-4 text-center text-[15px] font-semibold text-white shadow-lg shadow-[#0f766e]/20 transition hover:bg-[#0d9488] active:scale-[0.98] sm:w-auto"
-            >
-              Get Started — it&apos;s free
-            </Link>
-            <Link
-              id="cta-banner-book-demo"
-              href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
-              className="w-full rounded-xl border border-white/12 bg-white/5 px-8 py-4 text-center text-[15px] font-medium text-white/70 transition hover:bg-white/8 hover:text-white sm:w-auto"
-            >
-              Book a Demo
-            </Link>
-          </div>
+          <Link href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Private Demo" className="inline-block bg-white text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
+            BOOK A PRIVATE DEMO
+          </Link>
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────── */}
-      <footer className="border-t border-white/8 py-12">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <Link href="/" className="text-white">
-              <VouchoLogo size="sm" />
-            </Link>
-            <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-xs text-white/40 transition hover:text-white/70"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/privacy-policy"
-                className="text-xs text-white/35 transition hover:text-white/60 underline underline-offset-2"
-              >
-                Privacy
-              </Link>
-              <span aria-hidden className="text-white/20">·</span>
-              <Link
-                href="/terms-of-service"
-                className="text-xs text-white/35 transition hover:text-white/60 underline underline-offset-2"
-              >
-                Terms
-              </Link>
-            </div>
+      {/* FOOTER */}
+      <footer className="bg-[#FBFBFA] border-t border-[#EAEAE7] py-12 text-xs text-[#1A202C]/40">
+        <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>© {new Date().getFullYear()} Voucho Platform Inc. All rights protected.</div>
+          <div className="flex gap-8 font-medium">
+            <Link href="/terms-of-service" className="hover:text-[#1A202C]">Terms</Link>
+            <Link href="/privacy-policy" className="hover:text-[#1A202C]">Privacy</Link>
+            <Link href="mailto:mail.arhamkhan1@gmail.com" className="hover:text-[#1A202C]">Contact</Link>
           </div>
-          <p className="mt-8 text-center text-xs text-white/25">
-            © {new Date().getFullYear()} Voucho. Business Reputation Platform.
-          </p>
         </div>
       </footer>
-    </MarketingShell>
+
+    </div>
   );
 }
-
-
-
