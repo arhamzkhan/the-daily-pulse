@@ -1,4 +1,4 @@
-# The Daily Pulse — Localized Customer Feedback Router
+# Voucho — Business Reputation Platform
 
 A **production-ready**, full-stack Next.js 16 application that routes QR-code scans to either Google Business Profile reviews or direct WhatsApp management conversations — with dynamic localization (English, Roman Urdu, Urdu), secure event tracking, and automated weekly performance reporting.
 

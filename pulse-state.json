@@ -1,5 +1,5 @@
 {
-  "project": "The Daily Pulse",
+  "project": "Voucho",
   "status": "Architecture Complete",
   "completed": [
     "Customer review view built at app/review/[businessId]/page.tsx",

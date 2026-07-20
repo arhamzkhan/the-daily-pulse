@@ -3,7 +3,7 @@ import MarketingShell from "@/components/MarketingShell";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "The terms governing your use of The Daily Pulse platform.",
+  description: "The terms governing your use of the Voucho platform.",
 };
 
 export default function TermsOfServicePage() {
@@ -14,14 +14,14 @@ export default function TermsOfServicePage() {
         <p className="mt-2 text-sm text-[#1e1e24]/50 font-medium">Last Updated: July 17, 2026</p>
 
         <p className="mt-6 text-sm leading-7 text-[#1e1e24]/70">
-          Welcome to The Daily Pulse. By activating a business account, deploying our physical
+          Welcome to Voucho. By activating a business account, deploying our physical
           QR/NFC standees, or accessing our dashboard interface, you agree to be bound by the
           following Terms of Service.
         </p>
 
         <Section title="1. Scope of Service">
           <p>
-            The Daily Pulse provisions a digital software-as-a-service (SaaS) platform designed to
+            Voucho provisions a digital software-as-a-service (SaaS) platform designed to
             assist businesses in tracking scan traffic, monitoring consumer sentiment metrics, and
             managing customer feedback routing to third-party public profiles (such as Google Review
             listings) or private communication channels (such as WhatsApp).
@@ -83,7 +83,7 @@ export default function TermsOfServicePage() {
 
         <Section title="6. Intellectual Property">
           <p>
-            The Daily Pulse, including its source code, interface designs, logos, software logic,
+            Voucho, including its source code, interface designs, logos, software logic,
             database architecture, and proprietary documentation, remains the exclusive property of
             our founding entity. No ownership transfer occurs under these terms.
           </p>

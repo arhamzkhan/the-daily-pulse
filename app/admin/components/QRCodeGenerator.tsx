@@ -64,7 +64,7 @@ export default function QRCodeGenerator({
         <p className={`text-[11px] font-bold uppercase ${eyebrowClass}`}>QR & Standee</p>
         <h2 className={`mt-2 text-xl tracking-tight ${titleClass}`}>Your unique check-in QR code</h2>
         <p className={`mt-2 text-sm leading-relaxed ${subtitleClass}`}>
-          The Daily Pulse generates a QR code string pointing to{" "}
+          Voucho generates a QR code string pointing to{" "}
           <strong className="font-semibold">{reviewUrl}</strong>. Download or print this code for
           your counter. When you order an acrylic standee, we apply this exact code to the physical
           unit before shipping it to your branch.

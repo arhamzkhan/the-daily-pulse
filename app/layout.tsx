@@ -7,10 +7,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | The Daily Pulse",
-    default: "The Daily Pulse — Feedback Intelligence",
+    template: "%s | Voucho",
+    default: "Voucho — Business Reputation Platform",
   },
-  description: "Localized customer feedback routing for modern businesses.",
+  description:
+    "Turn customer feedback into business growth. Collect Google reviews, recover unhappy customers and manage your reputation from one dashboard.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   robots: { index: false, follow: false },
 };
 

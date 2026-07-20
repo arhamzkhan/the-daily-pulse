@@ -1,17 +1,36 @@
 /* ── Google Fonts (must precede all other rules per CSS spec) ── */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
 
 @import "tailwindcss";
 
-/* ── Custom Properties ──────────────────────────── */
+/* ── Voucho Design Tokens ───────────────────────── */
 :root {
-  --color-bg: #fdfbf7;
-  --color-surface: rgba(255, 255, 255, 0.75);
-  --color-border: rgba(30, 30, 36, 0.1);
-  --color-text: #1e1e24;
-  --color-muted: rgba(30, 30, 36, 0.6);
-  --color-accent: #1a5c4d;
-  --color-accent-hi: #164d41;
+  /* Background */
+  --color-bg:       #09090b;        /* near-black zinc */
+  --color-bg-soft:  #111113;        /* slightly lighter panels */
+
+  /* Surfaces */
+  --color-surface:  #18181b;        /* card / panel background */
+  --color-surface-hi: #1f1f23;     /* hovered or elevated surface */
+
+  /* Borders */
+  --color-border:   rgba(255, 255, 255, 0.08);
+  --color-border-hi: rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --color-text:     #fafafa;
+  --color-muted:    rgba(250, 250, 250, 0.5);
+  --color-subtle:   rgba(250, 250, 250, 0.3);
+
+  /* Accent — teal */
+  --color-accent:    #0f766e;       /* teal-700 */
+  --color-accent-hi: #0d9488;       /* teal-600, hover */
+  --color-accent-lit: #14b8a6;      /* teal-500, glow / highlights */
+
+  /* Status */
+  --color-success:  #10b981;
+  --color-warning:  #f59e0b;
+  --color-error:    #ef4444;
 }
 
 /* ── Base Reset ─────────────────────────────────── */
@@ -36,7 +55,7 @@ body {
 
 /* ── Focus visible global ───────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-lit);
   outline-offset: 3px;
 }
 
@@ -44,10 +63,10 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 92, 77, 0.2);
+  background: rgba(15, 118, 110, 0.3);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(26, 92, 77, 0.35); }
+::-webkit-scrollbar-thumb:hover { background: rgba(15, 118, 110, 0.5); }
 
 /* ── Button micro-animation ─────────────────────── */
 button {
@@ -62,3 +81,31 @@ button {
 button:active:not(:disabled) {
   transform: scale(0.98);
 }
+
+/* ── Entry animations ───────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.animate-fade-up   { animation: fadeUp   0.5s ease both; }
+.animate-fade-in   { animation: fadeIn   0.4s ease both; }
+.animate-slide-down { animation: slideDown 0.35s ease both; }
+
+/* Staggered delay utilities */
+.delay-100 { animation-delay: 0.10s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }

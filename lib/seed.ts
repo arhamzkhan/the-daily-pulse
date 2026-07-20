@@ -23,7 +23,7 @@ interface SeedRecord {
 const records: SeedRecord[] = [
   {
     id: "demo-001",
-    name: "The Daily Pulse",
+    name: "Voucho",
     branch_name: "Gulberg Branch",
     google_review_url:
       "https://www.google.com/maps/place/daily+pulse+cafe/",
@@ -33,7 +33,7 @@ const records: SeedRecord[] = [
   },
   {
     id: "demo-002",
-    name: "The Daily Pulse",
+    name: "Voucho",
     branch_name: "DHA Phase 6 Outlet",
     google_review_url:
       "https://www.google.com/maps/place/daily+pulse+dha/",
@@ -43,7 +43,7 @@ const records: SeedRecord[] = [
   },
   {
     id: "demo-003",
-    name: "The Daily Pulse",
+    name: "Voucho",
     branch_name: "Bahria Town Kiosk",
     google_review_url:
       "https://maps.google.com/maps?q=daily+pulse+bahria",

@@ -137,7 +137,7 @@ function LoginForm() {
               ← Back to home
             </Link>
             <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
-              The Daily Pulse
+              Voucho
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">Welcome back</h1>
             <p className="mt-2 text-sm text-[#1e1e24]/60">Sign in to manage your business dashboard.</p>

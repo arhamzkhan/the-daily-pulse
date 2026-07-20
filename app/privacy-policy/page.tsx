@@ -3,7 +3,7 @@ import MarketingShell from "@/components/MarketingShell";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How The Daily Pulse collects, uses, and protects your data.",
+  description: "How Voucho collects, uses, and protects your data.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
         <p className="mt-2 text-sm text-[#1e1e24]/50 font-medium">Last Updated: July 17, 2026</p>
 
         <p className="mt-6 text-sm leading-7 text-[#1e1e24]/70">
-          The Daily Pulse ("we," "our," or "us") operates the customer feedback routing platform.
+          Voucho ("we," "our," or "us") operates the customer feedback routing platform.
           This Privacy Policy explains how we collect, use, disclose, and safeguard your information
           when you visit our website, use our business dashboard, or interact with our physical QR
           code or NFC-enabled customer feedback standees.

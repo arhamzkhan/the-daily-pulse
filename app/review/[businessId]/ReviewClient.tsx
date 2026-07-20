@@ -197,7 +197,7 @@ export default function ReviewClient({ business }: ReviewClientProps) {
       )}
 
       <footer className="mt-8 border-t border-neutral-800/40 pt-4 text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-bold">
-        The Daily Pulse
+        Voucho
       </footer>
     </article>
   );

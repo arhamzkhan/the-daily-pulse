@@ -443,7 +443,7 @@ export default function PortalDashboardClient({
 
           <div className="pt-6 border-t border-slate-200 mt-6">
             <div className="text-[10px] font-bold text-slate-400 uppercase text-center font-mono">
-              The Daily Pulse Operations Control
+              Voucho Operations Control
             </div>
           </div>
         </aside>
