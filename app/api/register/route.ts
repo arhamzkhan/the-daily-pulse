@@ -93,13 +93,33 @@ export async function POST(request: Request) {
     });
 
     if (signUpError) {
-      return NextResponse.json({ error: signUpError.message }, { status: 400 });
+      const isExistingUser =
+        signUpError.status === 422 ||
+        signUpError.message?.toLowerCase().includes("already registered") ||
+        signUpError.message?.toLowerCase().includes("already exists") ||
+        signUpError.message?.toLowerCase().includes("user_already_exists");
+
+      return NextResponse.json(
+        {
+          error: isExistingUser
+            ? "An account with this email already exists. Please sign in instead."
+            : signUpError.message,
+        },
+        { status: signUpError.status || 400 }
+      );
     }
 
-    if (!authData.user) {
+    if (!authData?.user) {
       return NextResponse.json(
         { error: "Account could not be created. Please try again." },
         { status: 400 }
+      );
+    }
+
+    if (authData.user.identities && authData.user.identities.length === 0) {
+      return NextResponse.json(
+        { error: "An account with this email already exists. Please sign in instead." },
+        { status: 422 }
       );
     }
 
