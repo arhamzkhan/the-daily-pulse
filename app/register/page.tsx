@@ -98,40 +98,40 @@ export default function RegisterPage() {
     const needsVerification = Boolean(result.email_confirmation_required);
 
     return (
-      <MarketingShell maxWidth="md">
+      <MarketingShell maxWidth="md" className="bg-slate-50">
         <div className="flex min-h-[80dvh] items-center justify-center">
-          <MarketingCard className="w-full text-center">
+          <MarketingCard className="w-full text-center bg-white border border-slate-200 shadow-md">
             {needsVerification ? (
-              <div className="mb-6 rounded-2xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8 px-5 py-4 text-left">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+              <div className="mb-6 rounded-2xl border border-teal-200 bg-teal-50 px-5 py-4 text-left">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-600">
                   Verify your email
                 </p>
-                <h2 className="mt-2 text-lg font-semibold text-[#1e1e24]">Check your inbox</h2>
-                <p className="mt-2 text-sm leading-relaxed text-[#1e1e24]/65">
+                <h2 className="mt-2 text-lg font-semibold text-slate-900">Check your inbox</h2>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
                   We sent a verification link to <strong>{form.email}</strong>. Confirm your email
                   before signing in to your dashboard.
                 </p>
               </div>
             ) : (
-              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#1a5c4d]">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal-600">
                 Account created
               </p>
             )}
 
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
               {needsVerification ? "Almost there" : "Your public page is ready"}
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-[#1e1e24]/60">
+            <p className="mt-3 text-sm leading-relaxed text-slate-600">
               {needsVerification
                 ? "Your review link is reserved. After verification, complete onboarding to launch your dashboard."
                 : "Share this link or print the QR code for your counter."}
             </p>
 
-            <div className="mt-5 rounded-xl border border-[#1e1e24]/10 bg-white/80 px-4 py-3 text-sm text-[#1e1e24]/75">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1e1e24]/45">
+            <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                 Your review URL
               </p>
-              <p className="mt-1 break-all font-medium">{reviewUrl}</p>
+              <p className="mt-1 break-all font-medium text-slate-900">{reviewUrl}</p>
             </div>
 
             {qrUrl ? (
@@ -141,7 +141,7 @@ export default function RegisterPage() {
                   alt="QR code for business public page"
                   width={260}
                   height={260}
-                  className="rounded-2xl border border-[#1e1e24]/10 bg-white p-2"
+                  className="rounded-2xl border border-slate-200 bg-white p-2"
                 />
                 <button
                   type="button"
@@ -170,24 +170,24 @@ export default function RegisterPage() {
   }
 
   return (
-    <MarketingShell maxWidth="md">
+    <MarketingShell maxWidth="md" className="bg-slate-50">
       <div className="flex min-h-[80dvh] items-center justify-center">
-        <MarketingCard className="w-full">
+        <MarketingCard className="w-full bg-white border border-slate-200 shadow-md">
           <div className="mb-8">
-            <Link href="/" className="text-sm font-medium text-[#1e1e24]/50 transition hover:text-[#1e1e24]">
+            <Link href="/" className="text-sm font-medium text-slate-500 transition hover:text-slate-800">
               ← Back to home
             </Link>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-teal-600">
               Voucho
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">Create your account</h1>
-            <p className="mt-2 text-sm text-[#1e1e24]/60">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Create your account</h1>
+            <p className="mt-2 text-sm text-slate-600">
               Sign up with your email and get your unique customer feedback link instantly.
             </p>
           </div>
 
           <form method="POST" onSubmit={onSubmit} className="mt-6 grid gap-4">
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               Email
               <input
                 required
@@ -200,7 +200,7 @@ export default function RegisterPage() {
               />
             </label>
 
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               Password
               <input
                 required
@@ -214,7 +214,7 @@ export default function RegisterPage() {
               />
             </label>
 
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               Business Name
               <input
                 required
@@ -227,7 +227,7 @@ export default function RegisterPage() {
               />
             </label>
 
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               Industry Type
               <select
                 required
@@ -251,13 +251,13 @@ export default function RegisterPage() {
                 required
                 type="checkbox"
                 id="legal-consent"
-                className="mt-1 rounded border-[#EAEAE7] text-[#1A202C] focus:ring-[#1A202C]"
+                className="mt-1 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
               />
-              <label htmlFor="legal-consent" className="text-xs text-[#1A202C]/70">
+              <label htmlFor="legal-consent" className="text-xs text-slate-600 leading-relaxed">
                 By signing up, you agree to our{' '}
-                <Link href="/privacy-policy" className="underline hover:text-[#1A202C]">Privacy Policy</Link>{' '}
+                <Link href="/privacy-policy" className="text-slate-700 underline hover:text-teal-600">Privacy Policy</Link>{' '}
                 and{' '}
-                <Link href="/terms-of-service" className="underline hover:text-[#1A202C]">Terms of Service</Link>.
+                <Link href="/terms-of-service" className="text-slate-700 underline hover:text-teal-600">Terms of Service</Link>.
               </label>
             </div>
 
@@ -266,7 +266,7 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-[#1e1e24]/50">
+          <p className="mt-6 text-center text-sm text-slate-600">
             Already have an account?{" "}
             <Link href="/login" className={marketingLinkClass}>
               Sign in

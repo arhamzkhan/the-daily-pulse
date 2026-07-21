@@ -22,6 +22,7 @@ type MarketingShellProps = {
   children: React.ReactNode;
   showNav?: boolean;
   maxWidth?: "md" | "lg" | "xl" | "full";
+  className?: string;
 };
 
 const maxWidthClass = {
@@ -42,7 +43,7 @@ export function MarketingCard({
 }) {
   return (
     <section
-      className={`rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm transition-colors duration-200 ${className}`}
+      className={`rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-colors duration-200 ${className}`}
     >
       {children}
     </section>
@@ -242,6 +243,7 @@ export default function MarketingShell({
   children,
   showNav = false,
   maxWidth = "xl",
+  className = "",
 }: MarketingShellProps) {
   const [hasSession, setHasSession] = useState<boolean | null>(null);
 
@@ -263,9 +265,9 @@ export default function MarketingShell({
   }, []);
 
   return (
-    <div className="relative min-h-[100dvh] bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+    <div className={`relative min-h-[100dvh] bg-slate-50 text-slate-900 transition-colors duration-200 ${className}`}>
       {/* Subtle dot grid overlay for light theme */}
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:28px_28px] opacity-100 dark:opacity-20" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:28px_28px] opacity-100" />
 
       {showNav && <Navbar hasSession={hasSession} />}
 
@@ -275,18 +277,18 @@ export default function MarketingShell({
         {children}
       </div>
 
-      <footer className="relative z-10 border-t border-[var(--color-border)] py-6 text-center text-[11px] text-[var(--color-subtle)]">
+      <footer className="relative z-10 border-t border-slate-200 py-6 text-center text-[11px] text-slate-500">
         <div className="flex items-center justify-center gap-4">
           <Link
             href="/privacy-policy"
-            className="transition hover:text-[var(--color-muted)] underline underline-offset-2"
+            className="transition hover:text-slate-700 underline underline-offset-2"
           >
             Privacy Policy
           </Link>
           <span aria-hidden>·</span>
           <Link
             href="/terms-of-service"
-            className="transition hover:text-[var(--color-muted)] underline underline-offset-2"
+            className="transition hover:text-slate-700 underline underline-offset-2"
           >
             Terms of Service
           </Link>
@@ -299,9 +301,9 @@ export default function MarketingShell({
 /* ── Shared primitive class strings ─────────────── */
 
 export const marketingInputClass =
-  "rounded-xl border border-[#EAEAE7] bg-white px-4 py-3 text-[#1A202C] outline-none transition placeholder:text-[#1A202C]/50 focus:border-[#1A202C] focus:ring-2 focus:ring-[#1A202C]/15 w-full";
+  "rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full";
 
 export const marketingButtonClass =
-  "rounded-xl bg-[var(--color-accent)] py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-accent-hi)] active:scale-[0.98] disabled:opacity-60 w-full";
+  "rounded-xl bg-teal-600 hover:bg-teal-700 py-3.5 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] disabled:opacity-60 w-full";
 
-export const marketingLinkClass = "font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hi)] transition";
+export const marketingLinkClass = "font-medium text-teal-600 hover:text-teal-700 transition";

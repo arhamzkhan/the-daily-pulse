@@ -50,12 +50,12 @@ function ForgotPasswordModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1e1e24]/30 px-4 backdrop-blur-sm">
-      <MarketingCard className="relative w-full max-w-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 px-4 backdrop-blur-sm">
+      <MarketingCard className="relative w-full max-w-md bg-white border border-slate-200 shadow-xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-sm text-[#1e1e24]/45 hover:text-[#1e1e24]"
+          className="absolute right-4 top-4 text-sm text-slate-400 hover:text-slate-600"
           aria-label="Close"
         >
           ✕
@@ -63,9 +63,9 @@ function ForgotPasswordModal({
 
         {sent ? (
           <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">Email sent</p>
-            <h2 className="mt-2 text-xl font-semibold text-[#1e1e24]">Check your inbox</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#1e1e24]/60">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-600">Email sent</p>
+            <h2 className="mt-2 text-xl font-semibold text-slate-900">Check your inbox</h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-600">
               We sent a password reset link to <strong>{resetEmail}</strong>. Follow the link to set a new password.
             </p>
             <button type="button" onClick={onClose} className={`mt-6 w-full ${marketingButtonClass}`}>
@@ -74,14 +74,14 @@ function ForgotPasswordModal({
           </div>
         ) : (
           <>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">Reset password</p>
-            <h2 className="mt-2 text-xl font-semibold text-[#1e1e24]">Forgot your password?</h2>
-            <p className="mt-2 text-sm text-[#1e1e24]/60">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-600">Reset password</p>
+            <h2 className="mt-2 text-xl font-semibold text-slate-900">Forgot your password?</h2>
+            <p className="mt-2 text-sm text-slate-600">
               Enter your account email and we will send you a secure reset link.
             </p>
 
             <form method="POST" onSubmit={onSubmit} className="mt-6 grid gap-4">
-              <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+              <label className="grid gap-2 text-sm text-slate-700">
                 Email
                 <input
                   required
@@ -129,35 +129,35 @@ function LoginForm() {
   }
 
   return (
-    <MarketingShell maxWidth="md">
+    <MarketingShell maxWidth="md" className="bg-slate-50">
       <div className="flex min-h-[80dvh] items-center justify-center">
-        <MarketingCard className="w-full">
+        <MarketingCard className="w-full bg-white border border-slate-200 shadow-md">
           <div className="mb-8">
-            <Link href="/" className="text-sm font-medium text-[#1e1e24]/50 transition hover:text-[#1e1e24]">
+            <Link href="/" className="text-sm font-medium text-slate-500 transition hover:text-slate-800">
               ← Back to home
             </Link>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[#1a5c4d]">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-teal-600">
               Voucho
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1e1e24]">Welcome back</h1>
-            <p className="mt-2 text-sm text-[#1e1e24]/60">Sign in to manage your business dashboard.</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Welcome back</h1>
+            <p className="mt-2 text-sm text-slate-600">Sign in to manage your business dashboard.</p>
           </div>
 
           {verified ? (
-            <div className="mb-6 rounded-2xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8 px-4 py-3 text-sm text-[#1a5c4d]">
+            <div className="mb-6 rounded-2xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-800">
               Email verified successfully. You can now sign in.
             </div>
           ) : null}
 
           {reset ? (
-            <div className="mb-6 rounded-2xl border border-[#1a5c4d]/20 bg-[#1a5c4d]/8 px-4 py-3 text-sm text-[#1a5c4d]">
+            <div className="mb-6 rounded-2xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-800">
               Password updated. Sign in with your new credentials.
             </div>
           ) : null}
 
           <form action={clientAction} className="grid gap-4">
             <input type="hidden" name="next" value={nextPath} />
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               Email
               <input
                 required
@@ -171,13 +171,13 @@ function LoginForm() {
               />
             </label>
 
-            <label className="grid gap-2 text-sm text-[#1e1e24]/75">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
               <span className="flex items-center justify-between">
                 Password
                 <button
                   type="button"
                   onClick={() => setShowForgot(true)}
-                  className="text-xs font-medium text-[#1a5c4d] hover:text-[#134539]"
+                  className="text-xs font-medium text-teal-600 hover:text-teal-700"
                 >
                   Forgot password?
                 </button>
@@ -201,7 +201,7 @@ function LoginForm() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-[#1e1e24]/50">
+          <p className="mt-6 text-center text-sm text-slate-600">
             New here?{" "}
             <Link href="/register" className={marketingLinkClass}>
               Create an account
@@ -221,7 +221,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[100dvh] items-center justify-center bg-[#fdfbf7] text-[#1e1e24]/50">
+        <div className="flex min-h-[100dvh] items-center justify-center bg-slate-50 text-slate-500">
           Loading...
         </div>
       }
