@@ -246,6 +246,21 @@ export default function RegisterPage() {
 
             {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
+            <div className="mt-4 mb-6 flex items-start gap-3">
+              <input
+                required
+                type="checkbox"
+                id="legal-consent"
+                className="mt-1 rounded border-[#EAEAE7] text-[#1A202C] focus:ring-[#1A202C]"
+              />
+              <label htmlFor="legal-consent" className="text-xs text-[#1A202C]/70">
+                By signing up, you agree to our{' '}
+                <Link href="/privacy-policy" className="underline hover:text-[#1A202C]">Privacy Policy</Link>{' '}
+                and{' '}
+                <Link href="/terms-of-service" className="underline hover:text-[#1A202C]">Terms of Service</Link>.
+              </label>
+            </div>
+
             <button type="submit" disabled={loading} className={`mt-2 ${marketingButtonClass}`}>
               {loading ? "Creating account..." : "Create Account"}
             </button>

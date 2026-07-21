@@ -226,35 +226,36 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            {/* Starter Plan */}
+            {/* Hardware Setup */}
             <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
               <div>
-                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Starter</h4>
-                <div className="text-4xl font-serif text-[#1A202C] mb-4">Free</div>
-                <p className="text-sm text-[#1A202C]/60 mb-6">Essential feedback tools for a single location.</p>
+                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Hardware Setup</h4>
+                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 5,000</div>
+                <p className="text-xs text-[#1A202C]/60 mb-4">One-time cost (includes 2 premium counter standees)</p>
+                <p className="text-xs text-[#1A202C]/60 mb-6">Additional standees: Rs. 3,000 each</p>
               </div>
               <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Get Started</Link>
             </div>
 
-            {/* Growth Plan */}
+            {/* Monthly Plan */}
             <div className="bg-[#FFFFFF] border-2 border-[#1A202C] rounded-xl p-8 flex flex-col justify-between relative" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.04)' }}>
-              <div>
-                <span className="absolute -top-3 right-6 bg-[#1A202C] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">POPULAR</span>
-                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Growth</h4>
-                <div className="text-4xl font-serif text-[#1A202C] mb-4">$49<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
-                <p className="text-sm text-[#1A202C]/60 mb-6">Advanced compounding review funnels and core automation mechanics.</p>
-              </div>
-              <Link href="/register" className="w-full text-center bg-[#1A202C] hover:bg-[#1A202C]/90 text-white text-sm font-medium py-3 rounded-sm transition-colors">Deploy Growth</Link>
+              <span className="absolute -top-3 right-6 bg-[#1A202C] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">POPULAR</span>
+              <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Monthly</h4>
+              <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 2,000<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
+              <p className="text-xs text-[#1A202C]/60 mb-4">1-month free trial included</p>
+              <p className="text-sm text-[#1A202C]/60 mb-6">Billed monthly after trial period</p>
+              <Link href="/register" className="w-full text-center bg-[#1A202C] hover:bg-[#1A202C]/90 text-white text-sm font-medium py-3 rounded-sm transition-colors">Start Free Trial</Link>
             </div>
 
-            {/* Enterprise Plan */}
+            {/* Yearly Plan */}
             <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
               <div>
-                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Enterprise</h4>
-                <div className="text-4xl font-serif text-[#1A202C] mb-4">Custom</div>
-                <p className="text-sm text-[#1A202C]/60 mb-6">Multi-location mapping, custom integrations, and dedicated management.</p>
+                <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Yearly</h4>
+                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 18,000</div>
+                <p className="text-xs text-[#1A202C]/60 mb-4">Breaks down to Rs. 1,500 / mo</p>
+                <p className="text-sm text-[#1A202C]/60 mb-6">Upfront yearly commitment</p>
               </div>
-              <Link href="mailto:support@voucho.com?subject=Voucho Enterprise Request" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Contact Suite</Link>
+              <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Save 25%</Link>
             </div>
           </div>
         </div>

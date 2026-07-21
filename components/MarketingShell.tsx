@@ -114,12 +114,35 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
               >
                 Login
               </Link>
-              <Link
-                href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
-                className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-accent-hi)] active:scale-[0.97]"
-              >
-                Book a Demo
-              </Link>
+          <button
+            onClick={() => {
+              const modal = document.createElement('div');
+              modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm';
+              modal.innerHTML = `
+                <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                  <div class="text-center">
+                    <h3 class="text-lg font-semibold text-[#1A202C] mb-2">Support & Inquiries</h3>
+                    <p class="text-sm text-[#1A202C]/70">
+                      Our team responds within 24 hours. Please reach out via our active workspace chat or internal dashboard.
+                    </p>
+                    <button 
+                      onClick="this.closest('[role=dialog]').remove()" 
+                      class="mt-4 w-full bg-[#1A202C] text-white py-2.5 rounded-lg text-sm font-medium"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              `;
+              modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+              });
+              document.body.appendChild(modal);
+            }}
+            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-accent-hi)] active:scale-[0.97]"
+          >
+            Book a Demo
+          </button>
             </>
           )}
         </div>
@@ -175,12 +198,35 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
                 >
                   Login
                 </Link>
-                <Link
-                  href="mailto:mail.arhamkhan1@gmail.com?subject=Voucho Demo Request"
+                <button
+                  onClick={() => {
+                    const modal = document.createElement('div');
+                    modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm';
+                    modal.innerHTML = `
+                      <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <div class="text-center">
+                          <h3 class="text-lg font-semibold text-[#1A202C] mb-2">Support & Inquiries</h3>
+                          <p class="text-sm text-[#1A202C]/70">
+                            Our team responds within 24 hours. Please reach out via our active workspace chat or internal dashboard.
+                          </p>
+                          <button 
+                            onClick="this.closest('[role=dialog]').remove()" 
+                            class="mt-4 w-full bg-[#1A202C] text-white py-2.5 rounded-lg text-sm font-medium"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    `;
+                    modal.addEventListener('click', (e) => {
+                      if (e.target === modal) modal.remove();
+                    });
+                    document.body.appendChild(modal);
+                  }}
                   className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-center text-sm font-semibold text-white"
                 >
                   Book a Demo
-                </Link>
+                </button>
               </>
             )}
           </div>
@@ -253,7 +299,7 @@ export default function MarketingShell({
 /* ── Shared primitive class strings ─────────────── */
 
 export const marketingInputClass =
-  "rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-subtle)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/15 w-full";
+  "rounded-xl border border-[#EAEAE7] bg-white px-4 py-3 text-[#1A202C] outline-none transition placeholder:text-[#1A202C]/50 focus:border-[#1A202C] focus:ring-2 focus:ring-[#1A202C]/15 w-full";
 
 export const marketingButtonClass =
   "rounded-xl bg-[var(--color-accent)] py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-accent-hi)] active:scale-[0.98] disabled:opacity-60 w-full";
