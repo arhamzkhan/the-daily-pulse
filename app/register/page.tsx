@@ -20,11 +20,32 @@ type RegisterResponse = {
   email_confirmation_required?: boolean;
 };
 
+function getPasswordStrength(password: string): { label: "Weak" | "Medium" | "Strong" | ""; color: string; width: string } {
+  if (!password) return { label: "", color: "bg-slate-200", width: "w-0" };
+  if (password.length < 6) return { label: "Weak", color: "bg-red-500", width: "w-1/3" };
+  
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  if (score <= 1) {
+    return { label: "Weak", color: "bg-red-500", width: "w-1/3" };
+  } else if (score === 2 || score === 3) {
+    return { label: "Medium", color: "bg-yellow-500", width: "w-2/3" };
+  } else {
+    return { label: "Strong", color: "bg-emerald-500", width: "w-full" };
+  }
+}
+
 export default function RegisterPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Clear stale sessions on visit
+    // Clear stale sessions and storage on visit
+    localStorage.clear();
+    sessionStorage.clear();
     supabase.auth.signOut().catch(console.error);
   }, []);
 
@@ -60,7 +81,9 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      // Ensure session is cleared before registration
+      // Ensure session and local storage are cleared before registration
+      localStorage.clear();
+      sessionStorage.clear();
       await supabase.auth.signOut().catch(console.error);
 
       const response = await fetch("/api/register", {
@@ -229,6 +252,22 @@ export default function RegisterPage() {
                 placeholder="At least 8 characters"
                 className={marketingInputClass}
               />
+              {form.password && (
+                <div className="mt-1 space-y-1">
+                  <div className="flex justify-between text-xs font-semibold">
+                    <span className="text-slate-500">Password strength:</span>
+                    <span className={
+                      getPasswordStrength(form.password).label === "Weak" ? "text-red-500" :
+                      getPasswordStrength(form.password).label === "Medium" ? "text-yellow-600" : "text-emerald-600"
+                    }>
+                      {getPasswordStrength(form.password).label}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+                    <div className={`h-full transition-all duration-300 ${getPasswordStrength(form.password).color} ${getPasswordStrength(form.password).width}`} />
+                  </div>
+                </div>
+              )}
             </label>
 
             <label className="grid gap-2 text-sm font-medium text-slate-700">

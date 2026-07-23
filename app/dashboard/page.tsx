@@ -21,12 +21,12 @@ export default async function DashboardPage() {
   const { data: business, error } = await supabase
     .from("businesses")
     .select(
-      "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks"
+      "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks, onboarding_completed"
     )
     .eq("user_id", user.id)
     .maybeSingle();
 
-  if (error || !business) {
+  if (error || !business || !business.onboarding_completed) {
     redirect("/onboarding");
   }
 

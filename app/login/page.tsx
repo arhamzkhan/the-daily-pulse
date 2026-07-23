@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, Suspense, useState } from "react";
+import { FormEvent, Suspense, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { loginAction } from "@/lib/auth-actions";
 import MarketingShell, {
@@ -117,6 +117,13 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showForgot, setShowForgot] = useState(false);
+
+  useEffect(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+    const supabase = createClient();
+    supabase.auth.signOut().catch(console.error);
+  }, []);
 
   async function clientAction(formData: FormData) {
     setError("");

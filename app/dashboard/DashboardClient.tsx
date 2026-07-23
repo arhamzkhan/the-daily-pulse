@@ -35,8 +35,43 @@ export default function DashboardClient({ business: initialBusiness, scanLogs }:
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [standeeForm, setStandeeForm] = useState({ address: "", phone: "" });
+  const [secondaryAddress, setSecondaryAddress] = useState("");
+  const [detecting, setDetecting] = useState(false);
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [standeeOrdered, setStandeeOrdered] = useState(false);
   const theme = useMemo(() => getTheme(business.industry_type), [business.industry_type]);
+
+  async function detectLocation() {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+    setDetecting(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setCoords({ lat: latitude, lng: longitude });
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await res.json();
+          if (data && data.display_name) {
+            setStandeeForm((prev) => ({ ...prev, address: data.display_name }));
+          }
+        } catch (err) {
+          console.error("Geocoding failed", err);
+        } finally {
+          setDetecting(false);
+        }
+      },
+      (error) => {
+        console.error("Geolocation failed", error);
+        setDetecting(false);
+        alert("Unable to retrieve location. Please enter your address manually.");
+      }
+    );
+  }
 
   async function syncDatabase(updatedFields: Partial<Business>) {
     const payload = {
@@ -94,8 +129,10 @@ export default function DashboardClient({ business: initialBusiness, scanLogs }:
 
   async function handleStandeeOrder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!standeeForm.address.trim() || !/^92\d{10}$/.test(standeeForm.phone)) {
-      setMessage("Enter a delivery address and valid phone (92XXXXXXXXXX).");
+    const fullPhone = `92${standeeForm.phone}`;
+    const fullAddress = `${standeeForm.address}${secondaryAddress ? `, ${secondaryAddress}` : ""}`;
+    if (!standeeForm.address.trim() || !/^92\d{10}$/.test(fullPhone)) {
+      setMessage("Enter a delivery address and valid 10-digit phone number.");
       return;
     }
     try {
@@ -336,29 +373,74 @@ export default function DashboardClient({ business: initialBusiness, scanLogs }:
                 </div>
               ) : (
                 <form onSubmit={handleStandeeOrder} className="mt-6 grid gap-4">
+                  <div className="grid gap-2">
+                    <span className={`text-sm font-semibold ${theme.subtitle}`}>Delivery Location</span>
+                    <button
+                      type="button"
+                      onClick={detectLocation}
+                      disabled={detecting}
+                      className="w-full py-2.5 px-4 bg-stone-100 hover:bg-stone-200 dark:bg-stone-850 dark:hover:bg-stone-800 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 border border-stone-200/50 dark:border-stone-700/50 cursor-pointer"
+                    >
+                      <svg className="w-4 h-4 text-rose-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      {detecting ? "Locating & Geocoding..." : "Detect & Pre-fill Address on Map"}
+                    </button>
+                    {coords && (
+                      <iframe
+                        width="100%"
+                        height="180"
+                        className="rounded-xl border border-stone-200 dark:border-stone-700 mt-2 shadow-inner"
+                        src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                      />
+                    )}
+                  </div>
+
                   <label className={`grid gap-2 text-sm ${theme.subtitle}`}>
-                    Delivery address
-                    <input
+                    Primary delivery address
+                    <textarea
                       required
+                      rows={2}
                       value={standeeForm.address}
                       onChange={(event) =>
                         setStandeeForm((prev) => ({ ...prev, address: event.target.value }))
                       }
+                      placeholder="Street address / area"
                       className={`rounded-xl border px-4 py-3 outline-none ${theme.cardBorder} ${theme.pageBg} ${theme.title}`}
                     />
                   </label>
+
                   <label className={`grid gap-2 text-sm ${theme.subtitle}`}>
-                    Contact phone (92XXXXXXXXXX)
+                    Shop / Suite / Floor / Landmark (Secondary)
                     <input
-                      required
-                      pattern="92\d{10}"
-                      value={standeeForm.phone}
-                      onChange={(event) =>
-                        setStandeeForm((prev) => ({ ...prev, phone: event.target.value }))
-                      }
+                      value={secondaryAddress}
+                      onChange={(event) => setSecondaryAddress(event.target.value)}
+                      placeholder="e.g. Shop # 4, G-Flr, near Gloria Jeans"
                       className={`rounded-xl border px-4 py-3 outline-none ${theme.cardBorder} ${theme.pageBg} ${theme.title}`}
                     />
                   </label>
+
+                  <label className={`grid gap-2 text-sm ${theme.subtitle}`}>
+                    Contact phone number
+                    <div className="flex">
+                      <div className="flex items-center justify-center px-4 bg-stone-100 dark:bg-stone-850 border border-r-0 border-stone-200 dark:border-stone-700 rounded-l-xl text-stone-500 font-bold text-sm">
+                        +92
+                      </div>
+                      <input
+                        required
+                        pattern="3\d{9}"
+                        maxLength={10}
+                        value={standeeForm.phone}
+                        onChange={(event) => {
+                          const val = event.target.value.replace(/\D/g, "");
+                          if (val.length <= 10) setStandeeForm((prev) => ({ ...prev, phone: val }));
+                        }}
+                        placeholder="3001234567"
+                        className={`rounded-xl rounded-l-none border px-4 py-3 outline-none ${theme.cardBorder} ${theme.pageBg} ${theme.title} w-full`}
+                      />
+                    </div>
+                  </label>
+
                   <button
                     type="submit"
                     className={`rounded-xl px-4 py-3 text-sm font-semibold transition active:scale-[0.98] ${theme.googleButton}`}

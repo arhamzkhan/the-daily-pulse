@@ -260,6 +260,6 @@ export const marketingInputClass =
   "rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full";
 
 export const marketingButtonClass =
-  "rounded-xl bg-teal-600 hover:bg-teal-700 py-3.5 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] disabled:opacity-60 w-full";
+  "rounded-xl bg-[#AD715D] hover:bg-[#AD715D]/90 py-3.5 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] disabled:opacity-60 w-full";
 
 export const marketingLinkClass = "font-medium text-teal-600 hover:text-teal-700 transition";
