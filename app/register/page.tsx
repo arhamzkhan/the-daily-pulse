@@ -20,10 +20,6 @@ type RegisterResponse = {
   email_confirmation_required?: boolean;
 };
 
-export const metadata = {
-  title: "Create Account",
-};
-
 export default function RegisterPage() {
   const router = useRouter();
 
