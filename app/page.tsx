@@ -16,15 +16,15 @@ export default function LandingPage() {
           
           {/* Main Navigation Tabs */}
           <div className="hidden md:flex items-center gap-10 text-sm font-medium text-[#1A202C]/70">
-            <Link href="#features" className="hover:text-[#AD715D] transition-colors duration-200">Features</Link>
-            <Link href="#how-it-works" className="hover:text-[#AD715D] transition-colors duration-200">How It Works</Link>
-            <Link href="#pricing" className="hover:text-[#AD715D] transition-colors duration-200">Pricing</Link>
-            <Link href="#faq" className="hover:text-[#AD715D] transition-colors duration-200">FAQ</Link>
+            <Link href="#features" className="hover-underline hover:text-[#AD715D] transition-colors duration-200">Features</Link>
+            <Link href="#how-it-works" className="hover-underline hover:text-[#AD715D] transition-colors duration-200">How It Works</Link>
+            <Link href="#pricing" className="hover-underline hover:text-[#AD715D] transition-colors duration-200">Pricing</Link>
+            <Link href="#faq" className="hover-underline hover:text-[#AD715D] transition-colors duration-200">FAQ</Link>
           </div>
           
           {/* Sharp, commanding primary action */}
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-[#2A2421]/70 hover:text-[#AD715D] transition-colors duration-200">
+            <Link href="/login" className="text-sm font-medium text-[#2A2421]/70 hover:text-[#AD715D] transition-colors duration-200 hover-underline">
               Login
             </Link>
             <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo." target="_blank" className="bg-[#AD715D] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-sm">
@@ -35,90 +35,100 @@ export default function LandingPage() {
       </nav>
 
       {/* 2. HERO SECTION */}
-      <section className="relative overflow-hidden pt-24 pb-32 animate-in fade-in duration-1000 slide-in-from-bottom-4">
-        <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          
-          {/* Hero Copy (Left) */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
-            <span className="text-xs font-bold tracking-[0.2em] text-[#AD715D]/60 uppercase mb-4">
+      <section className="relative overflow-hidden pt-28 pb-36 bg-[#FFFDF7]">
+        {/* Subtle background radial gradient glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,244,233,0.5)_0%,rgba(251,251,250,0.3)_60%,transparent_100%)] pointer-events-none" />
+
+        {/* Small floating 3D Google icon badges near margins */}
+        <div className="hidden lg:flex absolute top-1/4 left-10 xl:left-24 w-16 h-16 bg-white rounded-2xl items-center justify-center shadow-xl border border-stone-200/50 animate-float-slow animate-fade-in delay-300">
+          <svg className="w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        </div>
+        <div className="hidden lg:flex absolute top-1/3 right-10 xl:right-24 w-16 h-16 bg-white rounded-2xl items-center justify-center shadow-xl border border-stone-200/50 animate-float-slower animate-fade-in delay-400">
+          <svg className="w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#EA4335"/>
+            <path d="M12 8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" fill="#A50B0B"/>
+          </svg>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-6 relative z-10 flex flex-col items-center text-center">
+          {/* Hero Copy */}
+          <div className="flex flex-col items-center justify-center max-w-3xl">
+            <span className="text-xs font-bold tracking-[0.25em] text-[#AD715D]/80 uppercase mb-4 animate-fade-up">
               REPUTATION ENGINEERING
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-[#2A2421] leading-[1.1] mb-6">
-              Your reputation, <span className="relative inline-block">EFFORTLESS.<span className="absolute -bottom-1 left-0 w-full h-[3px] bg-[#AD715D]/30 rounded-full"></span></span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif tracking-tight text-[#2A2421] leading-[1.15] mb-8 animate-fade-up delay-100">
+              <span className="font-serif font-bold block mb-2">Your reputation,</span>
+              <span className="relative inline-block italic font-serif font-normal text-[#2A2421] px-1">
+                EFFORTLESS.
+                <svg className="absolute -bottom-3 left-0 w-full h-3 text-[#AD715D]" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 7C30 2 70 2 98 7" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </h1>
-            <p className="text-lg text-[#2A2421]/70 max-w-xl leading-relaxed mb-10 font-normal">
+            <p className="text-lg sm:text-xl text-[#2A2421]/70 max-w-2xl leading-relaxed mb-10 font-normal animate-fade-up delay-200">
               Automate customer feedback, compound your Google reviews organically, and manage your absolute reputation through a beautiful, seamless experience.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="inline-block text-center bg-[#AD715D] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-md">
-                REQUEST ACCESS
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-fade-up delay-300">
+              <Link href="/register" className="inline-flex items-center justify-center bg-[#AD715D] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/95 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                REQUEST ACCESS &rarr;
               </Link>
-              <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-block text-center border border-[#AD715D] text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFDF7] transition-all duration-200">
-                BOOK PRIVATE DEMO
+              <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-flex items-center justify-center border border-[#AD715D] text-[#AD715D] bg-white/40 backdrop-blur-sm text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/10 transition-all duration-200 hover:-translate-y-0.5">
+                WHATSAPP US
               </Link>
             </div>
           </div>
 
-          {/* Hero Premium UI Mockups (Right) */}
-          <div className="lg:col-span-6 relative flex flex-col gap-6 lg:pl-10 animate-in fade-in duration-1000 delay-300 slide-in-from-bottom-8">
-            
-            {/* Mockup Card 1: Google Review Growth */}
-            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-8 max-w-md ml-auto w-full transition-all duration-300 transform hover:-translate-y-1"
-                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#1A202C]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-[#1A202C]">Google Review Growth</h4>
-                    <p className="text-xs text-green-600 font-medium">128% Monthly Increase</p>
-                  </div>
+          {/* Floating Feature Cards & Depth */}
+          <div className="w-full mt-20 max-w-5xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8 relative z-20 md:translate-y-20 animate-fade-up delay-400">
+            {/* Card 1 */}
+            <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-stone-200/60 p-7 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col gap-3 animate-float-slow text-left">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#AD715D]/10 border border-[#AD715D]/20 flex items-center justify-center text-[#AD715D]">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
                 </div>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">AUTOMATED INTERCEPTS</span>
               </div>
-              {/* Minimal Line Chart Vector */}
-              <div className="w-full h-24 pt-4 flex items-end">
-                <svg className="w-full h-full text-[#1A202C]/20" viewBox="0 0 100 30" preserveAspectRatio="none">
-                  <path d="M0,25 Q15,22 30,18 T60,12 T90,5 L100,2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </div>
+              <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
+                Gently collect exact customer insights immediately post-appointment before internal discrepancies scale out.
+              </p>
             </div>
 
-            {/* Mockup Card 3: Reputation Score */}
-            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-6 max-w-md ml-auto mr-4 w-11/12 transition-all duration-300 transform hover:-translate-y-1"
-                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-xs font-bold tracking-wider text-[#1A202C]/50 uppercase">Voucho Score</h4>
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-3xl font-serif font-bold text-[#1A202C]">4.9</span>
-                    <span className="text-sm text-[#1A202C]/60">/ 5.0</span>
-                  </div>
+            {/* Card 2 */}
+            <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-stone-200/60 p-7 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col gap-3 animate-float-slower text-left" style={{ animationDelay: '0.4s' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#AD715D]/10 border border-[#AD715D]/20 flex items-center justify-center text-[#AD715D]">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  </svg>
                 </div>
-                <div className="flex gap-1 text-amber-500 text-lg">
-                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                </div>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">REVIEW COMPOUNDING</span>
               </div>
-              <p className="text-[11px] text-[#1A202C]/50 mt-2 font-medium">Based on 542 real customer submissions this month</p>
+              <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
+                Direct public validation straight into your Google Business listing to accelerate organic visibility and local dominance.
+              </p>
             </div>
 
-            {/* Mockup Card 2: Feedback Hub */}
-            <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-6 max-w-md mr-auto w-full transition-all duration-300 transform hover:-translate-y-1"
-                 style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.03)' }}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 text-sm">★</div>
-                <span className="text-xs tracking-wider text-[#1A202C]/50 font-medium uppercase">Recent Feedback</span>
-              </div>
-              <div className="space-y-3">
-                <div className="p-3 bg-[#FBFBFA] rounded border border-[#EAEAE7]/60 text-xs text-[#1A202C]/80 italic">
-                  "Amazing service and unparalleled attention to detail!"
+            {/* Card 3 */}
+            <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-stone-200/60 p-7 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col gap-3 animate-float-slow text-left" style={{ animationDelay: '0.8s' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#AD715D]/10 border border-[#AD715D]/20 flex items-center justify-center text-[#AD715D]">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
+                  </svg>
                 </div>
-                <div className="p-3 bg-[#FBFBFA] rounded border border-[#EAEAE7]/60 text-xs text-[#1A202C]/80 italic">
-                  "The booking system was flawless, highly recommended."
-                </div>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">CENTRAL ANALYTICS</span>
               </div>
+              <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
+                Track locations, operational teams, and structural score trendlines across a high-clarity unified interface.
+              </p>
             </div>
-
           </div>
         </div>
       </section>
@@ -304,9 +314,9 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>© {new Date().getFullYear()} Voucho Platform Inc. All rights protected.</div>
           <div className="flex gap-8 font-medium">
-            <Link href="/terms-of-service" className="hover:text-[#AD715D] transition-colors">Terms of Service</Link>
-            <Link href="/privacy-policy" className="hover:text-[#AD715D] transition-colors">Privacy Policy</Link>
-            <Link href="mailto:support@voucho.com" className="hover:text-[#AD715D] transition-colors">Contact</Link>
+            <Link href="/terms-of-service" className="hover-underline hover:text-[#AD715D] transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover-underline hover:text-[#AD715D] transition-colors">Privacy Policy</Link>
+            <Link href="mailto:support@voucho.com" className="hover-underline hover:text-[#AD715D] transition-colors">Contact</Link>
           </div>
         </div>
       </footer>

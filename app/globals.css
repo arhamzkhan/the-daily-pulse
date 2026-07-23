@@ -126,3 +126,44 @@ button:active:not(:disabled) {
 .delay-300 { animation-delay: 0.30s; }
 .delay-400 { animation-delay: 0.40s; }
 .delay-500 { animation-delay: 0.50s; }
+
+/* ── Hover Underline Effect ──────────────────────── */
+.hover-underline {
+  position: relative;
+  display: inline-block;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #AD715D;
+  transform-origin: bottom left;
+  transition: transform 300ms ease-in-out;
+}
+.hover-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Floating Animations ─────────────────────────── */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 7s ease-in-out infinite;
+}
+
