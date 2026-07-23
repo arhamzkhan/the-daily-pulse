@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useMemo, useState, useEffect } from "react";
 import MarketingShell, {
   MarketingCard,
   marketingButtonClass,
@@ -9,6 +10,7 @@ import MarketingShell, {
   marketingLinkClass,
 } from "@/components/MarketingShell";
 import { getReviewUrl } from "@/lib/site";
+import { supabase } from "@/lib/supabase";
 
 type RegisterResponse = {
   success: boolean;
@@ -18,7 +20,18 @@ type RegisterResponse = {
   email_confirmation_required?: boolean;
 };
 
+export const metadata = {
+  title: "Create Account",
+};
+
 export default function RegisterPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Clear stale sessions on visit
+    supabase.auth.signOut().catch(console.error);
+  }, []);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -51,6 +64,9 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
+      // Ensure session is cleared before registration
+      await supabase.auth.signOut().catch(console.error);
+
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,6 +79,11 @@ export default function RegisterPage() {
       }
 
       setResult(data);
+
+      if (data.success && !data.email_confirmation_required) {
+        // Automatic redirect to onboarding if confirmed immediately
+        router.push("/onboarding");
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -261,8 +282,38 @@ export default function RegisterPage() {
               </label>
             </div>
 
-            <button type="submit" disabled={loading} className={`mt-2 ${marketingButtonClass}`}>
-              {loading ? "Creating account..." : "Create Account"}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`mt-2 flex items-center justify-center gap-2 ${marketingButtonClass}`}
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>Creating account...</span>
+                </>
+              ) : (
+                "Create Account"
+              )}
             </button>
           </form>
 

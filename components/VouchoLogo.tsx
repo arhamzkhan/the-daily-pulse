@@ -18,7 +18,7 @@ export default function VouchoLogo({ size = "md" }: { size?: LogoSize }) {
 
   return (
     <span className={`inline-flex items-center ${gap} select-none`} aria-label="Voucho">
-      {/* ── Icon mark — geometric V placeholder (kept as placeholder only) ── */}
+      {/* ── Icon mark — geometric V placeholder — Terracotta #AD715D ── */}
       <svg
         width={mark}
         height={mark}
@@ -27,7 +27,7 @@ export default function VouchoLogo({ size = "md" }: { size?: LogoSize }) {
         xmlns="http://www.w3.org/2050/svg"
         aria-hidden="true"
       >
-        <rect width="32" height="32" rx="7" fill="#0f766e" />
+        <rect width="32" height="32" rx="7" fill="#AD715D" />
         <path
           d="M8 9L14 23"
           stroke="white"
@@ -44,9 +44,9 @@ export default function VouchoLogo({ size = "md" }: { size?: LogoSize }) {
         />
       </svg>
 
-      {/* ── Wordmark: VOUCHO (Serif) ── */}
+      {/* ── Wordmark: VOUCHO (Serif) — Terracotta #AD715D ── */}
       <span
-        className={`font-serif font-bold leading-none uppercase ${text}`}
+        className={`font-serif font-bold leading-none uppercase text-[#AD715D] ${text}`}
       >
         Voucho
       </span>

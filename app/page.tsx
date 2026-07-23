@@ -3,31 +3,31 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   return (
-    // Base Canvas: Warm, rich off-white premium background instead of flat #FFFFFF
-    <div className="min-h-screen bg-[#FBFBFA] text-[#1A202C] antialiased selection:bg-[#1A202C]/10 font-sans selection:text-[#1A202C]">
+    // Base Canvas: Warm, rich off-white premium background
+    <div className="min-h-screen bg-[#FFFDF7] text-[#2A2421] antialiased selection:bg-[#AD715D]/10 font-sans selection:text-[#AD715D]">
       
       {/* 1. FIXED NAVIGATION BAR */}
-      <nav className="sticky top-0 z-50 border-b border-[#EAEAE7] bg-[#FFFFFF]/90 backdrop-blur-md transition-all duration-300">
+      <nav className="sticky top-0 z-50 border-b border-[#EAEAE7]/50 bg-[#FFFDF7]/90 backdrop-blur-md transition-all duration-300">
         <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
           {/* Logo with high-end editorial serif look */}
-          <Link href="/" className="text-2xl font-semibold tracking-tight font-serif select-none cursor-pointer text-[#1A202C]">
+          <Link href="/" className="text-2xl font-semibold tracking-tight font-serif select-none cursor-pointer text-[#AD715D]">
             VOUCHO
           </Link>
           
           {/* Main Navigation Tabs */}
           <div className="hidden md:flex items-center gap-10 text-sm font-medium text-[#1A202C]/70">
-            <Link href="#features" className="hover:text-[#1A202C] transition-colors duration-200">Features</Link>
-            <Link href="#how-it-works" className="hover:text-[#1A202C] transition-colors duration-200">How It Works</Link>
-            <Link href="#pricing" className="hover:text-[#1A202C] transition-colors duration-200">Pricing</Link>
-            <Link href="#faq" className="hover:text-[#1A202C] transition-colors duration-200">FAQ</Link>
+            <Link href="#features" className="hover:text-[#AD715D] transition-colors duration-200">Features</Link>
+            <Link href="#how-it-works" className="hover:text-[#AD715D] transition-colors duration-200">How It Works</Link>
+            <Link href="#pricing" className="hover:text-[#AD715D] transition-colors duration-200">Pricing</Link>
+            <Link href="#faq" className="hover:text-[#AD715D] transition-colors duration-200">FAQ</Link>
           </div>
           
           {/* Sharp, commanding primary action */}
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-[#1A202C]/70 hover:text-[#1A202C] transition-colors duration-200">
+            <Link href="/login" className="text-sm font-medium text-[#2A2421]/70 hover:text-[#AD715D] transition-colors duration-200">
               Login
             </Link>
-            <Link href="mailto:support@voucho.com?subject=Voucho Demo Request" className="bg-[#1A202C] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-sm">
+            <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo." target="_blank" className="bg-[#AD715D] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-sm">
               Book a Demo
             </Link>
           </div>
@@ -35,32 +35,32 @@ export default function LandingPage() {
       </nav>
 
       {/* 2. HERO SECTION */}
-      <section className="relative overflow-hidden pt-24 pb-32">
+      <section className="relative overflow-hidden pt-24 pb-32 animate-in fade-in duration-1000 slide-in-from-bottom-4">
         <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Hero Copy (Left) */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <span className="text-xs font-bold tracking-[0.2em] text-[#1A202C]/50 uppercase mb-4">
+            <span className="text-xs font-bold tracking-[0.2em] text-[#AD715D]/60 uppercase mb-4">
               REPUTATION ENGINEERING
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-[#1A202C] leading-[1.1] mb-6">
-              The Trust Infrastructure for Exceptional Service Businesses.
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-[#2A2421] leading-[1.1] mb-6">
+              Your reputation, <span className="relative inline-block">EFFORTLESS.<span className="absolute -bottom-1 left-0 w-full h-[3px] bg-[#AD715D]/30 rounded-full"></span></span>
             </h1>
-            <p className="text-lg text-[#1A202C]/70 max-w-xl leading-relaxed mb-10 font-normal">
+            <p className="text-lg text-[#2A2421]/70 max-w-xl leading-relaxed mb-10 font-normal">
               Automate customer feedback, compound your Google reviews organically, and manage your absolute reputation through a beautiful, seamless experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="inline-block text-center bg-[#1A202C] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-sm hover:bg-[#1A202C]/90 transition-all duration-200 shadow-md">
+              <Link href="/register" className="inline-block text-center bg-[#AD715D] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-md">
                 REQUEST ACCESS
               </Link>
-              <Link href="mailto:support@voucho.com?subject=Voucho Demo Request" className="inline-block text-center border border-[#EAEAE7] text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFFFF] transition-all duration-200">
+              <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-block text-center border border-[#AD715D] text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-[#FFFDF7] transition-all duration-200">
                 BOOK PRIVATE DEMO
               </Link>
             </div>
           </div>
 
           {/* Hero Premium UI Mockups (Right) */}
-          <div className="lg:col-span-6 relative flex flex-col gap-6 lg:pl-10">
+          <div className="lg:col-span-6 relative flex flex-col gap-6 lg:pl-10 animate-in fade-in duration-1000 delay-300 slide-in-from-bottom-8">
             
             {/* Mockup Card 1: Google Review Growth */}
             <div className="bg-[#FFFFFF] rounded-xl border border-[#EAEAE7] p-8 max-w-md ml-auto w-full transition-all duration-300 transform hover:-translate-y-1"
@@ -151,7 +151,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card 1 */}
-            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md animate-in fade-in duration-700 slide-in-from-bottom-4"
                  style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
@@ -163,7 +163,7 @@ export default function LandingPage() {
             </div>
 
             {/* Card 2 */}
-            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md animate-in fade-in duration-700 delay-100 slide-in-from-bottom-4"
                  style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
@@ -175,7 +175,7 @@ export default function LandingPage() {
             </div>
 
             {/* Card 3 */}
-            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md"
+            <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 transition-all duration-300 hover:shadow-md animate-in fade-in duration-700 delay-200 slide-in-from-bottom-4"
                  style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.02)' }}>
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
@@ -199,9 +199,9 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
             <div className="flex flex-col items-center text-center p-4">
-              <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">01</div>
-              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Automated Triggers</h4>
-              <p className="text-sm text-[#1A202C]/60 max-w-xs">Voucho detects appointment completion natively inside your management stack.</p>
+              <div className="text-5xl font-serif text-[#AD715D]/10 mb-4">01</div>
+              <h4 className="text-lg font-medium text-[#2A2421] mb-2">NFC Tap Triggers</h4>
+              <p className="text-sm text-[#2A2421]/60 max-w-xs">Customers tap premium physical standees or scan QR codes at your checkout counter.</p>
             </div>
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">02</div>
@@ -272,8 +272,8 @@ export default function LandingPage() {
           <div className="space-y-4">
             {[
               { q: "How exactly does it integrate with my scheduling software?", a: "Voucho safely interfaces via secure webhooks and API layers across classic hospitality, clinic management, and standard scheduling applications automatically." },
-              { q: "Can we handle negative critiques internally?", a: "Yes. Any engagement indicating operational problems allows the operator to resolve concerns instantly before any public platforms are altered." },
-              { q: "Is there setup overhead?", a: "None. Our configuration engineers launch and map your pipeline system completely end-to-end within 48 business hours." }
+              { q: "Can we handle negative critiques internally?", a: "Yes. Low ratings are funneled into private internal resolution loops, while high ratings are automatically redirected to your Google Business profile." },
+              { q: "Is there setup overhead?", a: "None. Our 5-minute self-serve onboarding flow lets you launch instantly. Your physical NFC standees are shipped the same business day." }
             ].map((faq, index) => (
               <div key={index} className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-lg p-6">
                 <h4 className="text-base font-medium text-[#1A202C] mb-2">{faq.q}</h4>
@@ -293,20 +293,20 @@ export default function LandingPage() {
           <p className="text-white/60 text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
             Elevate your local visual footprint. Deploy Voucho's premium reputation pipeline across your enterprise locations today.
           </p>
-          <Link href="mailto:support@voucho.com?subject=Voucho Private Demo" className="inline-block bg-white text-[#1A202C] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
+          <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-block bg-white text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
             BOOK A PRIVATE DEMO
           </Link>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#FBFBFA] border-t border-[#EAEAE7] py-12 text-xs text-[#1A202C]/40">
+      <footer className="bg-[#FFFDF7] border-t border-[#EAEAE7]/50 py-12 text-xs text-[#2A2421]/40">
         <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>© {new Date().getFullYear()} Voucho Platform Inc. All rights protected.</div>
           <div className="flex gap-8 font-medium">
-            <Link href="/terms-of-service" className="hover:text-[#1A202C] transition-colors">Terms of Service</Link>
-            <Link href="/privacy-policy" className="hover:text-[#1A202C] transition-colors">Privacy Policy</Link>
-            <Link href="mailto:support@voucho.com" className="hover:text-[#1A202C] transition-colors">Contact</Link>
+            <Link href="/terms-of-service" className="hover:text-[#AD715D] transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-[#AD715D] transition-colors">Privacy Policy</Link>
+            <Link href="mailto:support@voucho.com" className="hover:text-[#AD715D] transition-colors">Contact</Link>
           </div>
         </div>
       </footer>

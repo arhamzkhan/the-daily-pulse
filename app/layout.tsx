@@ -8,7 +8,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     template: "%s | Voucho",
-    default: "Voucho — Business Reputation Platform",
+    default: "Voucho | Reputation Engineering",
   },
   description:
     "Turn customer feedback into business growth. Collect Google reviews, recover unhappy customers and manage your reputation from one dashboard.",
