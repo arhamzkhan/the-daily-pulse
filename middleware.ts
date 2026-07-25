@@ -32,13 +32,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // 2. On /dashboard routes: ONLY redirect to /onboarding if there is NO active user session at all
-  if (pathname.startsWith('/dashboard')) {
-    const hasSessionCookie = request.cookies.getAll().some(c => c.name.startsWith('sb-'))
-    if (!hasSessionCookie) {
-      return NextResponse.redirect(new URL('/onboarding', request.url))
-    }
-  }
+  // 2. On /dashboard routes: allow users to land directly without redirect
 
   // Resolve the TypeScript IP issue safely via headers
   const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1"

@@ -18,7 +18,7 @@ export default async function OnboardingPage() {
 
   const { data: existingBusiness } = await supabase
     .from("businesses")
-    .select("id, onboarding_completed")
+    .select("id")
     .eq("user_id", user.id)
     .maybeSingle();
 
