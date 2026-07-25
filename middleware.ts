@@ -27,13 +27,6 @@ function checkRateLimit(ip: string): boolean {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // 1. Allow /onboarding to always render without triggering a server-side redirect to /dashboard
-  if (pathname.startsWith('/onboarding')) {
-    return NextResponse.next()
-  }
-
-  // 2. On /dashboard routes: allow users to land directly without redirect
-
   // Resolve the TypeScript IP issue safely via headers
   const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1"
 
@@ -69,5 +62,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/log', '/review/:path*', '/login', '/register', '/dashboard', '/dashboard/:path*', '/onboarding'],
+  matcher: ['/api/log', '/review/:path*', '/login', '/register', '/dashboard', '/dashboard/:path*'],
 }

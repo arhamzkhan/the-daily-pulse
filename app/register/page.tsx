@@ -103,8 +103,8 @@ export default function RegisterPage() {
       }
 
       if (data.success && !data.email_confirmation_required) {
-        // Automatic redirect to onboarding if confirmed immediately
-        router.push("/onboarding");
+        // Automatic redirect to dashboard if confirmed immediately
+        router.push("/dashboard");
         return;
       }
 
@@ -205,8 +205,8 @@ export default function RegisterPage() {
                 Go to sign in →
               </Link>
             ) : (
-              <Link href="/onboarding" className={`mt-6 inline-block text-sm ${marketingLinkClass}`}>
-                Complete business setup →
+              <Link href="/dashboard" className={`mt-6 inline-block text-sm ${marketingLinkClass}`}>
+                Go to dashboard →
               </Link>
             )}
           </MarketingCard>
