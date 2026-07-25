@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-// redirect import removed — no longer redirecting from dashboard
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { normalizeBusinessMetrics } from "@/lib/supabase";
 import DashboardClient from "./DashboardClient";
