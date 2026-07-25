@@ -27,7 +27,20 @@ function checkRateLimit(ip: string): boolean {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // 1. Resolve the TypeScript IP issue safely via headers
+  // 1. Allow /onboarding to always render without triggering a server-side redirect to /dashboard
+  if (pathname.startsWith('/onboarding')) {
+    return NextResponse.next()
+  }
+
+  // 2. On /dashboard routes: ONLY redirect to /onboarding if there is NO active user session at all
+  if (pathname.startsWith('/dashboard')) {
+    const hasSessionCookie = request.cookies.getAll().some(c => c.name.startsWith('sb-'))
+    if (!hasSessionCookie) {
+      return NextResponse.redirect(new URL('/onboarding', request.url))
+    }
+  }
+
+  // Resolve the TypeScript IP issue safely via headers
   const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1"
 
   if (pathname === "/api/log" || pathname.startsWith("/review/")) {
@@ -39,7 +52,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // 2. Add the Content Security Policy cleanly to all outbound responses
+  // Add the Content Security Policy cleanly to all outbound responses
   const response = NextResponse.next()
   
   // A standard, secure starter CSP for Next.js apps
@@ -62,5 +75,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/log', '/review/:path*', '/login', '/register', '/dashboard'],
+  matcher: ['/api/log', '/review/:path*', '/login', '/register', '/dashboard', '/dashboard/:path*', '/onboarding'],
 }
