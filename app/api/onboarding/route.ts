@@ -115,7 +115,15 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: updateError.message }, { status: 400 });
       }
 
-      return NextResponse.json({ success: true, business_id: existingBusinessId });
+      await supabase.auth.updateUser({
+        data: { has_completed_onboarding: true }
+      }).catch(console.error);
+
+      return NextResponse.json({
+        success: true,
+        business_id: existingBusinessId,
+        has_completed_onboarding: true,
+      });
     }
 
     const { data: existingForUser } = await supabase
@@ -125,10 +133,32 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (existingForUser) {
-      return NextResponse.json(
-        { error: "A business profile already exists for this account." },
-        { status: 409 }
-      );
+      const { error: updateError } = await supabase
+        .from("businesses")
+        .update({
+          name: businessName,
+          branch_name: branchName,
+          industry_type: industryType,
+          google_review_url: googleReviewUrl,
+          manager_whatsapp: managerWhatsapp,
+          onboarding_completed: true,
+        })
+        .eq("user_id", userResult.id);
+
+      if (updateError) {
+        return NextResponse.json({ error: updateError.message }, { status: 400 });
+      }
+
+      await supabase.auth.updateUser({
+        data: { has_completed_onboarding: true }
+      }).catch(console.error);
+
+      return NextResponse.json({
+        success: true,
+        business_id: existingForUser.id,
+        public_link: getReviewUrl(existingForUser.id),
+        has_completed_onboarding: true,
+      });
     }
 
     const businessId = await createUniqueBusinessId(businessName);
@@ -153,10 +183,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: insertError.message }, { status: 400 });
     }
 
+    await supabase.auth.updateUser({
+      data: { has_completed_onboarding: true }
+    }).catch(console.error);
+
     return NextResponse.json({
       success: true,
       business_id: businessId,
       public_link: getReviewUrl(businessId),
+      has_completed_onboarding: true,
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to save business profile.";

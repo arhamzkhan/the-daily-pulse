@@ -35,7 +35,7 @@ function getPasswordStrength(password: string): { label: "Weak" | "Medium" | "St
   } else if (score === 2 || score === 3) {
     return { label: "Medium", color: "bg-yellow-500", width: "w-2/3" };
   } else {
-    return { label: "Strong", color: "bg-emerald-500", width: "w-full" };
+    return { label: "Strong", color: "bg-[#AD715D]", width: "w-full" };
   }
 }
 
@@ -52,7 +52,7 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    business_name: "",
+    phone: "",
     industry_type: "salon",
   });
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,12 @@ export default function RegisterPage() {
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          business_name: `Business-${form.phone || form.email.split('@')[0]}`,
+          industry_type: form.industry_type,
+        }),
       });
 
       const data = await response.json();
@@ -142,8 +147,8 @@ export default function RegisterPage() {
         <div className="flex min-h-[80dvh] items-center justify-center">
           <MarketingCard className="w-full text-center bg-white border border-slate-200 shadow-md">
             {needsVerification ? (
-              <div className="mb-6 rounded-2xl border border-teal-200 bg-teal-50 px-5 py-4 text-left">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-600">
+              <div className="mb-6 rounded-2xl border border-[#AD715D]/20 bg-[#AD715D]/5 px-5 py-4 text-left">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#AD715D]">
                   Verify your email
                 </p>
                 <h2 className="mt-2 text-lg font-semibold text-slate-900">Check your inbox</h2>
@@ -153,7 +158,7 @@ export default function RegisterPage() {
                 </p>
               </div>
             ) : (
-              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#AD715D]">
                 Account created
               </p>
             )}
@@ -217,7 +222,7 @@ export default function RegisterPage() {
             <Link href="/" className="text-sm font-medium text-slate-500 transition hover:text-slate-800">
               ← Back to home
             </Link>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-teal-600">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[#AD715D]">
               Voucho
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Create your account</h1>
@@ -258,7 +263,7 @@ export default function RegisterPage() {
                     <span className="text-slate-500">Password strength:</span>
                     <span className={
                       getPasswordStrength(form.password).label === "Weak" ? "text-red-500" :
-                      getPasswordStrength(form.password).label === "Medium" ? "text-yellow-600" : "text-emerald-600"
+                      getPasswordStrength(form.password).label === "Medium" ? "text-yellow-600" : "text-[#AD715D]"
                     }>
                       {getPasswordStrength(form.password).label}
                     </span>
@@ -271,16 +276,25 @@ export default function RegisterPage() {
             </label>
 
             <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Business Name
-              <input
-                required
-                value={form.business_name}
-                onChange={(event) =>
-                  setForm((prev) => ({ ...prev, business_name: event.target.value }))
-                }
-                placeholder="e.g., Slotly Salon"
-                className={marketingInputClass}
-              />
+              Phone Number
+              <div className="flex">
+                <div className="flex items-center justify-center px-4 bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl text-slate-600 font-bold text-sm">
+                  +92
+                </div>
+                <input
+                  required
+                  type="tel"
+                  pattern="3\d{9}"
+                  maxLength={10}
+                  value={form.phone}
+                  onChange={(event) => {
+                    const val = event.target.value.replace(/\D/g, "");
+                    if (val.length <= 10) setForm((prev) => ({ ...prev, phone: val }));
+                  }}
+                  placeholder="3001234567"
+                  className={`${marketingInputClass} rounded-l-none`}
+                />
+              </div>
             </label>
 
             <label className="grid gap-2 text-sm font-medium text-slate-700">
@@ -307,13 +321,13 @@ export default function RegisterPage() {
                 required
                 type="checkbox"
                 id="legal-consent"
-                className="mt-1 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+                className="mt-1 rounded border-slate-300 text-[#AD715D] focus:ring-[#AD715D]"
               />
               <label htmlFor="legal-consent" className="text-xs text-slate-600 leading-relaxed">
                 By signing up, you agree to our{' '}
-                <Link href="/privacy-policy" className="text-slate-700 underline hover:text-teal-600">Privacy Policy</Link>{' '}
+                <Link href="/privacy-policy" className="text-slate-700 underline hover:text-[#AD715D]">Privacy Policy</Link>{' '}
                 and{' '}
-                <Link href="/terms-of-service" className="text-slate-700 underline hover:text-teal-600">Terms of Service</Link>.
+                <Link href="/terms-of-service" className="text-slate-700 underline hover:text-[#AD715D]">Terms of Service</Link>.
               </label>
             </div>
 
