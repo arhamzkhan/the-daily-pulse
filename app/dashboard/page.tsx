@@ -28,7 +28,7 @@ export default async function DashboardPage() {
 
   const hasCompletedOnboarding =
     Boolean(user.user_metadata?.has_completed_onboarding ?? false) ||
-    Boolean(business?.onboarding_completed ?? false);
+    Boolean(business);
 
   if (error || !business || !hasCompletedOnboarding) {
     redirect("/onboarding");
