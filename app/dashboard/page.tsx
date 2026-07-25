@@ -26,23 +26,20 @@ export default async function DashboardPage() {
     .eq("user_id", user.id)
     .maybeSingle();
 
-  // NOTE: onboarding redirect removed to prevent redirect loop.
-  // If no business record exists yet, render dashboard with safe defaults.
+  if (!business) {
+    redirect("/onboarding");
+  }
 
-  // Fetch scan logs for analytics (only if a business exists)
-  const scanLogs = business
-    ? (
-        await supabase
-          .from("scan_logs")
-          .select("*")
-          .eq("business_id", business.id)
-          .order("scanned_at", { ascending: false })
-      ).data
-    : null;
+  // Fetch scan logs for analytics
+  const { data: scanLogs } = await supabase
+    .from("scan_logs")
+    .select("*")
+    .eq("business_id", business.id)
+    .order("scanned_at", { ascending: false });
 
   return (
     <DashboardClient
-      business={business ? normalizeBusinessMetrics(business) : null}
+      business={normalizeBusinessMetrics(business)}
       scanLogs={scanLogs || []}
     />
   );
