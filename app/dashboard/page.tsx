@@ -26,7 +26,9 @@ export default async function DashboardPage() {
     .eq("user_id", user.id)
     .maybeSingle();
 
-  const hasCompletedOnboarding = Boolean(business?.onboarding_completed ?? false);
+  const hasCompletedOnboarding =
+    Boolean(user.user_metadata?.has_completed_onboarding ?? false) ||
+    Boolean(business?.onboarding_completed ?? false);
 
   if (error || !business || !hasCompletedOnboarding) {
     redirect("/onboarding");

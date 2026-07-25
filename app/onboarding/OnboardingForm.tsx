@@ -10,6 +10,7 @@ import MarketingShell, {
   marketingInputClass,
   marketingLinkClass,
 } from "@/components/MarketingShell";
+import { supabase } from "@/lib/supabase";
 
 type OnboardingFormProps = {
   existingBusinessId: string | null;
@@ -56,8 +57,8 @@ export default function OnboardingForm({ existingBusinessId }: OnboardingFormPro
         throw new Error(data?.error || "Unable to save your business profile.");
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      await supabase.auth.refreshSession().catch(console.error);
+      window.location.href = "/dashboard";
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

@@ -18,11 +18,13 @@ export default async function OnboardingPage() {
 
   const { data: existingBusiness } = await supabase
     .from("businesses")
-    .select("id")
+    .select("id, onboarding_completed")
     .eq("user_id", user.id)
     .maybeSingle();
 
-  const hasCompletedOnboarding = Boolean(user.user_metadata?.has_completed_onboarding ?? false);
+  const hasCompletedOnboarding =
+    Boolean(user.user_metadata?.has_completed_onboarding ?? false) ||
+    Boolean(existingBusiness?.onboarding_completed ?? false);
 
   if (hasCompletedOnboarding) {
     redirect("/dashboard");
