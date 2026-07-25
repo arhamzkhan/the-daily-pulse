@@ -106,7 +106,6 @@ export async function POST(request: Request) {
           industry_type: industryType,
           google_review_url: googleReviewUrl,
           manager_whatsapp: managerWhatsapp,
-          onboarding_completed: true,
         })
         .eq("id", existingBusinessId)
         .eq("user_id", userResult.id);
@@ -141,7 +140,6 @@ export async function POST(request: Request) {
           industry_type: industryType,
           google_review_url: googleReviewUrl,
           manager_whatsapp: managerWhatsapp,
-          onboarding_completed: true,
         })
         .eq("user_id", userResult.id);
 
@@ -173,7 +171,6 @@ export async function POST(request: Request) {
       manager_whatsapp: managerWhatsapp,
       language_preference: "english",
       is_active: true,
-      onboarding_completed: true,
       total_scans: 0,
       google_clicks: 0,
       whatsapp_clicks: 0,

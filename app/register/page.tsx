@@ -102,12 +102,13 @@ export default function RegisterPage() {
         throw new Error(data?.error || "Unable to create account.");
       }
 
-      setResult(data);
-
       if (data.success && !data.email_confirmation_required) {
         // Automatic redirect to onboarding if confirmed immediately
         router.push("/onboarding");
+        return;
       }
+
+      setResult(data);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
