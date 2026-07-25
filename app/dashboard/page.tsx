@@ -67,7 +67,7 @@ export default async function DashboardPage() {
 
       return (
         <DashboardClient
-          business={normalizeBusinessMetrics(defaultBusiness)}
+          business={normalizeBusinessMetrics(defaultBusiness as any)}
           scanLogs={[]}
         />
       );
