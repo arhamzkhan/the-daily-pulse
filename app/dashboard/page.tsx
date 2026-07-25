@@ -26,37 +26,41 @@ export default async function DashboardPage() {
     .eq("user_id", user.id)
     .maybeSingle();
 
-  // Fallback business object for users who haven't completed onboarding yet
-  const defaultBusiness = {
-    id: "",
-    user_id: user.id,
-    name: "",
-    branch_name: "",
-    google_review_url: "",
-    manager_whatsapp: "",
-    language_preference: "en",
-    industry_type: "",
-    is_active: false,
-    total_scans: 0,
-    google_clicks: 0,
-    whatsapp_clicks: 0,
-    onboarding_completed: false,
-  };
+  // Auto-create a business record if one doesn't exist for this user
+  let activeBusiness = business;
 
-  // Fetch scan logs for analytics (only if a real business exists)
-  const scanLogs = business
-    ? (
-        await supabase
-          .from("scan_logs")
-          .select("*")
-          .eq("business_id", business.id)
-          .order("scanned_at", { ascending: false })
-      ).data
-    : null;
+  if (!activeBusiness) {
+    const { data: newBusiness, error: insertError } = await supabase
+      .from("businesses")
+      .insert({
+        user_id: user.id,
+        name: user.user_metadata?.business_name || "My Business",
+        is_active: true,
+      })
+      .select(
+        "id, user_id, name, branch_name, google_review_url, manager_whatsapp, language_preference, industry_type, is_active, total_scans, google_clicks, whatsapp_clicks, onboarding_completed"
+      )
+      .single();
+
+    if (insertError || !newBusiness) {
+      throw new Error(
+        `Failed to create business record: ${insertError?.message ?? "unknown error"}`
+      );
+    }
+
+    activeBusiness = newBusiness;
+  }
+
+  // Fetch scan logs for analytics
+  const { data: scanLogs } = await supabase
+    .from("scan_logs")
+    .select("*")
+    .eq("business_id", activeBusiness.id)
+    .order("scanned_at", { ascending: false });
 
   return (
     <DashboardClient
-      business={normalizeBusinessMetrics(business || defaultBusiness)}
+      business={normalizeBusinessMetrics(activeBusiness)}
       scanLogs={scanLogs || []}
     />
   );
