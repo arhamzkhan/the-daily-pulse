@@ -53,6 +53,18 @@ export async function POST(request: Request) {
 
     const supabase = await createClient();
 
+
+
+    console.log("Logged in user:", userResult.id);
+console.log("Business ID from frontend:", id);
+
+const { data: debugRows } = await supabase
+  .from("businesses")
+  .select("id, user_id");
+
+console.log("Businesses:", debugRows);
+
+
     const { data: ownedBusiness, error: ownershipError } = await supabase
       .from("businesses")
       .select("id")
