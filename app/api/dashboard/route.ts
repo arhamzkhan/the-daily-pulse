@@ -53,6 +53,18 @@ export async function POST(request: Request) {
 
     const supabase = await createClient();
 
+
+
+    console.log("Logged in user:", userResult.id);
+console.log("Business ID from frontend:", id);
+
+const { data: debugRows } = await supabase
+  .from("businesses")
+  .select("id, user_id");
+
+console.log("Businesses:", debugRows);
+
+
     const { data: ownedBusiness, error: ownershipError } = await supabase
       .from("businesses")
       .select("id")
@@ -60,9 +72,19 @@ export async function POST(request: Request) {
       .eq("user_id", userResult.id)
       .maybeSingle();
 
-    if (ownershipError || !ownedBusiness) {
-      return NextResponse.json({ error: "Unauthorized business access." }, { status: 403 });
-    }
+   if (ownershipError || !ownedBusiness) {
+  return NextResponse.json(
+    {
+      error: "Unauthorized business access.",
+      debug: {
+        loggedInUser: userResult.id,
+        businessIdReceived: id,
+        ownershipError: ownershipError?.message ?? null,
+      },
+    },
+    { status: 403 }
+  );
+}
 
     const updateData: Record<string, string | boolean> = {};
     if (google_review_url !== undefined) updateData.google_review_url = google_review_url;
