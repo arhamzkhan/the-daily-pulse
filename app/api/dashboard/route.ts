@@ -72,9 +72,19 @@ console.log("Businesses:", debugRows);
       .eq("user_id", userResult.id)
       .maybeSingle();
 
-    if (ownershipError || !ownedBusiness) {
-      return NextResponse.json({ error: "Unauthorized business access." }, { status: 403 });
-    }
+   if (ownershipError || !ownedBusiness) {
+  return NextResponse.json(
+    {
+      error: "Unauthorized business access.",
+      debug: {
+        loggedInUser: userResult.id,
+        businessIdReceived: id,
+        ownershipError: ownershipError?.message ?? null,
+      },
+    },
+    { status: 403 }
+  );
+}
 
     const updateData: Record<string, string | boolean> = {};
     if (google_review_url !== undefined) updateData.google_review_url = google_review_url;
