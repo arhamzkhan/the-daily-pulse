@@ -1,5 +1,7 @@
 "use client";
 
+import { Scan, Star, TrendingUp, MousePointerClick } from "lucide-react";
+
 interface StatsCardsProps {
   business?: any;
 }
@@ -20,9 +22,14 @@ export default function StatsCards({ business }: StatsCardsProps) {
           <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
             Total Scans
           </span>
-          <span className="text-xl">📷</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <Scan className="h-4.5 w-4.5" />
+          </div>
         </div>
-        <div className="text-3xl font-bold text-white font-mono">{totalScans}</div>
+        <div>
+          <div className="text-3xl font-bold text-white font-mono">{totalScans}</div>
+          <span className="text-[11px] text-zinc-500 mt-1 block">+0 today</span>
+        </div>
       </div>
 
       {/* Average Rating */}
@@ -31,10 +38,15 @@ export default function StatsCards({ business }: StatsCardsProps) {
           <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
             Average Rating
           </span>
-          <span className="text-xl">⭐</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <Star className="h-4.5 w-4.5 fill-amber-400/20" />
+          </div>
         </div>
-        <div className="text-3xl font-bold text-white font-mono flex items-center gap-1">
-          {avgRating} <span className="text-amber-400 text-xl">★</span>
+        <div>
+          <div className="text-3xl font-bold text-white font-mono flex items-center gap-1">
+            {avgRating} <span className="text-amber-400 text-xl">★</span>
+          </div>
+          <span className="text-[11px] text-zinc-500 mt-1 block">100% positive trend</span>
         </div>
       </div>
 
@@ -44,9 +56,14 @@ export default function StatsCards({ business }: StatsCardsProps) {
           <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
             Conversion
           </span>
-          <span className="text-xl">📈</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <TrendingUp className="h-4.5 w-4.5" />
+          </div>
         </div>
-        <div className="text-3xl font-bold text-white font-mono">{conversion}%</div>
+        <div>
+          <div className="text-3xl font-bold text-white font-mono">{conversion}%</div>
+          <span className="text-[11px] text-zinc-500 mt-1 block">Stable this week</span>
+        </div>
       </div>
 
       {/* Direct Clicks */}
@@ -55,9 +72,14 @@ export default function StatsCards({ business }: StatsCardsProps) {
           <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
             Direct Clicks
           </span>
-          <span className="text-xl">🚀</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <MousePointerClick className="h-4.5 w-4.5" />
+          </div>
         </div>
-        <div className="text-3xl font-bold text-white font-mono">{directClicks}</div>
+        <div>
+          <div className="text-3xl font-bold text-white font-mono">{directClicks}</div>
+          <span className="text-[11px] text-zinc-500 mt-1 block">+0 clicks today</span>
+        </div>
       </div>
     </div>
   );

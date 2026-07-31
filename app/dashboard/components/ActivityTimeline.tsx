@@ -1,5 +1,8 @@
 "use client";
 
+import { Eye, Star, MessageSquare } from "lucide-react";
+import type { ComponentType } from "react";
+
 type ScanLog = {
   id: number;
   business_id: string;
@@ -15,20 +18,20 @@ type ActivityTimelineProps = {
 
 const ACTIONS: Record<
   ScanLog["action_type"],
-  { icon: string; title: string; color: string }
+  { icon: ComponentType<any>; title: string; color: string }
 > = {
   page_view: {
-    icon: "👀",
+    icon: Eye,
     title: "Review Page Opened",
     color: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
   },
   review_click: {
-    icon: "⭐",
+    icon: Star,
     title: "Google Review Clicked",
     color: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
   },
   manager_click: {
-    icon: "💬",
+    icon: MessageSquare,
     title: "Private Feedback Opened",
     color: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
   },
@@ -60,9 +63,9 @@ export default function ActivityTimeline({
                 className="flex items-start gap-4 p-5 transition hover:bg-zinc-900/30"
               >
                 <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl border ${action.color}`}
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${action.color}`}
                 >
-                  {action.icon}
+                  <action.icon className="h-5 w-5" />
                 </div>
 
                 <div className="flex-1">
