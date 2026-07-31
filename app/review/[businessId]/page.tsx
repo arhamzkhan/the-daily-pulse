@@ -108,31 +108,40 @@ export default async function ReviewPage({ params }: PageProps) {
   return (
     <div
       dir={isRtl ? "rtl" : "ltr"}
-      className="min-h-[100dvh] bg-neutral-950 font-sans antialiased text-neutral-100 flex items-center justify-center px-4 py-8 relative overflow-hidden"
+      className="min-h-[100dvh] bg-[#0a0a0c] font-sans antialiased text-zinc-100 flex items-center justify-center px-4 py-8 relative overflow-hidden"
     >
       {/* Signature warm/cozy dark ambient radial background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(16,185,129,0.06)_0%,rgba(0,0,0,0)_60%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(245,158,11,0.06)_0%,rgba(0,0,0,0)_60%)] pointer-events-none" />
 
       <div className="w-full max-w-[420px] relative z-10">
-        <article className="overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-900/60 backdrop-blur-md p-6 text-center shadow-2xl relative">
+        <article className="overflow-hidden rounded-3xl border border-zinc-800/80 bg-[#111115] p-6 text-center shadow-2xl relative">
           
-          <header className="pb-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
+          <header className="pb-2 flex flex-col items-center">
+            {/* Top Avatar */}
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full overflow-hidden border border-amber-500/20 bg-amber-500/10 text-xl font-bold text-amber-400">
+              {business.logo_url ? (
+                <img src={business.logo_url} alt={business.name} className="h-full w-full object-cover" />
+              ) : (
+                (business.name || "B").charAt(0).toUpperCase()
+              )}
+            </div>
+
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">
               {business.industry_type || "Feedback"}
             </p>
             <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-white leading-tight">
               {business.name}
             </h1>
-            <p className="text-xs text-neutral-400 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               {business.branch_name}
             </p>
           </header>
 
-          <div className="my-5 border-t border-neutral-800/60" />
+          <div className="my-5 border-t border-zinc-800/60" />
 
           <section className="text-center">
-            <h2 className="text-sm font-semibold tracking-wide text-neutral-300 mb-6 leading-relaxed px-1">
-              {locale.tagline}
+            <h2 className="text-sm font-semibold tracking-wide text-zinc-300 mb-6 leading-relaxed px-1">
+              Thank you for visiting us! Please select your preferred option to connect with us.
             </h2>
 
             {/* Stacked Google-compliant routing options utilizing the signature dark/cozy aesthetic */}
@@ -141,27 +150,30 @@ export default async function ReviewPage({ params }: PageProps) {
               {/* Option 1: Write a Google Review */}
               <a
                 href={googleClickUrl}
-                className="group flex items-center gap-4 p-4 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 hover:bg-neutral-900/80 hover:border-emerald-500/50 active:scale-[0.98] transition-all duration-200 text-left w-full"
+                className="group flex items-center gap-4 p-4 rounded-2xl border border-zinc-800/80 bg-[#0a0a0c]/40 hover:bg-zinc-900/40 hover:border-amber-500/50 active:scale-[0.98] transition-all duration-200 text-left w-full"
                 style={{ contentVisibility: "auto" }}
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:text-emerald-300 transition-colors">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/5 text-white transition-colors">
                   <svg
-                    className="h-6 w-6 fill-current"
+                    className="h-6 w-6"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                  <h3 className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors break-words whitespace-normal">
                     {locale.buttonA}
                   </h3>
-                  <p className="text-[11px] text-neutral-400 mt-0.5 leading-snug">
+                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug break-words whitespace-normal">
                     Share your positive experience with the world on Google Maps
                   </p>
                 </div>
-                <div className="text-neutral-600 group-hover:text-emerald-400 transition-colors">
+                <div className="text-zinc-600 group-hover:text-amber-400 transition-colors">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
@@ -171,9 +183,9 @@ export default async function ReviewPage({ params }: PageProps) {
               {/* Option 2: Connect directly on WhatsApp */}
               <a
                 href={whatsappClickUrl}
-                className="group flex items-center gap-4 p-4 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 hover:bg-neutral-900/80 hover:border-emerald-500/50 active:scale-[0.98] transition-all duration-200 text-left w-full"
+                className="group flex items-center gap-4 p-4 rounded-2xl border border-zinc-800/80 bg-[#0a0a0c]/40 hover:bg-zinc-900/40 hover:border-amber-500/50 active:scale-[0.98] transition-all duration-200 text-left w-full"
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-500/10 text-green-400 group-hover:bg-green-500/20 group-hover:text-green-300 transition-colors">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 transition-colors">
                   <svg
                     className="h-6 w-6 fill-current"
                     viewBox="0 0 24 24"
@@ -183,14 +195,14 @@ export default async function ReviewPage({ params }: PageProps) {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                  <h3 className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors break-words whitespace-normal">
                     {locale.buttonB}
                   </h3>
-                  <p className="text-[11px] text-neutral-400 mt-0.5 leading-snug">
+                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug break-words whitespace-normal">
                     Chat directly with management to resolve any issues or complaints privately
                   </p>
                 </div>
-                <div className="text-neutral-600 group-hover:text-emerald-400 transition-colors">
+                <div className="text-zinc-600 group-hover:text-amber-400 transition-colors">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
@@ -200,13 +212,13 @@ export default async function ReviewPage({ params }: PageProps) {
             </div>
           </section>
 
-          <footer className="mt-8 border-t border-neutral-800/40 pt-4 flex flex-col items-center gap-2">
-            <span className="text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-bold">
+          <footer className="mt-8 border-t border-zinc-800/40 pt-4 flex flex-col items-center gap-2">
+            <span className="text-[9px] uppercase tracking-[0.18em] text-zinc-500 font-bold">
               Voucho
             </span>
-            <p className="text-[10px] text-neutral-500 max-w-[320px] leading-relaxed normal-case font-normal">
+            <p className="text-[10px] text-zinc-500 max-w-[320px] leading-relaxed normal-case font-normal">
               Anonymous telemetry (device type, timestamp, business ID) is processed solely for business analytics.{" "}
-              <a href="/privacy-policy" className="underline hover:text-neutral-300 transition-colors">
+              <a href="/privacy-policy" className="underline hover:text-zinc-300 transition-colors">
                 Privacy Policy
               </a>
             </p>
