@@ -119,8 +119,8 @@ export default async function ReviewPage({ params }: PageProps) {
           <header className="pb-2 flex flex-col items-center">
             {/* Top Avatar */}
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full overflow-hidden border border-amber-500/20 bg-amber-500/10 text-xl font-bold text-amber-400">
-              {business.logo_url ? (
-                <img src={business.logo_url} alt={business.name} className="h-full w-full object-cover" />
+              {(business as any)?.logo_url ? (
+                <img src={(business as any).logo_url} alt={business.name} className="h-full w-full object-cover" />
               ) : (
                 (business.name || "B").charAt(0).toUpperCase()
               )}
