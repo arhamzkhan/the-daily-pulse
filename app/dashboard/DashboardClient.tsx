@@ -20,7 +20,6 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ business, scanLogs = [] }: DashboardClientProps) {
-  
   const router = useRouter();
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,21 +30,16 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string>("");
 
-  // Handler for DashboardHeader and Sidebar
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
   };
 
-  // Sync database updates from child panels
   const syncDatabase = async (updatedFields: Partial<Business>): Promise<void> => {
     try {
       if (business?.id) {
-        await supabase
-          .from("businesses")
-          .update(updatedFields)
-          .eq("id", business.id);
+        await supabase.from("businesses").update(updatedFields).eq("id", business.id);
       }
       router.refresh();
     } catch (err) {
@@ -53,14 +47,10 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
     }
   };
 
-  // Handler for SettingsPanel
-  const handleSettingsSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSettingsSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setSaving(true);
     setMessage("");
-
     try {
       const formData = new FormData(e.currentTarget);
       const updatedFields: Partial<Business> = {
@@ -69,7 +59,6 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
         google_review_url: (formData.get("google_review_url") as string) || business.google_review_url,
         manager_whatsapp: (formData.get("manager_whatsapp") as string) || business.manager_whatsapp,
       };
-
       await syncDatabase(updatedFields);
       setMessage("Settings saved successfully!");
     } catch (err: any) {
@@ -80,21 +69,38 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-zinc-100 flex flex-col md:flex-row antialiased">
-      {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-[#111115] border-r border-zinc-800/60 p-4 flex flex-col justify-between shrink-0">
+    <div
+      className="min-h-screen text-zinc-100 flex flex-col md:flex-row antialiased"
+      style={{ background: "#09090b" }}
+    >
+      {/* Sidebar */}
+      <aside
+        className="w-full md:w-60 shrink-0 flex flex-col p-4 border-r"
+        style={{
+          background: "#0e0e11",
+          borderColor: "rgba(39,39,42,0.8)",
+        }}
+      >
         <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} onSignOut={handleSignOut} />
       </aside>
 
-      {/* Main Container */}
+      {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="border-b border-zinc-800/60 bg-[#111115]/50 backdrop-blur-md sticky top-0 z-10 px-6 py-4">
+        {/* Header */}
+        <header
+          className="sticky top-0 z-20 border-b px-6 py-4 backdrop-blur-xl"
+          style={{
+            background: "rgba(9,9,11,0.85)",
+            borderColor: "rgba(39,39,42,0.8)",
+          }}
+        >
           <DashboardHeader business={business} />
         </header>
 
-        <main className="p-6 md:p-8 space-y-8 flex-1 max-w-7xl w-full mx-auto">
+        {/* Content */}
+        <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
           {activeTab === "overview" && (
-            <div className="space-y-8 animate-in fade-in duration-300">
+            <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
               <StatsCards business={business} />
               <QuickInsights business={business} scanLogs={scanLogs} />
               <ActivityTimeline scanLogs={scanLogs} />
@@ -102,7 +108,7 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
           )}
 
           {activeTab === "qr" && (
-            <div className="animate-in fade-in duration-300">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               <QRPanel
                 business={business}
                 message={message}
@@ -113,7 +119,7 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
           )}
 
           {activeTab === "settings" && (
-            <div className="animate-in fade-in duration-300">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               <SettingsPanel
                 business={business}
                 saving={saving}
@@ -125,7 +131,7 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
           )}
 
           {activeTab === "account" && (
-            <div className="animate-in fade-in duration-300">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               <AccountPanel />
             </div>
           )}
