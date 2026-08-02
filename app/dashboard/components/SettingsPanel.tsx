@@ -15,10 +15,10 @@ type SettingsPanelProps = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-zinc-600";
+  "w-full rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/60 text-slate-900 dark:text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-zinc-600";
 
 const labelClass =
-  "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-500";
+  "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-zinc-500";
 
 export default function SettingsPanel({
   business,
@@ -31,23 +31,23 @@ export default function SettingsPanel({
     <div className="grid gap-6 xl:grid-cols-2">
 
       {/* Business Settings */}
-      <section className="rounded-2xl border border-zinc-800/80 bg-[#121215] p-6 relative overflow-hidden">
-        <div className="absolute -top-12 -left-12 w-40 h-40 rounded-full blur-3xl opacity-[0.04] bg-amber-500" />
+      <section className="rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] p-6 relative overflow-hidden shadow-sm dark:shadow-none">
+        <div className="absolute -top-12 -left-12 w-40 h-40 rounded-full blur-3xl opacity-[0.03] dark:opacity-[0.04] bg-amber-500" />
 
         <div className="relative">
           <div className="flex items-center gap-2 mb-1">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-800 border border-zinc-700/60">
-              <Settings className="h-3.5 w-3.5 text-zinc-400" strokeWidth={1.75} />
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700/60">
+              <Settings className="h-3.5 w-3.5 text-slate-500 dark:text-zinc-400" strokeWidth={1.75} />
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-zinc-500">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-zinc-500">
               Configuration
             </p>
           </div>
 
-          <h2 className="mt-3 text-xl font-bold text-white tracking-tight">
+          <h2 className="mt-3 text-xl font-bold text-slate-900 dark:text-white tracking-tight">
             Business Settings
           </h2>
-          <p className="mt-1 text-xs text-zinc-500 leading-relaxed">
+          <p className="mt-1 text-xs text-slate-500 leading-relaxed">
             Update your public review page configuration.
           </p>
 
@@ -60,7 +60,7 @@ export default function SettingsPanel({
                 className={`${inputClass} appearance-none cursor-pointer`}
               >
                 {INDUSTRY_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value} className="bg-[#121215]">
+                  <option key={option.value} value={option.value} className="bg-white dark:bg-[#121215] text-slate-900 dark:text-white">
                     {option.label}
                   </option>
                 ))}
@@ -100,35 +100,35 @@ export default function SettingsPanel({
       </section>
 
       {/* Review Page Control */}
-      <section className="rounded-2xl border border-zinc-800/80 bg-[#121215] p-6 flex flex-col relative overflow-hidden">
-        <div className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-[0.04] bg-emerald-500" />
+      <section className="rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] p-6 flex flex-col relative overflow-hidden shadow-sm dark:shadow-none">
+        <div className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-[0.03] dark:opacity-[0.04] bg-emerald-500" />
 
         <div className="relative flex-1 flex flex-col">
           <div className="flex items-center gap-2 mb-1">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               {business.is_active ? (
-                <ToggleRight className="h-3.5 w-3.5 text-emerald-400" strokeWidth={1.75} />
+                <ToggleRight className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" strokeWidth={1.75} />
               ) : (
-                <ToggleLeft className="h-3.5 w-3.5 text-zinc-500" strokeWidth={1.75} />
+                <ToggleLeft className="h-3.5 w-3.5 text-slate-400 dark:text-zinc-500" strokeWidth={1.75} />
               )}
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-zinc-500">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-zinc-500">
               Page Control
             </p>
           </div>
 
-          <h2 className="mt-3 text-xl font-bold text-white tracking-tight">
+          <h2 className="mt-3 text-xl font-bold text-slate-900 dark:text-white tracking-tight">
             Public Review Page
           </h2>
-          <p className="mt-1 text-xs text-zinc-500 leading-relaxed">
+          <p className="mt-1 text-xs text-slate-500 leading-relaxed">
             Enable or pause your customer review page.
           </p>
 
           {/* Toggle row */}
-          <div className="mt-6 flex items-center justify-between rounded-xl border border-zinc-800/80 p-4 bg-zinc-900/40">
+          <div className="mt-6 flex items-center justify-between rounded-xl border border-slate-200 dark:border-zinc-800/80 p-4 bg-slate-50 dark:bg-zinc-900/40">
             <div>
-              <h3 className="text-sm font-semibold text-white">Page Status</h3>
-              <p className="mt-0.5 text-xs text-zinc-500">
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-white">Page Status</h3>
+              <p className="mt-0.5 text-xs text-slate-500">
                 {business.is_active
                   ? "Customers can leave reviews."
                   : "Review page is currently paused."}
@@ -155,7 +155,7 @@ export default function SettingsPanel({
               className={`relative h-6 w-11 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 ${
                 business.is_active
                   ? "bg-emerald-500 shadow-[0_0_8px_rgba(52,211,153,0.4)]"
-                  : "bg-zinc-700"
+                  : "bg-slate-300 dark:bg-zinc-700"
               }`}
             >
               <span
@@ -170,13 +170,13 @@ export default function SettingsPanel({
           <div
             className={`mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
               business.is_active
-                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                : "bg-zinc-800/60 text-zinc-500 border border-zinc-700/60"
+                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                : "bg-slate-100 dark:bg-zinc-800/60 text-slate-500 dark:text-zinc-500 border border-slate-200 dark:border-zinc-700/60"
             }`}
           >
             <span
               className={`w-1.5 h-1.5 rounded-full ${
-                business.is_active ? "bg-emerald-400 animate-pulse" : "bg-zinc-600"
+                business.is_active ? "bg-emerald-500 dark:bg-emerald-400 animate-pulse" : "bg-slate-400 dark:bg-zinc-600"
               }`}
             />
             {business.is_active
@@ -188,7 +188,7 @@ export default function SettingsPanel({
             <Link
               href={`/review/${business.id}`}
               target="_blank"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-800/80 bg-zinc-900/40 hover:bg-zinc-800/60 hover:border-zinc-700/80 px-4 py-2.5 text-sm font-semibold text-zinc-300 hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/40 hover:bg-slate-100 hover:dark:bg-zinc-800/60 hover:border-slate-300 hover:dark:border-zinc-700/80 px-4 py-2.5 text-sm font-semibold text-slate-600 dark:text-zinc-300 hover:text-slate-900 hover:dark:text-white transition-all duration-200"
             >
               <ExternalLink className="h-3.5 w-3.5" strokeWidth={1.75} />
               Preview Review Page

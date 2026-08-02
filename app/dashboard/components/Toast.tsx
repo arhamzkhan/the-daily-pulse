@@ -58,19 +58,19 @@ const TOAST_CONFIG: Record<
   success: {
     icon: CheckCircle2,
     border: "border-emerald-500/25",
-    iconColor: "text-emerald-400",
+    iconColor: "text-emerald-500 dark:text-emerald-400",
     bar: "bg-emerald-500",
   },
   error: {
     icon: AlertCircle,
     border: "border-red-500/25",
-    iconColor: "text-red-400",
+    iconColor: "text-red-500 dark:text-red-400",
     bar: "bg-red-500",
   },
   info: {
     icon: Info,
     border: "border-blue-500/25",
-    iconColor: "text-blue-400",
+    iconColor: "text-blue-500 dark:text-blue-400",
     bar: "bg-blue-500",
   },
 };
@@ -91,7 +91,7 @@ function SingleToast({
     <div
       className={`
         relative flex items-start gap-3 w-80 px-4 py-3.5 rounded-xl border
-        ${cfg.border} bg-[#121215] shadow-2xl shadow-black/70 overflow-hidden
+        ${cfg.border} bg-white dark:bg-[#121215] shadow-lg dark:shadow-2xl dark:shadow-black/70 overflow-hidden
         transition-all duration-300
         ${toast.exiting
           ? "opacity-0 translate-x-3 scale-95"
@@ -111,12 +111,12 @@ function SingleToast({
       </div>
 
       {/* Message */}
-      <p className="flex-1 text-sm text-zinc-200 leading-snug">{toast.message}</p>
+      <p className="flex-1 text-sm text-slate-800 dark:text-zinc-200 leading-snug">{toast.message}</p>
 
       {/* Dismiss button */}
       <button
         onClick={() => onDismiss(toast.id)}
-        className="shrink-0 mt-0.5 p-0.5 rounded text-zinc-600 hover:text-zinc-300 hover:bg-zinc-800/60 transition-colors duration-150"
+        className="shrink-0 mt-0.5 p-0.5 rounded text-slate-400 dark:text-zinc-600 hover:text-slate-600 hover:dark:text-zinc-300 hover:bg-slate-100 hover:dark:bg-zinc-800/60 transition-colors duration-150"
         aria-label="Dismiss"
       >
         <X className="h-3.5 w-3.5" strokeWidth={2} />

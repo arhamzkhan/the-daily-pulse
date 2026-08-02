@@ -71,39 +71,39 @@ export default function QRPanel({ business, addToast, syncDatabase }: QRPanelPro
   }
 
   const inputClass =
-    "w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-zinc-600";
+    "w-full rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/60 text-slate-900 dark:text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-zinc-600";
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
       <QRCodeGenerator businessSlug={business.id} businessName={business.name} />
 
-      <section className="rounded-2xl border border-zinc-800/80 bg-[#121215] p-6 overflow-hidden relative">
+      <section className="rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] p-6 overflow-hidden relative shadow-sm dark:shadow-none">
         {/* Ambient glow */}
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-3xl opacity-[0.05] bg-amber-500" />
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-3xl opacity-[0.03] dark:opacity-[0.05] bg-amber-500" />
 
         <div className="relative">
           <div className="flex items-center gap-2 mb-1">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 border border-amber-500/20">
-              <Package className="h-3.5 w-3.5 text-amber-400" strokeWidth={1.75} />
+              <Package className="h-3.5 w-3.5 text-amber-500 dark:text-amber-400" strokeWidth={1.75} />
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-zinc-500">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-zinc-500">
               Physical Standee
             </p>
           </div>
 
-          <h2 className="mt-3 text-2xl font-bold text-white tracking-tight">
+          <h2 className="mt-3 text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
             Order Acrylic Standee
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-500">
+          <p className="mt-2 text-sm leading-relaxed text-slate-500">
             We'll print your premium acrylic standee with your QR code already
             attached and deliver it ready to place at your reception.
           </p>
 
           {ordered ? (
-            <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] p-5 flex items-start gap-3">
-              <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" strokeWidth={1.75} />
+            <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.04] dark:bg-emerald-500/[0.06] p-5 flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" strokeWidth={1.75} />
               <div>
-                <h3 className="font-semibold text-emerald-400 text-sm">Order Submitted</h3>
+                <h3 className="font-semibold text-emerald-600 dark:text-emerald-400 text-sm">Order Submitted</h3>
                 <p className="mt-1 text-xs text-emerald-500/70">
                   We'll contact you before dispatching your standee.
                 </p>
@@ -115,10 +115,10 @@ export default function QRPanel({ business, addToast, syncDatabase }: QRPanelPro
                 type="button"
                 onClick={detectLocation}
                 disabled={detecting}
-                className="w-full flex items-center justify-center gap-2 rounded-xl border border-zinc-800/80 bg-zinc-900/60 hover:bg-zinc-800/60 hover:border-zinc-700/80 py-3 text-sm font-semibold text-white transition-all duration-200 disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/60 hover:bg-slate-100 hover:dark:bg-zinc-800/60 hover:border-slate-300 hover:dark:border-zinc-700/80 py-3 text-sm font-semibold text-slate-800 dark:text-white transition-all duration-200 disabled:opacity-50"
               >
                 <Navigation
-                  className={`h-4 w-4 text-blue-400 ${detecting ? "animate-spin" : ""}`}
+                  className={`h-4 w-4 text-blue-500 dark:text-blue-400 ${detecting ? "animate-spin" : ""}`}
                   strokeWidth={1.75}
                 />
                 {detecting ? "Detecting location..." : "Detect My Location"}
@@ -126,7 +126,7 @@ export default function QRPanel({ business, addToast, syncDatabase }: QRPanelPro
 
               {coords && (
                 <iframe
-                  className="h-48 w-full rounded-xl border border-zinc-800/80"
+                  className="h-48 w-full rounded-xl border border-slate-200 dark:border-zinc-800/80"
                   src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=15&output=embed`}
                 />
               )}
@@ -148,7 +148,7 @@ export default function QRPanel({ business, addToast, syncDatabase }: QRPanelPro
               />
 
               <div className="flex">
-                <div className="flex items-center rounded-l-xl border border-r-0 border-zinc-800/80 bg-zinc-900/80 px-4 text-sm font-semibold text-zinc-400">
+                <div className="flex items-center rounded-l-xl border border-r-0 border-slate-200 dark:border-zinc-800/80 bg-slate-100 dark:bg-zinc-900/80 px-4 text-sm font-semibold text-slate-500 dark:text-zinc-400">
                   +92
                 </div>
                 <input
@@ -156,7 +156,7 @@ export default function QRPanel({ business, addToast, syncDatabase }: QRPanelPro
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                   placeholder="3001234567"
-                  className="w-full rounded-r-xl border border-zinc-800/80 bg-zinc-900/60 text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-zinc-600"
+                  className="w-full rounded-r-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/60 text-slate-900 dark:text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-zinc-600"
                 />
               </div>
 

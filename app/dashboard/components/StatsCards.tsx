@@ -49,10 +49,10 @@ function TrendBadge({ dir, text }: { dir: StatCardProps["trendDir"]; text?: stri
 
   const cls =
     dir === "up"
-      ? "bg-emerald-500/10 text-emerald-400"
+      ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
       : dir === "down"
-      ? "bg-red-500/10 text-red-400"
-      : "bg-zinc-800 text-zinc-500";
+      ? "bg-red-500/10 text-red-600 dark:text-red-400"
+      : "bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-500";
 
   const Icon =
     dir === "up" ? ArrowUpRight : dir === "down" ? ArrowDownRight : Minus;
@@ -69,13 +69,13 @@ function TrendBadge({ dir, text }: { dir: StatCardProps["trendDir"]; text?: stri
 
 function StatCard({ label, value, todayLine, trend, trendDir, icon, iconBg, glowColor }: StatCardProps) {
   return (
-    <div className="group relative p-5 rounded-2xl bg-[#121215] border border-zinc-800/80 flex flex-col justify-between gap-4 hover:border-zinc-700/80 hover:translate-y-[-1px] transition-all duration-200 overflow-hidden">
+    <div className="group relative p-5 rounded-2xl bg-white dark:bg-[#121215] border border-slate-200 dark:border-zinc-800/80 flex flex-col justify-between gap-4 hover:border-slate-300 dark:hover:border-zinc-700/80 hover:translate-y-[-1px] transition-all duration-200 overflow-hidden shadow-sm dark:shadow-none">
       {/* Ambient glow */}
-      <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-3xl opacity-[0.07] ${glowColor}`} />
+      <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-3xl opacity-[0.04] dark:opacity-[0.07] ${glowColor}`} />
 
       {/* Top row */}
       <div className="flex items-start justify-between">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-zinc-500">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-zinc-500">
           {label}
         </p>
         <div className={`flex h-8 w-8 items-center justify-center rounded-lg border ${iconBg} shrink-0`}>
@@ -85,12 +85,12 @@ function StatCard({ label, value, todayLine, trend, trendDir, icon, iconBg, glow
 
       {/* Value + trend */}
       <div>
-        <div className="text-[2rem] font-bold text-white font-mono tabular-nums leading-none tracking-tight">
+        <div className="text-[2rem] font-bold text-slate-900 dark:text-white font-mono tabular-nums leading-none tracking-tight">
           {value}
         </div>
         <div className="flex items-center gap-2 mt-2 flex-wrap">
           <TrendBadge dir={trendDir} text={trend} />
-          <span className="text-[11px] text-zinc-600">{todayLine}</span>
+          <span className="text-[11px] text-slate-500 dark:text-zinc-600">{todayLine}</span>
         </div>
       </div>
     </div>
@@ -100,8 +100,8 @@ function StatCard({ label, value, todayLine, trend, trendDir, icon, iconBg, glow
 // ─── StatsCards ───────────────────────────────────────────────────────────────
 
 export default function StatsCards({ business, scanLogs = [] }: StatsCardsProps) {
-  // ── Base metrics from business object ──
-  const totalScans  = business?.total_scans  ?? 0;
+  // ── Total scans must match total scanLogs array length ──
+  const totalScans  = scanLogs.length;
   const avgRating   = business?.avg_rating   ?? business?.average_rating ?? "0.0";
   const conversion  = business?.conversion_rate ?? business?.conversion ?? 0;
 
@@ -155,7 +155,7 @@ export default function StatsCards({ business, scanLogs = [] }: StatsCardsProps)
       trend: scanTrendText,
       trendDir: scanTrendDir,
       icon: <Scan className="h-4 w-4" strokeWidth={1.75} />,
-      iconBg: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      iconBg: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
       glowColor: "bg-blue-500",
     },
     {
@@ -165,7 +165,7 @@ export default function StatsCards({ business, scanLogs = [] }: StatsCardsProps)
       trend: undefined,
       trendDir: "none",
       icon: <Star className="h-4 w-4 fill-amber-400/30" strokeWidth={1.75} />,
-      iconBg: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+      iconBg: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
       glowColor: "bg-amber-500",
     },
     {
@@ -178,7 +178,7 @@ export default function StatsCards({ business, scanLogs = [] }: StatsCardsProps)
       trend: undefined,
       trendDir: "none",
       icon: <TrendingUp className="h-4 w-4" strokeWidth={1.75} />,
-      iconBg: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      iconBg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
       glowColor: "bg-emerald-500",
     },
     {
@@ -188,7 +188,7 @@ export default function StatsCards({ business, scanLogs = [] }: StatsCardsProps)
       trend: clicksTrendText,
       trendDir: clicksTrendDir,
       icon: <MousePointerClick className="h-4 w-4" strokeWidth={1.75} />,
-      iconBg: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      iconBg: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
       glowColor: "bg-purple-500",
     },
   ];

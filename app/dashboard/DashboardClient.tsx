@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import type { Business } from "@/lib/supabase";
@@ -29,6 +29,23 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
 
   // ── Toast system ──────────────────────────────────────────────────────────
   const { toasts, addToast, dismissToast } = useToast();
+
+  // ── Theme system (Light Mode default) ──────────────────────────────────────
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    // Add/remove class from html/document tag to enable tailwind dark: variant
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   // ── UI state ──────────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<"overview" | "qr" | "settings" | "account">("overview");
@@ -75,17 +92,18 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
     }
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-
   return (
     <div
-      className="min-h-screen text-zinc-100 flex flex-col md:flex-row antialiased"
-      style={{ background: "#09090b" }}
+      className="min-h-screen flex flex-col md:flex-row antialiased transition-colors duration-200"
+      style={{ background: theme === "dark" ? "#09090b" : "#f8fafc" }}
     >
       {/* Sidebar */}
       <aside
-        className="w-full md:w-60 shrink-0 flex flex-col p-4 border-r"
-        style={{ background: "#0e0e11", borderColor: "rgba(39,39,42,0.8)" }}
+        className="w-full md:w-60 shrink-0 flex flex-col p-4 border-r transition-colors duration-200"
+        style={{
+          background: theme === "dark" ? "#0e0e11" : "#ffffff",
+          borderColor: theme === "dark" ? "rgba(39,39,42,0.8)" : "#e2e8f0"
+        }}
       >
         <DashboardSidebar
           activeTab={activeTab}
@@ -98,10 +116,17 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
       <div className="flex-1 flex flex-col min-w-0">
         {/* Sticky frosted header */}
         <header
-          className="sticky top-0 z-20 border-b px-6 py-4 backdrop-blur-xl"
-          style={{ background: "rgba(9,9,11,0.85)", borderColor: "rgba(39,39,42,0.8)" }}
+          className="sticky top-0 z-20 border-b px-6 py-4 backdrop-blur-xl transition-colors duration-200"
+          style={{
+            background: theme === "dark" ? "rgba(9,9,11,0.85)" : "rgba(255,255,255,0.85)",
+            borderColor: theme === "dark" ? "rgba(39,39,42,0.8)" : "#e2e8f0"
+          }}
         >
-          <DashboardHeader business={business} />
+          <DashboardHeader
+            business={business}
+            theme={theme}
+            toggleTheme={toggleTheme}
+          />
         </header>
 
         {/* Tab content */}
