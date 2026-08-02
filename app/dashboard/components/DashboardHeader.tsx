@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { MapPin, Bell, ExternalLink, RefreshCw } from "lucide-react";
 import type { Business } from "@/lib/supabase";
 
@@ -8,17 +9,24 @@ type DashboardHeaderProps = {
 };
 
 export default function DashboardHeader({ business }: DashboardHeaderProps) {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-  const dateStr = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "short",
-    day: "numeric",
-  });
+  // ── Ticking clock — updates every 60s, never goes stale ──
+  const [now, setNow] = useState<Date | null>(null);
+
+  useEffect(() => {
+    // Set on client to avoid hydration mismatch
+    setNow(new Date());
+
+    const interval = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const timeStr = now
+    ? now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
+    : "--:-- --";
+
+  const dateStr = now
+    ? now.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })
+    : "";
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -46,11 +54,11 @@ export default function DashboardHeader({ business }: DashboardHeaderProps) {
         </div>
       </div>
 
-      {/* Right: Actions & Time */}
+      {/* Right: Live Clock + Actions */}
       <div className="flex items-center gap-3">
-        {/* Time display */}
+        {/* Live clock */}
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-[11px] font-semibold text-zinc-300 font-mono tabular-nums">
+          <span className="text-[11px] font-semibold text-zinc-300 font-mono tabular-nums tracking-wide">
             {timeStr}
           </span>
           <span className="text-[10px] text-zinc-600">{dateStr}</span>
@@ -59,20 +67,24 @@ export default function DashboardHeader({ business }: DashboardHeaderProps) {
         <div className="w-px h-8 bg-zinc-800/80 hidden md:block" />
 
         {/* Notification button */}
-        <button className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-800/80 bg-zinc-900/50 text-zinc-500 hover:text-zinc-200 hover:border-zinc-700/80 transition-all duration-200">
+        <button
+          aria-label="Notifications"
+          className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-800/80 bg-zinc-900/50 text-zinc-500 hover:text-zinc-200 hover:border-zinc-700/80 transition-all duration-200"
+        >
           <Bell className="h-3.5 w-3.5" strokeWidth={1.75} />
           <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_4px_rgba(251,191,36,0.8)]" />
         </button>
 
-        {/* Refresh button */}
+        {/* Refresh */}
         <button
+          aria-label="Refresh page"
           onClick={() => window.location.reload()}
           className="flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-800/80 bg-zinc-900/50 text-zinc-500 hover:text-zinc-200 hover:border-zinc-700/80 transition-all duration-200"
         >
           <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.75} />
         </button>
 
-        {/* Quick link to review page */}
+        {/* Preview review page */}
         {business?.id && (
           <a
             href={`/review/${business.id}`}

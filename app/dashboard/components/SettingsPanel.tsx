@@ -2,28 +2,30 @@
 
 import Link from "next/link";
 import type { Business } from "@/lib/supabase";
-import { INDUSTRY_OPTIONS, type IndustryType } from "@/lib/themes";
+import { INDUSTRY_OPTIONS } from "@/lib/themes";
 import { Settings, ToggleLeft, ToggleRight, ExternalLink, Save } from "lucide-react";
+import type { ToastType } from "./Toast";
 
 type SettingsPanelProps = {
   business: Business;
   saving: boolean;
   handleSettingsSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   syncDatabase: (updatedFields: Partial<Business>) => Promise<void>;
-  setMessage: (message: string) => void;
+  addToast: (message: string, type?: ToastType) => void;
 };
 
 const inputClass =
   "w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-white text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-zinc-600";
 
-const labelClass = "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-500";
+const labelClass =
+  "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-500";
 
 export default function SettingsPanel({
   business,
   saving,
   handleSettingsSubmit,
   syncDatabase,
-  setMessage,
+  addToast,
 }: SettingsPanelProps) {
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -122,7 +124,7 @@ export default function SettingsPanel({
             Enable or pause your customer review page.
           </p>
 
-          {/* Status Toggle */}
+          {/* Toggle row */}
           <div className="mt-6 flex items-center justify-between rounded-xl border border-zinc-800/80 p-4 bg-zinc-900/40">
             <div>
               <h3 className="text-sm font-semibold text-white">Page Status</h3>
@@ -135,16 +137,25 @@ export default function SettingsPanel({
 
             <button
               type="button"
+              aria-label="Toggle review page"
               onClick={async () => {
                 try {
                   await syncDatabase({ is_active: !business.is_active });
-                  setMessage("Status updated.");
+                  addToast(
+                    business.is_active ? "Review page paused." : "Review page is now live.",
+                    "success"
+                  );
                 } catch (err) {
-                  setMessage(err instanceof Error ? err.message : "Failed to update.");
+                  addToast(
+                    err instanceof Error ? err.message : "Failed to update status.",
+                    "error"
+                  );
                 }
               }}
-              className={`relative h-6 w-11 rounded-full transition-all duration-300 focus:outline-none ${
-                business.is_active ? "bg-emerald-500 shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "bg-zinc-700"
+              className={`relative h-6 w-11 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 ${
+                business.is_active
+                  ? "bg-emerald-500 shadow-[0_0_8px_rgba(52,211,153,0.4)]"
+                  : "bg-zinc-700"
               }`}
             >
               <span
@@ -155,14 +166,22 @@ export default function SettingsPanel({
             </button>
           </div>
 
-          {/* Status indicator */}
-          <div className={`mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
-            business.is_active
-              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-              : "bg-zinc-800/60 text-zinc-500 border border-zinc-700/60"
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${business.is_active ? "bg-emerald-400 animate-pulse" : "bg-zinc-600"}`} />
-            {business.is_active ? "Your page is live and accepting reviews" : "Your page is paused"}
+          {/* Status badge */}
+          <div
+            className={`mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
+              business.is_active
+                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                : "bg-zinc-800/60 text-zinc-500 border border-zinc-700/60"
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                business.is_active ? "bg-emerald-400 animate-pulse" : "bg-zinc-600"
+              }`}
+            />
+            {business.is_active
+              ? "Your page is live and accepting reviews"
+              : "Your page is paused"}
           </div>
 
           <div className="mt-auto pt-6">

@@ -3,21 +3,16 @@
 import { useState } from "react";
 import QRCodeGenerator from "@/app/admin/components/QRCodeGenerator";
 import type { Business } from "@/lib/supabase";
-import { MapPin, Package, CheckCircle2, Navigation } from "lucide-react";
+import { Package, CheckCircle2, Navigation } from "lucide-react";
+import type { ToastType } from "./Toast";
 
 type QRPanelProps = {
   business: Business;
-  message: string;
-  setMessage: (message: string) => void;
+  addToast: (message: string, type?: ToastType) => void;
   syncDatabase: (updatedFields: Partial<Business>) => Promise<void>;
 };
 
-export default function QRPanel({
-  business,
-  message,
-  setMessage,
-  syncDatabase,
-}: QRPanelProps) {
+export default function QRPanel({ business, addToast, syncDatabase }: QRPanelProps) {
   const [address, setAddress] = useState("");
   const [secondaryAddress, setSecondaryAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -27,7 +22,7 @@ export default function QRPanel({
 
   async function detectLocation() {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported.");
+      addToast("Geolocation is not supported by your browser.", "error");
       return;
     }
     setDetecting(true);
@@ -48,7 +43,7 @@ export default function QRPanel({
       },
       () => {
         setDetecting(false);
-        alert("Unable to detect your location.");
+        addToast("Unable to detect your location. Please enter it manually.", "error");
       }
     );
   }
@@ -56,14 +51,22 @@ export default function QRPanel({
   async function submitOrder(event: React.FormEvent) {
     event.preventDefault();
     const fullPhone = `92${phone}`;
-    if (!address.trim()) { setMessage("Please enter a delivery address."); return; }
-    if (!/^92\d{10}$/.test(fullPhone)) { setMessage("Invalid phone number."); return; }
+
+    if (!address.trim()) {
+      addToast("Please enter a delivery address.", "error");
+      return;
+    }
+    if (!/^92\d{10}$/.test(fullPhone)) {
+      addToast("Invalid phone number. Enter 10 digits after +92.", "error");
+      return;
+    }
+
     try {
       await syncDatabase({ order_requested: true });
       setOrdered(true);
-      setMessage("Standee order received. Our team will contact you shortly.");
+      addToast("Standee order received — our team will contact you shortly.", "success");
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Unable to place order.");
+      addToast(err instanceof Error ? err.message : "Unable to place order.", "error");
     }
   }
 
@@ -164,10 +167,6 @@ export default function QRPanel({
                 Request Standee Delivery
               </button>
             </form>
-          )}
-
-          {message && !ordered && (
-            <p className="mt-4 text-xs text-zinc-500 text-center">{message}</p>
           )}
         </div>
       </section>

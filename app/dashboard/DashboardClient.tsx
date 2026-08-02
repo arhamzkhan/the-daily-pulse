@@ -13,6 +13,7 @@ import ActivityTimeline from "./components/ActivityTimeline";
 import QRPanel from "./components/QRPanel";
 import SettingsPanel from "./components/SettingsPanel";
 import AccountPanel from "./components/AccountPanel";
+import { useToast, ToastContainer } from "./components/Toast";
 
 interface DashboardClientProps {
   business: Business;
@@ -26,16 +27,21 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  // ── Toast system ──────────────────────────────────────────────────────────
+  const { toasts, addToast, dismissToast } = useToast();
+
+  // ── UI state ──────────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<"overview" | "qr" | "settings" | "account">("overview");
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string>("");
 
+  // ── Auth ──────────────────────────────────────────────────────────────────
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
   };
 
+  // ── DB sync ───────────────────────────────────────────────────────────────
   const syncDatabase = async (updatedFields: Partial<Business>): Promise<void> => {
     try {
       if (business?.id) {
@@ -44,29 +50,32 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
       router.refresh();
     } catch (err) {
       console.error("Failed to sync database:", err);
+      throw err; // propagate so callers can surface via toast
     }
   };
 
+  // ── Settings form submit ──────────────────────────────────────────────────
   const handleSettingsSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setSaving(true);
-    setMessage("");
     try {
       const formData = new FormData(e.currentTarget);
       const updatedFields: Partial<Business> = {
-        name: (formData.get("name") as string) || business.name,
-        branch_name: (formData.get("branch_name") as string) || business.branch_name,
-        google_review_url: (formData.get("google_review_url") as string) || business.google_review_url,
-        manager_whatsapp: (formData.get("manager_whatsapp") as string) || business.manager_whatsapp,
+        name:               (formData.get("name")              as string) || business.name,
+        branch_name:        (formData.get("branch_name")       as string) || business.branch_name,
+        google_review_url:  (formData.get("google_url")        as string) || business.google_review_url,
+        manager_whatsapp:   (formData.get("whatsapp")          as string) || business.manager_whatsapp,
       };
       await syncDatabase(updatedFields);
-      setMessage("Settings saved successfully!");
-    } catch (err: any) {
-      setMessage("Failed to save settings.");
+      addToast("Settings saved successfully.", "success");
+    } catch {
+      addToast("Failed to save settings. Please try again.", "error");
     } finally {
       setSaving(false);
     }
   };
+
+  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <div
@@ -76,32 +85,31 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
       {/* Sidebar */}
       <aside
         className="w-full md:w-60 shrink-0 flex flex-col p-4 border-r"
-        style={{
-          background: "#0e0e11",
-          borderColor: "rgba(39,39,42,0.8)",
-        }}
+        style={{ background: "#0e0e11", borderColor: "rgba(39,39,42,0.8)" }}
       >
-        <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} onSignOut={handleSignOut} />
+        <DashboardSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onSignOut={handleSignOut}
+        />
       </aside>
 
-      {/* Main */}
+      {/* Main content column */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
+        {/* Sticky frosted header */}
         <header
           className="sticky top-0 z-20 border-b px-6 py-4 backdrop-blur-xl"
-          style={{
-            background: "rgba(9,9,11,0.85)",
-            borderColor: "rgba(39,39,42,0.8)",
-          }}
+          style={{ background: "rgba(9,9,11,0.85)", borderColor: "rgba(39,39,42,0.8)" }}
         >
           <DashboardHeader business={business} />
         </header>
 
-        {/* Content */}
+        {/* Tab content */}
         <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
+
           {activeTab === "overview" && (
             <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <StatsCards business={business} />
+              <StatsCards business={business} scanLogs={scanLogs} />
               <QuickInsights business={business} scanLogs={scanLogs} />
               <ActivityTimeline scanLogs={scanLogs} />
             </div>
@@ -111,8 +119,7 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
             <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               <QRPanel
                 business={business}
-                message={message}
-                setMessage={setMessage}
+                addToast={addToast}
                 syncDatabase={syncDatabase}
               />
             </div>
@@ -125,18 +132,22 @@ export default function DashboardClient({ business, scanLogs = [] }: DashboardCl
                 saving={saving}
                 handleSettingsSubmit={handleSettingsSubmit}
                 syncDatabase={syncDatabase}
-                setMessage={setMessage}
+                addToast={addToast}
               />
             </div>
           )}
 
           {activeTab === "account" && (
             <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <AccountPanel />
+              <AccountPanel addToast={addToast} />
             </div>
           )}
+
         </main>
       </div>
+
+      {/* Global floating toast layer */}
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

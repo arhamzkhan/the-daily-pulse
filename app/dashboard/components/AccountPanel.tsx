@@ -3,8 +3,13 @@
 import { useState, useEffect } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { User, Shield, CreditCard, Mail, KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
+import type { ToastType } from "./Toast";
 
-export default function AccountPanel() {
+interface AccountPanelProps {
+  addToast: (message: string, type?: ToastType) => void;
+}
+
+export default function AccountPanel({ addToast }: AccountPanelProps) {
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -13,7 +18,6 @@ export default function AccountPanel() {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [resetLoading, setResetLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
   useEffect(() => {
     async function loadUser() {
@@ -32,22 +36,21 @@ export default function AccountPanel() {
   const handlePasswordReset = async () => {
     if (!email) return;
     setResetLoading(true);
-    setMessage(null);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/callback?next=/update-password`,
       });
       if (error) throw error;
-      setMessage({ text: "Password reset link has been sent to your email.", type: "success" });
+      addToast("Password reset link sent — check your inbox.", "success");
     } catch (err: any) {
-      setMessage({ text: err.message || "Failed to send password reset link.", type: "error" });
+      addToast(err.message || "Failed to send password reset link.", "error");
     } finally {
       setResetLoading(false);
     }
   };
 
   const inputClass =
-    "w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-sm p-3.5 outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/20 transition-all placeholder:text-zinc-600";
+    "w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-sm p-3.5 outline-none transition-all placeholder:text-zinc-600";
 
   return (
     <div className="grid gap-6 xl:grid-cols-2 animate-in fade-in duration-300">
@@ -86,7 +89,7 @@ export default function AccountPanel() {
               />
             </div>
 
-            {/* Security */}
+            {/* Password reset */}
             <div>
               <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-500">
                 <Shield className="h-3 w-3" strokeWidth={1.75} />
@@ -101,24 +104,6 @@ export default function AccountPanel() {
                 {resetLoading ? "Sending Link..." : "Reset Password"}
               </button>
             </div>
-
-            {/* Message */}
-            {message && (
-              <div
-                className={`flex items-start gap-3 p-3.5 rounded-xl border text-sm ${
-                  message.type === "success"
-                    ? "bg-emerald-500/[0.06] text-emerald-400 border-emerald-500/20"
-                    : "bg-red-500/[0.06] text-red-400 border-red-500/20"
-                }`}
-              >
-                {message.type === "success" ? (
-                  <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" strokeWidth={1.75} />
-                ) : (
-                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" strokeWidth={1.75} />
-                )}
-                <span className="text-xs leading-relaxed">{message.text}</span>
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -155,7 +140,7 @@ export default function AccountPanel() {
               {
                 label: "Status",
                 value: (
-                  <span className="text-emerald-400 font-semibold text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-1">
+                  <span className="flex items-center gap-1 text-emerald-400 font-semibold text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     Active
                   </span>
@@ -168,9 +153,9 @@ export default function AccountPanel() {
             ].map((row, i, arr) => (
               <div
                 key={row.label}
-                className={`flex items-center justify-between px-4 py-3.5 ${
+                className={`flex items-center justify-between px-4 py-3.5 bg-zinc-900/20 ${
                   i < arr.length - 1 ? "border-b border-zinc-800/80" : ""
-                } bg-zinc-900/20`}
+                }`}
               >
                 <span className="text-xs text-zinc-500 font-medium">{row.label}</span>
                 {row.value}
