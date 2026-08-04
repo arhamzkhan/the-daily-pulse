@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { getServiceSupabase } from "@/lib/supabase";
 
 export async function loginAction(username: string, password: string) {
   const adminUser = process.env.PORTAL_ADMIN_USER;
@@ -38,7 +39,7 @@ export async function toggleActiveAction(id: string, currentStatus: boolean) {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = getServiceSupabase();
     const { error } = await supabase
       .from("businesses")
       .update({ is_active: !currentStatus })
@@ -60,7 +61,7 @@ export async function terminateBusinessAction(id: string) {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = getServiceSupabase();
     const { error } = await supabase
       .from("businesses")
       .delete()
@@ -82,7 +83,7 @@ export async function updateServiceTierAction(id: string, newTier: string) {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = getServiceSupabase();
     const { error } = await supabase
       .from("businesses")
       .update({ service_tier: newTier } as any)

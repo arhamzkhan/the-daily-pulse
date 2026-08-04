@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { getServiceSupabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,8 +22,7 @@ interface BusinessBranch {
 
 // --- SERVER ACTIONS FOR LIVE DATABASE INTERACTION ---
 
-async function updateBusinessStatus(id: string, currentStatus: boolean) {
-  'use server';
+async function checkAdminSession() {
   const cookieStore = cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -38,6 +38,17 @@ async function updateBusinessStatus(id: string, currentStatus: boolean) {
     }
   );
 
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user || user.user_metadata?.is_admin !== true) {
+    throw new Error('Unauthorized access. Admin privileges required.');
+  }
+}
+
+async function updateBusinessStatus(id: string, currentStatus: boolean) {
+  'use server';
+  await checkAdminSession();
+
+  const supabase = getServiceSupabase();
   await supabase
     .from('businesses')
     .update({ is_active: !currentStatus })
@@ -48,27 +59,15 @@ async function updateBusinessStatus(id: string, currentStatus: boolean) {
 
 async function updateBusinessDetails(formData: FormData) {
   'use server';
+  await checkAdminSession();
+
   const id = formData.get('id') as string;
   const name = formData.get('name') as string;
   const branch_name = formData.get('branch_name') as string;
   const manager_whatsapp = formData.get('manager_whatsapp') as string;
   const industry_type = formData.get('industry_type') as string;
 
-  const cookieStore = cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        async getAll() { return (await cookieStore).getAll(); },
-        async setAll(cookiesToSet) { 
-          const resolvedCookies = await cookieStore;
-          cookiesToSet.forEach(({ name, value, options }) => resolvedCookies.set(name, value, options)); 
-        },
-      },
-    }
-  );
-
+  const supabase = getServiceSupabase();
   await supabase
     .from('businesses')
     .update({ name, branch_name, manager_whatsapp, industry_type })
@@ -79,21 +78,9 @@ async function updateBusinessDetails(formData: FormData) {
 
 async function terminateBusiness(id: string) {
   'use server';
-  const cookieStore = cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        async getAll() { return (await cookieStore).getAll(); },
-        async setAll(cookiesToSet) { 
-          const resolvedCookies = await cookieStore;
-          cookiesToSet.forEach(({ name, value, options }) => resolvedCookies.set(name, value, options)); 
-        },
-      },
-    }
-  );
+  await checkAdminSession();
 
+  const supabase = getServiceSupabase();
   await supabase
     .from('businesses')
     .delete()

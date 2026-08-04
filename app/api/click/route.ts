@@ -15,6 +15,39 @@ export async function GET(request: Request) {
 
   try {
     const supabase = await createClient();
+
+    // Validate targetUrl against the registered business properties to prevent open redirects
+    const { data: business } = await supabase
+      .from('businesses')
+      .select('google_review_url, manager_whatsapp')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (!business) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    const decodedTarget = decodeURIComponent(targetUrl);
+    const allowedTargets = [
+      business.google_review_url,
+      business.manager_whatsapp ? `https://wa.me/${business.manager_whatsapp}` : null
+    ].filter((url): url is string => !!url);
+
+    const isAllowed = allowedTargets.some(allowed =>
+      targetUrl === allowed ||
+      targetUrl.startsWith(allowed + '?') ||
+      targetUrl.startsWith(allowed + '&') ||
+      decodedTarget === allowed ||
+      decodedTarget.startsWith(allowed + '?') ||
+      decodedTarget.startsWith(allowed + '&') ||
+      targetUrl.startsWith(allowed) ||
+      decodedTarget.startsWith(allowed)
+    );
+
+    if (!isAllowed) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
     // Increment the specific click counter based on target type
     if (type === 'google') {
       const { error } = await supabase.rpc('increment_google_clicks', { row_id: id });
@@ -33,4 +66,4 @@ export async function GET(request: Request) {
 
   // Instant native browser redirect to the external app
   return NextResponse.redirect(targetUrl);
-}
+}
