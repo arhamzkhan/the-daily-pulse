@@ -28,8 +28,13 @@ export async function loginAction(formData: FormData) {
     return { error: error.message };
   }
 
+  let targetUrl = "/dashboard";
+  if (next && next.startsWith("/") && !next.startsWith("//")) {
+    targetUrl = next;
+  }
+
   revalidatePath("/", "layout");
-  redirect(next);
+  redirect(targetUrl);
 }
 
 /**

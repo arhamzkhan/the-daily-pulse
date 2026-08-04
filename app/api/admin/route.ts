@@ -1,9 +1,31 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
+import { getServiceSupabase } from '@/lib/supabase';
+
+async function verifyAdmin() {
+  const supabase = await createClient();
+  const { data: { user }, error } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return { error: 'Authentication required.', status: 401 };
+  }
+
+  const isAdmin = user.user_metadata?.is_admin === true;
+  if (!isAdmin) {
+    return { error: 'Access forbidden. Admin privileges required.', status: 403 };
+  }
+
+  return { user };
+}
 
 // 1. GET handler to fetch business configuration live on dashboard mount
 export async function GET(request: Request) {
   try {
+    const authResult = await verifyAdmin();
+    if ('error' in authResult) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -11,7 +33,9 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Missing required business identification identifier (id).' }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    // Use elevated service client to allow administrative operations
+    const client = getServiceSupabase();
+    const { data, error } = await client
       .from('businesses')
       .select('*')
       .eq('id', id)
@@ -30,6 +54,11 @@ export async function GET(request: Request) {
 // 2. POST handler to update business settings live over secure HTTPS
 export async function POST(request: Request) {
   try {
+    const authResult = await verifyAdmin();
+    if ('error' in authResult) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+
     const body = await request.json();
     const { id, name, branch_name, google_review_url, manager_whatsapp, is_active } = body;
 
@@ -50,7 +79,8 @@ export async function POST(request: Request) {
     if (manager_whatsapp !== undefined) updateData.manager_whatsapp = manager_whatsapp;
     if (is_active !== undefined) updateData.is_active = is_active;
 
-    const { error } = await supabase
+    const client = getServiceSupabase();
+    const { error } = await client
       .from('businesses')
       .update(updateData)
       .eq('id', id);
