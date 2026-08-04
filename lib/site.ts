@@ -6,3 +6,10 @@ export function getReviewUrl(businessSlug: string): string {
 }
 
 export const STANDEE_PRICE_PKR = 599;
+
+/**
+ * WhatsApp number used across marketing pages for "Book a Demo" links.
+ * Format: country code + number, no spaces or dashes (e.g. "923001234567").
+ * Replace this with your actual WhatsApp Business number.
+ */
+export const WHATSAPP_NUMBER = "WHATSAPP_NUMBER";

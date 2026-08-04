@@ -1,5 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { WHATSAPP_NUMBER } from '@/lib/site';
+
+const waBookDemo = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo.`;
+const waPrivateDemo = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo.`;
 
 export default function LandingPage() {
   return (
@@ -27,7 +31,7 @@ export default function LandingPage() {
             <Link href="/login" className="text-sm font-medium text-[#2A2421]/70 hover:text-[#AD715D] transition-colors duration-200 hover-underline">
               Login
             </Link>
-            <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo." target="_blank" className="bg-[#AD715D] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-sm">
+            <Link href={waBookDemo} target="_blank" className="bg-[#AD715D] text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-[#AD715D]/90 transition-all duration-200 shadow-sm">
               Book a Demo
             </Link>
           </div>
@@ -59,25 +63,25 @@ export default function LandingPage() {
           {/* Hero Copy */}
           <div className="flex flex-col items-center justify-center max-w-3xl">
             <span className="text-xs font-bold tracking-[0.25em] text-[#AD715D]/80 uppercase mb-4 animate-fade-up">
-              REPUTATION ENGINEERING
+              GROW YOUR LOCAL BUSINESS
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif tracking-tight text-[#2A2421] leading-[1.15] mb-8 animate-fade-up delay-100">
-              <span className="font-serif font-bold block mb-2">Your reputation,</span>
+              <span className="font-serif font-bold block mb-2">Get more 5-star</span>
               <span className="relative inline-block italic font-serif font-normal text-[#2A2421] px-1">
-                EFFORTLESS.
+                Google Reviews.
                 <svg className="absolute -bottom-3 left-0 w-full h-3 text-[#AD715D]" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 7C30 2 70 2 98 7" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-[#2A2421]/70 max-w-2xl leading-relaxed mb-10 font-normal animate-fade-up delay-200">
-              Automate customer feedback, compound your Google reviews organically, and manage your absolute reputation through a beautiful, seamless experience.
+              Resolve complaints before customers walk out, make it easy for happy clients to leave Google reviews, and build a local business that people love. Starting at PKR 2,500/month.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-fade-up delay-300">
               <Link href="/register" className="inline-flex items-center justify-center bg-[#AD715D] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/95 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
                 REQUEST ACCESS &rarr;
               </Link>
-              <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-flex items-center justify-center border border-[#AD715D] text-[#AD715D] bg-white/40 backdrop-blur-sm text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/10 transition-all duration-200 hover:-translate-y-0.5">
+              <Link href={waPrivateDemo} target="_blank" className="inline-flex items-center justify-center border border-[#AD715D] text-[#AD715D] bg-white/40 backdrop-blur-sm text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/10 transition-all duration-200 hover:-translate-y-0.5">
                 WHATSAPP US
               </Link>
             </div>
@@ -93,10 +97,10 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">AUTOMATED INTERCEPTS</span>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">PRIVATE COMPLAINT RESOLUTION</span>
               </div>
               <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
-                Gently collect exact customer insights immediately post-appointment before internal discrepancies scale out.
+                Unhappy customers can message your manager directly via WhatsApp — resolve issues before they leave a negative review.
               </p>
             </div>
 
@@ -108,10 +112,10 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
                 </div>
-                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">REVIEW COMPOUNDING</span>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">MORE GOOGLE REVIEWS</span>
               </div>
               <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
-                Direct public validation straight into your Google Business listing to accelerate organic visibility and local dominance.
+                Happy customers can leave a public Google review right from your counter — building your online reputation naturally.
               </p>
             </div>
 
@@ -123,10 +127,10 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
                   </svg>
                 </div>
-                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">CENTRAL ANALYTICS</span>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">SIMPLE DASHBOARD</span>
               </div>
               <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
-                Track locations, operational teams, and structural score trendlines across a high-clarity unified interface.
+                Track scans, Google reviews, and WhatsApp clicks across all your branches in one clean dashboard.
               </p>
             </div>
           </div>
@@ -137,7 +141,7 @@ export default function LandingPage() {
       <section className="border-y border-[#EAEAE7] bg-[#FFFFFF] py-10">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <p className="text-xs tracking-[0.2em] text-[#1A202C]/50 font-bold uppercase mb-0">
-            DESIGNED FOR THE UNIQUE ENVIRONMENT OF PREMIUM SERVICE PROVIDERS
+            BUILT FOR LOCAL SERVICE BUSINESSES
           </p>
           <div className="mt-6 flex flex-wrap justify-center items-center gap-12 text-sm font-semibold tracking-widest text-[#1A202C]/40 uppercase">
             <span>SALONS</span>
@@ -156,7 +160,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">FEATURES</span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Reputation engineering, handled seamlessly.</h2>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Everything you need to grow your local reputation.</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -166,9 +170,9 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
               </div>
-              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Automated Intercepts</h3>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Private Complaint Resolution</h3>
               <p className="text-sm text-[#1A202C]/70 leading-relaxed">
-                Gently collect exact customer insights immediately post-appointment before internal discrepancies scale out.
+                Customers who had a bad experience can message your manager directly on WhatsApp — so you can fix the problem before they walk out unhappy.
               </p>
             </div>
 
@@ -178,9 +182,9 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
               </div>
-              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Review Compounding</h3>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">More Google Reviews</h3>
               <p className="text-sm text-[#1A202C]/70 leading-relaxed">
-                Direct public validation straight into your Google Business listing to accelerate organic visibility and local dominance.
+                Happy customers can leave a public Google review directly from your counter — helping you climb local search results and attract new clients.
               </p>
             </div>
 
@@ -190,9 +194,9 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
               </div>
-              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Central Analytics</h3>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Simple Dashboard</h3>
               <p className="text-sm text-[#1A202C]/70 leading-relaxed">
-                Track locations, operational teams, and structural score trendlines across a high-clarity unified interface.
+                Track scans, Google reviews, and WhatsApp clicks across all your branches in one clean dashboard.
               </p>
             </div>
           </div>
@@ -203,25 +207,25 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-24 bg-[#FFFFFF] border-t border-[#EAEAE7]">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">THE WORKFLOW</span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Sophisticated tracking in three loops.</h2>
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">HOW IT WORKS</span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1A202C] mt-3">Three simple steps. Two clear choices for every customer.</h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#AD715D]/10 mb-4">01</div>
-              <h4 className="text-lg font-medium text-[#2A2421] mb-2">NFC Tap Triggers</h4>
-              <p className="text-sm text-[#2A2421]/60 max-w-xs">Customers tap premium physical standees or scan QR codes at your checkout counter.</p>
+              <h4 className="text-lg font-medium text-[#2A2421] mb-2">Customer Taps or Scans</h4>
+              <p className="text-sm text-[#2A2421]/60 max-w-xs">A customer taps the NFC standee or scans the QR code at your checkout counter after their visit.</p>
             </div>
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">02</div>
-              <h4 className="text-lg font-medium text-[#1A202C] mb-2">The Warm Intercept</h4>
-              <p className="text-sm text-[#1A202C]/60 max-w-xs">Guests receive a beautifully branded micro-portal query optimized for speed.</p>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Two Equal Options Appear</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">They see two clear, equal choices: &ldquo;Message Management Directly via WhatsApp&rdquo; for private resolution, or &ldquo;Leave a Public Google Review.&rdquo;</p>
             </div>
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">03</div>
-              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Google Propagation</h4>
-              <p className="text-sm text-[#1A202C]/60 max-w-xs">Five-star scores are systematically routed directly to publish on your Google profile.</p>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">You Win Either Way</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">Happy customers leave 5-star Google reviews. Unhappy customers reach your manager privately — so you can fix things before they leave upset.</p>
             </div>
           </div>
         </div>
@@ -231,8 +235,8 @@ export default function LandingPage() {
       <section id="pricing" className="py-32 bg-[#FBFBFA] border-t border-[#EAEAE7]">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">INVESTMENT</span>
-            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Predictable pricing for growing brands.</h2>
+            <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">PRICING</span>
+            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Simple, transparent pricing.</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
@@ -241,7 +245,7 @@ export default function LandingPage() {
               <div>
                 <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Hardware Setup</h4>
                 <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 5,000</div>
-                <p className="text-xs text-[#1A202C]/60 mb-4">One-time cost (includes 2 premium counter standees)</p>
+                <p className="text-xs text-[#1A202C]/60 mb-4">One-time cost (includes 2 NFC counter standees)</p>
                 <p className="text-xs text-[#1A202C]/60 mb-6">Additional standees: Rs. 3,000 each</p>
               </div>
               <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Get Started</Link>
@@ -251,7 +255,7 @@ export default function LandingPage() {
             <div className="bg-[#FFFFFF] border-2 border-[#1A202C] rounded-xl p-8 flex flex-col justify-between relative" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.04)' }}>
               <span className="absolute -top-3 right-6 bg-[#1A202C] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">POPULAR</span>
               <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Monthly</h4>
-              <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 2,000<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
+              <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 2,500<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
               <p className="text-xs text-[#1A202C]/60 mb-4">1-month free trial included</p>
               <p className="text-sm text-[#1A202C]/60 mb-6">Billed monthly after trial period</p>
               <Link href="/register" className="w-full text-center bg-[#1A202C] hover:bg-[#1A202C]/90 text-white text-sm font-medium py-3 rounded-sm transition-colors">Start Free Trial</Link>
@@ -265,25 +269,26 @@ export default function LandingPage() {
                 <p className="text-xs text-[#1A202C]/60 mb-4">Breaks down to Rs. 1,500 / mo</p>
                 <p className="text-sm text-[#1A202C]/60 mb-6">Upfront yearly commitment</p>
               </div>
-              <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Save 25%</Link>
+              <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Save 40%</Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. MINIMALIST FAQ ACCORDION SECTION */}
+      {/* 6. MINIMALIST FAQ SECTION */}
       <section id="faq" className="py-32 bg-[#FFFFFF] border-t border-[#EAEAE7]">
         <div className="mx-auto max-w-4xl px-6">
           <div className="text-center mb-16">
             <span className="text-xs font-bold tracking-widest text-[#1A202C]/50 uppercase">ANSWERS</span>
-            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Frequently Inquired</h2>
+            <h2 className="text-3xl font-serif text-[#1A202C] mt-3">Frequently Asked Questions</h2>
           </div>
 
           <div className="space-y-4">
             {[
-              { q: "How exactly does it integrate with my scheduling software?", a: "Voucho safely interfaces via secure webhooks and API layers across classic hospitality, clinic management, and standard scheduling applications automatically." },
-              { q: "Can we handle negative critiques internally?", a: "Yes. Low ratings are funneled into private internal resolution loops, while high ratings are automatically redirected to your Google Business profile." },
-              { q: "Is there setup overhead?", a: "None. Our 5-minute self-serve onboarding flow lets you launch instantly. Your physical NFC standees are shipped the same business day." }
+              { q: "Is Voucho compliant with Google's review policies?", a: "Yes, 100%. Voucho never filters, gates, or hides the Google review option. Every customer who taps or scans your standee sees two equal options: \"Message Management Directly via WhatsApp\" for private resolution, or \"Leave a Public Google Review.\" Both options are always visible and equally accessible — we never discourage public reviews." },
+              { q: "How does the complaint resolution work?", a: "When a customer chooses the WhatsApp option, they're connected directly to your manager's WhatsApp number. This gives you a chance to resolve concerns privately and in real time — before the customer leaves your premises unhappy. It's not a filter; it's a direct communication channel." },
+              { q: "Do I need any special software or integrations?", a: "No. Voucho works independently — no scheduling software integrations or technical setup required. You sign up, receive your NFC + QR counter standees, place them at your checkout, and you're live. Everything is managed from your Voucho dashboard." },
+              { q: "How long does setup take?", a: "Online setup takes about 5 minutes. Once your NFC standees are shipped and placed at your counter, you're ready to start collecting reviews and connecting with customers." },
             ].map((faq, index) => (
               <div key={index} className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-lg p-6">
                 <h4 className="text-base font-medium text-[#1A202C] mb-2">{faq.q}</h4>
@@ -294,16 +299,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 7. PREMIUM INVITATION CLOSING CTA */}
+      {/* 7. CLOSING CTA */}
       <section className="bg-[#1A202C] text-white py-28 text-center relative overflow-hidden">
         <div className="relative z-10 mx-auto max-w-3xl px-6">
           <h2 className="text-3xl sm:text-5xl font-serif tracking-tight mb-6">
-            Ready to secure absolute domain authority?
+            Ready to get more 5-star reviews?
           </h2>
           <p className="text-white/60 text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
-            Elevate your local visual footprint. Deploy Voucho's premium reputation pipeline across your enterprise locations today.
+            Start getting more Google reviews and resolving complaints privately. Set up Voucho for your locations today.
           </p>
-          <Link href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo." target="_blank" className="inline-block bg-white text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
+          <Link href={waPrivateDemo} target="_blank" className="inline-block bg-white text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
             BOOK A PRIVATE DEMO
           </Link>
         </div>

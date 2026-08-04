@@ -15,6 +15,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import VouchoLogo from "@/components/VouchoLogo";
+import { WHATSAPP_NUMBER } from "@/lib/site";
+
+const waBookDemo = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo.`;
 
 /* ── Types ──────────────────────────────────────── */
 
@@ -116,7 +119,7 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
                 Login
               </Link>
           <Link
-            href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo."
+            href={waBookDemo}
             target="_blank"
             className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-accent-hi)] active:scale-[0.97]"
           >
@@ -178,7 +181,7 @@ function Navbar({ hasSession }: { hasSession: boolean | null }) {
                   Login
                 </Link>
                 <Link
-                  href="https://wa.me/923001234567?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo."
+                  href={waBookDemo}
                   target="_blank"
                   className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-center text-sm font-semibold text-white"
                 >
