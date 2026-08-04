@@ -1,6 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { WHATSAPP_NUMBER } from '@/lib/site';
+import {
+  WHATSAPP_NUMBER,
+  MONTHLY_PRICE_PKR,
+  YEARLY_PRICE_PKR,
+  YEARLY_MONTHLY_BREAKDOWN_PKR,
+  HARDWARE_SETUP_PKR,
+  ADDITIONAL_STANDEE_PKR
+} from '@/lib/site';
 
 const waBookDemo = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20demo.`;
 const waPrivateDemo = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%2C%20I'd%20like%20to%20book%20a%20Voucho%20private%20demo.`;
@@ -75,7 +82,7 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-[#2A2421]/70 max-w-2xl leading-relaxed mb-10 font-normal animate-fade-up delay-200">
-              Resolve complaints before customers walk out, make it easy for happy clients to leave Google reviews, and build a local business that people love. Starting at PKR 2,500/month.
+              Make it easy for customers to either leave a public Google review or share direct private feedback with your management team. Starting at PKR {MONTHLY_PRICE_PKR.toLocaleString()}/month.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-fade-up delay-300">
               <Link href="/register" className="inline-flex items-center justify-center bg-[#AD715D] text-white text-sm font-semibold tracking-wider px-8 py-4 rounded-full hover:bg-[#AD715D]/95 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
@@ -97,10 +104,10 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">PRIVATE COMPLAINT RESOLUTION</span>
+                <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">PRIVATE DIRECT FEEDBACK</span>
               </div>
               <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
-                Unhappy customers can message your manager directly via WhatsApp — resolve issues before they leave a negative review.
+                Customers can choose to message your manager directly via WhatsApp to share private feedback, ideas, or questions.
               </p>
             </div>
 
@@ -115,7 +122,7 @@ export default function LandingPage() {
                 <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">MORE GOOGLE REVIEWS</span>
               </div>
               <p className="text-sm text-stone-600/90 leading-relaxed font-normal">
-                Happy customers can leave a public Google review right from your counter — building your online reputation naturally.
+                Customers can leave a public Google review right from your counter — building your online reputation naturally.
               </p>
             </div>
 
@@ -170,9 +177,9 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-lg bg-[#FBFBFA] border border-[#EAEAE7] flex items-center justify-center mb-6 text-[#1A202C]">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
               </div>
-              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Private Complaint Resolution</h3>
+              <h3 className="text-xl font-serif text-[#1A202C] mb-3">Private Direct Feedback</h3>
               <p className="text-sm text-[#1A202C]/70 leading-relaxed">
-                Customers who had a bad experience can message your manager directly on WhatsApp — so you can fix the problem before they walk out unhappy.
+                Every customer has a direct, private WhatsApp link to share feedback, suggestions, or ask questions directly to your management team.
               </p>
             </div>
 
@@ -184,7 +191,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-serif text-[#1A202C] mb-3">More Google Reviews</h3>
               <p className="text-sm text-[#1A202C]/70 leading-relaxed">
-                Happy customers can leave a public Google review directly from your counter — helping you climb local search results and attract new clients.
+                Customers can easily post an honest, public Google review right from your counter standee — helping build your online presence.
               </p>
             </div>
 
@@ -220,12 +227,12 @@ export default function LandingPage() {
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">02</div>
               <h4 className="text-lg font-medium text-[#1A202C] mb-2">Two Equal Options Appear</h4>
-              <p className="text-sm text-[#1A202C]/60 max-w-xs">They see two clear, equal choices: &ldquo;Message Management Directly via WhatsApp&rdquo; for private resolution, or &ldquo;Leave a Public Google Review.&rdquo;</p>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">They see two clear, equal choices: &ldquo;Message Management Directly via WhatsApp&rdquo; for private feedback, or &ldquo;Leave a Public Google Review.&rdquo;</p>
             </div>
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl font-serif text-[#1A202C]/10 mb-4">03</div>
-              <h4 className="text-lg font-medium text-[#1A202C] mb-2">You Win Either Way</h4>
-              <p className="text-sm text-[#1A202C]/60 max-w-xs">Happy customers leave 5-star Google reviews. Unhappy customers reach your manager privately — so you can fix things before they leave upset.</p>
+              <h4 className="text-lg font-medium text-[#1A202C] mb-2">Build Trust &amp; Reputation</h4>
+              <p className="text-sm text-[#1A202C]/60 max-w-xs">Every customer has the power to choose the channel they prefer — whether leaving a public Google review or starting a direct conversation with your team.</p>
             </div>
           </div>
         </div>
@@ -244,9 +251,9 @@ export default function LandingPage() {
             <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
               <div>
                 <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Hardware Setup</h4>
-                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 5,000</div>
+                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. {HARDWARE_SETUP_PKR.toLocaleString()}</div>
                 <p className="text-xs text-[#1A202C]/60 mb-4">One-time cost (includes 2 NFC counter standees)</p>
-                <p className="text-xs text-[#1A202C]/60 mb-6">Additional standees: Rs. 3,000 each</p>
+                <p className="text-xs text-[#1A202C]/60 mb-6">Additional standees: Rs. {ADDITIONAL_STANDEE_PKR.toLocaleString()} each</p>
               </div>
               <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Get Started</Link>
             </div>
@@ -255,7 +262,7 @@ export default function LandingPage() {
             <div className="bg-[#FFFFFF] border-2 border-[#1A202C] rounded-xl p-8 flex flex-col justify-between relative" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.04)' }}>
               <span className="absolute -top-3 right-6 bg-[#1A202C] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">POPULAR</span>
               <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Monthly</h4>
-              <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 2,500<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
+              <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. {MONTHLY_PRICE_PKR.toLocaleString()}<span className="text-sm font-sans text-[#1A202C]/50"> / mo</span></div>
               <p className="text-xs text-[#1A202C]/60 mb-4">1-month free trial included</p>
               <p className="text-sm text-[#1A202C]/60 mb-6">Billed monthly after trial period</p>
               <Link href="/register" className="w-full text-center bg-[#1A202C] hover:bg-[#1A202C]/90 text-white text-sm font-medium py-3 rounded-sm transition-colors">Start Free Trial</Link>
@@ -265,8 +272,8 @@ export default function LandingPage() {
             <div className="bg-[#FFFFFF] border border-[#EAEAE7] rounded-xl p-8 flex flex-col justify-between" style={{ boxShadow: '0 20px 40px rgba(26, 32, 44, 0.01)' }}>
               <div>
                 <h4 className="text-sm font-bold tracking-wider text-[#1A202C]/50 uppercase mb-2">Yearly</h4>
-                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. 18,000</div>
-                <p className="text-xs text-[#1A202C]/60 mb-4">Breaks down to Rs. 1,500 / mo</p>
+                <div className="text-4xl font-serif text-[#1A202C] mb-2">Rs. {YEARLY_PRICE_PKR.toLocaleString()}</div>
+                <p className="text-xs text-[#1A202C]/60 mb-4">Breaks down to Rs. {YEARLY_MONTHLY_BREAKDOWN_PKR.toLocaleString()} / mo</p>
                 <p className="text-sm text-[#1A202C]/60 mb-6">Upfront yearly commitment</p>
               </div>
               <Link href="/register" className="w-full text-center bg-[#FBFBFA] hover:bg-[#EAEAE7] text-[#1A202C] border border-[#EAEAE7] text-sm font-medium py-3 rounded-sm transition-colors">Save 40%</Link>
@@ -285,8 +292,8 @@ export default function LandingPage() {
 
           <div className="space-y-4">
             {[
-              { q: "Does Voucho comply with Google's review policies?", a: "Yes, 100%. We do not gate or filter reviews. Every customer is given two clear choices at the counter: leave a public Google review or send direct, private feedback to your team via WhatsApp. You get honest customer insights, and your Google profile remains fully compliant." },
-              { q: "How does the complaint resolution work?", a: "When a customer chooses the WhatsApp option, they're connected directly to your manager's WhatsApp number. This gives you a chance to resolve concerns privately and in real time — before the customer leaves your premises unhappy. It's not a filter; it's a direct communication channel." },
+              { q: "Does Voucho comply with Google's review policies?", a: "Yes, 100%. We do not gate or filter reviews. Every customer is given two clear, equal choices at the counter: leave a public Google review or send direct, private feedback to your team via WhatsApp. We do not restrict or filter choices based on any rating; every customer has full freedom to select either path." },
+              { q: "How does the private feedback option work?", a: "When a customer chooses the WhatsApp option, they are connected directly to your team's WhatsApp number. This enables direct, private, and real-time communication between customers and your team to share feedback, suggestions, or ask questions. Every customer is free to choose either private messaging or leaving a public review." },
               { q: "Do I need any special software or integrations?", a: "No. Voucho works independently — no scheduling software integrations or technical setup required. You sign up, receive your NFC + QR counter standees, place them at your checkout, and you're live. Everything is managed from your Voucho dashboard." },
               { q: "How long does setup take?", a: "Online setup takes about 5 minutes. Once your NFC standees are shipped and placed at your counter, you're ready to start collecting reviews and connecting with customers." },
             ].map((faq, index) => (
@@ -306,7 +313,7 @@ export default function LandingPage() {
             Ready to get more 5-star reviews?
           </h2>
           <p className="text-white/60 text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
-            Start getting more Google reviews and resolving complaints privately. Set up Voucho for your locations today.
+            Start getting more Google reviews and collecting direct private feedback. Set up Voucho for your locations today.
           </p>
           <Link href={waPrivateDemo} target="_blank" className="inline-block bg-white text-[#AD715D] text-sm font-medium px-8 py-4 rounded-sm hover:bg-white/90 transition-all duration-200 tracking-wide">
             BOOK A PRIVATE DEMO
